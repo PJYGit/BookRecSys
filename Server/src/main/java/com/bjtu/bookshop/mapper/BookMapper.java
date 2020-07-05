@@ -1,6 +1,10 @@
 package com.bjtu.bookshop.mapper;
 
-public class BookMapper {
-    
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
+
+@Mapper
+@Component
+public interface BookMapper {
     
 }

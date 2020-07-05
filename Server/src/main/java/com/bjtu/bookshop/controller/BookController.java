@@ -1,5 +1,8 @@
 package com.bjtu.bookshop.controller;
 
+import com.bjtu.bookshop.mapper.BookMapper;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,8 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/book")
 public class BookController {
 
-    @RequestMapping(value = "/", method = {RequestMethod.GET, RequestMethod.POST})
+    @Autowired
+    BookMapper mapper;
+
+    @RequestMapping(value = "/", method = {RequestMethod.GET})
     public String test() {
-        return "Hello, world!";
+        return "";
     }
 }
