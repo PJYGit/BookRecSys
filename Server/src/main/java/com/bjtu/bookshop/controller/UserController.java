@@ -1,6 +1,5 @@
 package com.bjtu.bookshop.controller;
 
-import java.rmi.server.UID;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bjtu.bookshop.entity.UserInfo;
