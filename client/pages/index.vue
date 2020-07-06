@@ -7,7 +7,13 @@
                 <el-carousel-item v-for="item in 3" :key="item">
                 </el-carousel-item>
             </el-carousel>
-            <book></book>
+            <classfy-menu style="width: 20%;margin-left: 40px;margin-bottom: 20px;margin-top: 10px;float: left"></classfy-menu>
+            <div style="float: left;margin-left: 25px;width: 75%;margin-top: 12px;margin-bottom: 20px">
+                <my-search></my-search>
+                <homeshow :title="'新书上架'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+                <homeshow :title="'图书推荐'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+                <homeshow :title="'图书Top5'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+            </div>
         </div>
         <my-footer style="bottom: 0"></my-footer>
     </div>
@@ -20,9 +26,12 @@
     import Book from "../components/base/book";
     import MyTitle from "../components/base/myTitle";
     import MyFooter from "../components/base/myFooter";
+    import ClassfyMenu from "../components/base/classfyMenu";
+    import MySearch from "../components/base/mySearch";
+    import Homeshow from "../components/homeshow";
 
     export default {
-        components: {MyFooter, MyTitle, Book},
+        components: {Homeshow, MySearch, ClassfyMenu, MyFooter, MyTitle, Book},
         data() {
             let validateRepeatPassword = (rule, value, cb) => {
                 console.log(value)
@@ -55,7 +64,39 @@
                     registerPsw: [
                         {validate: validateRepeatPassword, trigger: 'blur'}
                     ]
-                }
+                },
+
+                bookList:[{
+                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    name:"九年级上册历史书",
+                    author:"作者1 作者2等",
+                    price:'￥24.00',
+                    oldPrice:'￥30.00 '
+                },{
+                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    name:"九年级上册历史书",
+                    author:"作者1 作者2等",
+                    price:'￥24.00',
+                    oldPrice:'￥30.00 '
+                },{
+                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    name:"九年级上册历史书",
+                    author:"作者1 作者2等",
+                    price:'￥24.00',
+                    oldPrice:'￥30.00 '
+                },{
+                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    name:"九年级上册历史书",
+                    author:"作者1 作者2等",
+                    price:'￥24.00',
+                    oldPrice:'￥30.00 '
+                },{
+                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    name:"九年级上册历史书",
+                    author:"作者1 作者2等",
+                    price:'￥24.00',
+                    oldPrice:'￥30.00 '
+                },]
             }
         },
 

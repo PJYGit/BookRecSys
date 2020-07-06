@@ -7,7 +7,6 @@
             <div>ZLSTQL</div>
             <div style="margin-top: 20px">©2020 带带我们组</div>
         </div>
-
     </div>
 </template>
 
