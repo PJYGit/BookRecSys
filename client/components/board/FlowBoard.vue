@@ -37,10 +37,10 @@
         min-height: 100%;
     }
     .content-inside {
-        padding: 20px 20px 160px;
+        padding: 20px 20px 85px;
     }
     .footer {
-        height: 160px;
-        margin-top: -160px;
+        height: 85px;
+        margin-top: -85px;
     }
 </style>
