@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
+    private final BookMapper bookMapper;
+
     @Autowired
-    private BookMapper bookMapper;
+    public BookService(BookMapper bookMapper) {
+        this.bookMapper = bookMapper;
+    }
 }
