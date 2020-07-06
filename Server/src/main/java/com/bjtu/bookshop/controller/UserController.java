@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    
+
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/info", method = {RequestMethod.GET})
+    @RequestMapping(value = "/info", method = { RequestMethod.GET })
     public Response userLogin(@RequestParam Integer uid, @RequestParam String token) {
         return userService.getUserInfoWithID(uid);
     }
 
-    @RequestMapping(value = "/register", method = {RequestMethod.POST})
+    @RequestMapping(value = "/register", method = { RequestMethod.POST })
     public Response userRegister(@RequestBody JSONObject object) {
         if (object.getString("code").equals("000000")) {
             return userService.registerUser(object.getString("urn"), object.getString("uname"));
@@ -33,7 +33,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/login", method = {RequestMethod.POST})
+    @RequestMapping(value = "/login", method = { RequestMethod.POST })
     public Response userLogin(@RequestBody JSONObject object) {
         return userService.userLogin(object.getString("urn"), object.getString("pw"));
     }
