@@ -18,4 +18,11 @@ public class StringUtil {
         }
         return rtn;
     }
+
+    public static String getRandString(String string) {
+        for (int i = 0; i < 10; i++) {
+            string = MD5(string + Math.random());
+        }
+        return string;
+    }
 }
