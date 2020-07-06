@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    UserMapper userMapper;
+    private final UserMapper userMapper;
 
     @Autowired
     public UserService(UserMapper userMapper) {
