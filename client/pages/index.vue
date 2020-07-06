@@ -1,16 +1,32 @@
 <template>
-    <div>
-        <my-title></my-title>
-        <div style="width: 100%; height: 100%;left:0;top:0; z-index: -1; overflow: hidden;">
-            <!--<img style="height: 100%;width: 100%;" src="" alt="背景图片">-->
-            <el-carousel height="500px">
-                <el-carousel-item v-for="item in 3" :key="item">
-                </el-carousel-item>
-            </el-carousel>
-            <book></book>
-        </div>
-        <my-footer style="bottom: 0"></my-footer>
-    </div>
+    <el-container style="height:100%;">
+
+        <el-header style="padding: 0px; z-index: 10">
+            <my-title></my-title>
+        </el-header>
+
+        <el-main style="padding: 60px 0 0 ;top: 0px; position: absolute; width: 100%; height: 100%;">
+            <el-scrollbar style="height:100% ;overflow-x: hidden;">
+                <!--<img style="height: 100%;width: 100%;" src="" alt="背景图片">-->
+                <ads></ads>
+                <el-container>
+                    <el-aside style="margin-top: 20px;margin-left: 30px">
+                        <classfy-menu></classfy-menu>
+                    </el-aside>
+                    <el-main>
+                        <my-search></my-search>
+                        <homeshow :title="'新书上架'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+                        <homeshow :title="'图书推荐'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+                        <homeshow :title="'图书Top5'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+                    </el-main>
+                </el-container>
+                <my-footer></my-footer>
+
+            </el-scrollbar>
+        </el-main>
+
+    </el-container>
+
 </template>
 
 <script>
@@ -20,9 +36,13 @@
     import Book from "../components/base/book";
     import MyTitle from "../components/base/myTitle";
     import MyFooter from "../components/base/myFooter";
+    import ClassfyMenu from "../components/base/classfyMenu";
+    import MySearch from "../components/base/mySearch";
+    import Homeshow from "../components/homeshow";
+    import ads from "../components/home/ads";
 
     export default {
-        components: {MyFooter, MyTitle, Book},
+        components: {MyFooter, MyTitle, Book, ads, Homeshow, MySearch, ClassfyMenu},
         data() {
             let validateRepeatPassword = (rule, value, cb) => {
                 console.log(value)
@@ -55,7 +75,39 @@
                     registerPsw: [
                         {validate: validateRepeatPassword, trigger: 'blur'}
                     ]
-                }
+                },
+
+                bookList:[{
+                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    name:"九年级上册历史书",
+                    author:"作者1 作者2等",
+                    price:'￥24.00',
+                    oldPrice:'￥30.00 '
+                },{
+                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    name:"九年级上册历史书",
+                    author:"作者1 作者2等",
+                    price:'￥24.00',
+                    oldPrice:'￥30.00 '
+                },{
+                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    name:"九年级上册历史书",
+                    author:"作者1 作者2等",
+                    price:'￥24.00',
+                    oldPrice:'￥30.00 '
+                },{
+                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    name:"九年级上册历史书",
+                    author:"作者1 作者2等",
+                    price:'￥24.00',
+                    oldPrice:'￥30.00 '
+                },{
+                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    name:"九年级上册历史书",
+                    author:"作者1 作者2等",
+                    price:'￥24.00',
+                    oldPrice:'￥30.00 '
+                },]
             }
         },
 
@@ -152,23 +204,6 @@
         min-height: 15rem;
         margin: 10% auto;
         border-radius: 10px;
-    }
-
-    .el-carousel__item:nth-child(3n) {
-        background: url("../assets/image/lunbo1.png") no-repeat;
-        background-size: 100%;
-        /*width: 100%;
-        height: 100%;*/
-    }
-
-    .el-carousel__item:nth-child(3n+1) {
-        background: url("../assets/image/lunbo2.png") no-repeat;
-        background-size: 100%;
-    }
-
-    .el-carousel__item:nth-child(3n+2) {
-        background: url("../assets/image/lunbo3.png") no-repeat;
-        background-size: 100%;
     }
 
 </style>

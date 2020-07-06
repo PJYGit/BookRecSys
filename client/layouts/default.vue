@@ -52,5 +52,10 @@ html {
   color: #fff;
   background-color: #35495e;
 }
+
+.el-scrollbar__wrap{
+    overflow-x: hidden;
+}
+
 </style>
 
