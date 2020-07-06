@@ -10,14 +10,14 @@
                 <!--<img style="height: 100%;width: 100%;" src="" alt="背景图片">-->
                 <ads></ads>
                 <el-container>
-                    <el-aside style="margin-top: 20px;margin-left: 30px">
+                    <el-aside style="margin-top: 20px;margin-left: 30px;width: 20%">
                         <classfy-menu></classfy-menu>
                     </el-aside>
                     <el-main>
-                        <my-search></my-search>
+                        <my-search style="margin-top: 2px"></my-search>
                         <homeshow :title="'新书上架'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
                         <homeshow :title="'图书推荐'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
-                        <homeshow :title="'图书Top5'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+                        <homeshow :title="'图书Top榜'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
                     </el-main>
                 </el-container>
                 <my-footer></my-footer>
@@ -78,30 +78,42 @@
                 },
 
                 bookList:[{
+                    bid:1,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
                     name:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },{
+                    bid:2,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
                     name:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },{
+                    bid:3,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
                     name:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },{
+                    bid:4,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
                     name:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },{
+                    bid:5,
+                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    name:"九年级上册历史书",
+                    author:"作者1 作者2等",
+                    price:'￥24.00',
+                    oldPrice:'￥30.00 '
+                },{
+                    bid:6,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
                     name:"九年级上册历史书",
                     author:"作者1 作者2等",

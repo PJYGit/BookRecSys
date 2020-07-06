@@ -5,11 +5,14 @@
             <div style="margin-left: 25px;color: #068CF0;float: left;">更多>></div>
         </div>
         <div style="width: 100%;margin-top: 25px">
-            <div v-for="item in BookList" :key="item.bid">
+            <!--<div v-for="item in BookList" :key="item.bid">
                 <div style="width: 20%;float: left;align-items: center">
                     <book :book-item="item" style="margin: auto"></book>
                 </div>
-            </div>
+            </div>-->
+            <el-col :span="4" v-for="item in BookList" :key="item.bid">
+                <book :book-item="item" style="margin: auto"></book>
+            </el-col>
         </div>
     </div>
 </template>

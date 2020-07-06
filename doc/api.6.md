@@ -24,9 +24,10 @@ sname|商家名|商家名
 auther|作者|作者
 content|书简介|书简介
 pic|书图片|书图片
-mark|分数|分数
+mark[number]|分数|分数
 sales|销量|销量
 remain|库存|库存
+price[number]|价格|价格
 
 * /home/person 给本用户分析推荐的书
 

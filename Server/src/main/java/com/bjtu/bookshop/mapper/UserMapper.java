@@ -24,7 +24,7 @@ public interface UserMapper {
     @Insert("INSERT INTO user_info(urn, regtime, viprate, baned, money) VALUES(#{urn}, #{regtime}, #{viprate}, #{baned}, #{money})")
     void insertNewUserIntoUserInfo(String urn, long regtime, String viprate, Integer baned, String money);
     
-    @Update("UPDATE SET urn=#{urn}, nickname=#{nickname}, head=#{head}, viprate=#{viprate}, baned=#{baned}, money={money} WHERE uid = #{uid}")
+    @Update("UPDATE SET urn=#{urn}, nickname=#{nickname}, head=#{head}, viprate=#{viprate}, baned=#{baned}, money=#{money} WHERE uid = #{uid}")
     void updateUserInfo(UserInfo info);
 
     /* user_info end */
