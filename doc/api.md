@@ -11,6 +11,7 @@
 
 1.sub#用户管理
 * /user/manage/list 取用户列表
+* /user/manage/search 搜索用户
 * /user/manage/getinfo 取某用户信息
 * /user/manage/setinfo 修改某用户信息
 
@@ -45,5 +46,9 @@
 
 # 5#图片上传
 * /pic/upload 上传图片
+
+# 6#主页推荐
+* /rcm/top 销量前n书
+* /rcm/person 给本用户分析推荐的书
 
 //大概大纲还没写完？
