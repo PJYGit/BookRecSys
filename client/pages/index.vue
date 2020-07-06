@@ -7,20 +7,20 @@
 
         <el-main style="padding: 60px 0 0 ;top: 0px; position: absolute; width: 100%; height: 100%;">
             <el-scrollbar style="height:100% ;overflow-x: hidden;">
-                <div style="width: 100%; height: 100%;left:0;top:0; z-index: -1;">
-                    <!--<img style="height: 100%;width: 100%;" src="" alt="背景图片">-->
-                    <ads></ads>
-
-                    <classfy-menu style="width: 20%;margin-left: 40px;margin-bottom: 20px;margin-top: 10px;float: left"></classfy-menu>
-                    <div style="float: left;margin-left: 25px;width: 75%;margin-top: 12px;margin-bottom: 20px">
+                <!--<img style="height: 100%;width: 100%;" src="" alt="背景图片">-->
+                <ads></ads>
+                <el-container>
+                    <el-aside>
+                        <classfy-menu></classfy-menu>
+                    </el-aside>
+                    <el-main>
                         <my-search></my-search>
                         <homeshow :title="'新书上架'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
                         <homeshow :title="'图书推荐'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
                         <homeshow :title="'图书Top5'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
-                    </div>
-                    <my-footer></my-footer>
-
-                </div>
+                    </el-main>
+                </el-container>
+                <my-footer></my-footer>
 
             </el-scrollbar>
         </el-main>
