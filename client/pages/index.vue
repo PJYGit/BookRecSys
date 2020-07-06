@@ -1,4 +1,22 @@
 <template>
+    <el-container style="height:100%;">
+
+        <el-header style="padding: 0px; z-index: 10">
+            <my-title></my-title>
+        </el-header>
+
+        <el-main style="padding: 60px 0 0 ;top: 0px; position: absolute; width: 100%; height: 100%;">
+            <el-scrollbar style="height:100% ;overflow-x: hidden;">
+                <div style="width: 100%; height: 100%;left:0;top:0; z-index: -1;">
+                    <!--<img style="height: 100%;width: 100%;" src="" alt="背景图片">-->
+                    <ads></ads>
+                    <book></book>
+                </div>
+                <my-footer style="bottom: 0"></my-footer>
+            </el-scrollbar>
+        </el-main>
+
+    </el-container>
     <div>
         <my-title></my-title>
         <div style="width: 100%; height: 100%;left:0;top:0; z-index: -1; overflow: hidden;">
@@ -29,9 +47,10 @@
     import ClassfyMenu from "../components/base/classfyMenu";
     import MySearch from "../components/base/mySearch";
     import Homeshow from "../components/homeshow";
+    import ads from "../components/home/ads";
 
     export default {
-        components: {Homeshow, MySearch, ClassfyMenu, MyFooter, MyTitle, Book},
+        components: {MyFooter, MyTitle, Book, ads, Homeshow, MySearch, ClassfyMenu},
         data() {
             let validateRepeatPassword = (rule, value, cb) => {
                 console.log(value)
@@ -193,23 +212,6 @@
         min-height: 15rem;
         margin: 10% auto;
         border-radius: 10px;
-    }
-
-    .el-carousel__item:nth-child(3n) {
-        background: url("../assets/image/lunbo1.png") no-repeat;
-        background-size: 100%;
-        /*width: 100%;
-        height: 100%;*/
-    }
-
-    .el-carousel__item:nth-child(3n+1) {
-        background: url("../assets/image/lunbo2.png") no-repeat;
-        background-size: 100%;
-    }
-
-    .el-carousel__item:nth-child(3n+2) {
-        background: url("../assets/image/lunbo3.png") no-repeat;
-        background-size: 100%;
     }
 
 </style>
