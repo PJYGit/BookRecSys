@@ -15,16 +15,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    @Autowired
+
     UserMapper userMapper;
 
-    public Response getUserInfoWithID(Integer uid) {
-        UserInfo info;
-        if (uid == null)
-            info = null;
-        else
-            info = userMapper.getUserInfoWithUserID(uid);
-        return new ItemResponse<UserInfo>(info, Response.STATE_SUCCESS);
+    @Autowired
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
     public Response registerUser(String urn, String uname) {
@@ -40,7 +36,7 @@ public class UserService {
         userMapper.insertNewUserLoginIntoUserLogin(info.getUid(), token);
 
         UserLogin login = userMapper.getUserLoginInfoWithUID(info.getUid());
-        return new ItemResponse<UserLogin>(login, Response.STATE_SUCCESS);
+        return new ItemResponse<>(login, Response.STATE_SUCCESS);
     }
 
     public Response userLogin(String urn, String pw) {
@@ -52,9 +48,48 @@ public class UserService {
         if (tmp.equals(reg.getSalt())) {
             userMapper.updateUserLoginToken(info.getUid(), StringUtil.getRandString(pw + reg.getSalt()));
             UserLogin login = userMapper.getUserLoginInfoWithUID(info.getUid());
-            return new ItemResponse<UserLogin>(login, Response.STATE_SUCCESS);
+            return new ItemResponse<>(login, Response.STATE_SUCCESS);
         } else {
             return new StateResponse(Response.STATE_FAIL);
         }
+    }
+
+    public Response userLogout(int uid, String token) {
+        if (isTokenValid(uid, token)) {
+            userMapper.updateUserLoginToken(uid, StringUtil.getRandString(token));
+            return new StateResponse(Response.STATE_SUCCESS);
+        } else return new StateResponse(Response.STATE_FAIL);
+    }
+
+    public Response getUserInfoWithID(Integer uid) {
+        UserInfo info;
+        if (uid == null)
+            info = null;
+        else
+            info = userMapper.getUserInfoWithUserID(uid);
+        return new ItemResponse<UserInfo>(info, Response.STATE_SUCCESS);
+    }
+
+    public Response updateUserInfo(int uid, String token, UserInfo info) {
+        if (isTokenValid(uid, token)) {
+            UserInfo old = userMapper.getUserInfoWithUserID(uid);
+
+            if (info.getUid() == 0) info.setUid(old.getUid());
+            if (info.getUrn() == null) info.setUrn(old.getUrn());
+            if (info.getNickname() == null) info.setNickname(old.getNickname());
+            if (info.getRegtime() == 0) info.setRegtime(old.getRegtime());
+            if (info.getHead() == null) info.setHead(old.getHead());
+            if (info.getViprate() == null) info.setViprate(old.getViprate());
+            if (info.getBaned() == null) info.setBaned(old.getBaned());
+            if (info.getMoney() == null) info.setMoney(old.getMoney());
+
+            userMapper.updateUserInfo(info);
+            return new StateResponse(Response.STATE_SUCCESS);
+        } else return new StateResponse(Response.STATE_FAIL);
+    }
+
+    private boolean isTokenValid(int uid, String token) {
+        UserLogin login = userMapper.getUserLoginInfoWithUID(uid);
+        return token.equals(login.getToken());
     }
 }
