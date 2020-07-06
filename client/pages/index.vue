@@ -10,7 +10,7 @@
                 <!--<img style="height: 100%;width: 100%;" src="" alt="背景图片">-->
                 <ads></ads>
                 <el-container>
-                    <el-aside style="margin-top: 20px;margin-left: 30px">
+                    <el-aside style="margin-top: 20px;margin-left: 30px;width: 20%">
                         <classfy-menu></classfy-menu>
                     </el-aside>
                     <el-main>
