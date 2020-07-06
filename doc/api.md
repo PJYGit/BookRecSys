@@ -47,8 +47,11 @@
 # 5#图片上传
 * /pic/upload 上传图片
 
-# 6#主页推荐
-* /rcm/top 销量前n书
-* /rcm/person 给本用户分析推荐的书
+# 6#主页
+* /home/top 销量前n书
+* /home/person 给本用户分析推荐的书
+* /home/types 图书类别
+* /home/books 指定类别的图书列表
+* /home/serach 图书搜索
 
 //大概大纲还没写完？
