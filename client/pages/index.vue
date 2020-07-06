@@ -1,8 +1,15 @@
 <template>
     <div>
-        <div style="position: fixed;width: 100%; height: 100%;left:0;top:0; z-index: -1; overflow: hidden">
-            <img style="height: 100%;width: 100%;" src="" alt="背景图片">
+        <my-title></my-title>
+        <div style="width: 100%; height: 100%;left:0;top:0; z-index: -1; overflow: hidden;">
+            <!--<img style="height: 100%;width: 100%;" src="" alt="背景图片">-->
+            <el-carousel height="500px">
+                <el-carousel-item v-for="item in 3" :key="item">
+                </el-carousel-item>
+            </el-carousel>
+            <book></book>
         </div>
+        <my-footer style="bottom: 0"></my-footer>
     </div>
 </template>
 
@@ -10,9 +17,12 @@
     import Cookies from 'js-cookie'
     import API from "../api";
     import qs from "qs";
+    import Book from "../components/base/book";
+    import MyTitle from "../components/base/myTitle";
+    import MyFooter from "../components/base/myFooter";
 
     export default {
-
+        components: {MyFooter, MyTitle, Book},
         data() {
             let validateRepeatPassword = (rule, value, cb) => {
                 console.log(value)
@@ -142,6 +152,23 @@
         min-height: 15rem;
         margin: 10% auto;
         border-radius: 10px;
+    }
+
+    .el-carousel__item:nth-child(3n) {
+        background: url("../assets/image/lunbo1.png") no-repeat;
+        background-size: 100%;
+        /*width: 100%;
+        height: 100%;*/
+    }
+
+    .el-carousel__item:nth-child(3n+1) {
+        background: url("../assets/image/lunbo2.png") no-repeat;
+        background-size: 100%;
+    }
+
+    .el-carousel__item:nth-child(3n+2) {
+        background: url("../assets/image/lunbo3.png") no-repeat;
+        background-size: 100%;
     }
 
 </style>
