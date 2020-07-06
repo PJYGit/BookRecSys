@@ -10,31 +10,19 @@
                 <div style="width: 100%; height: 100%;left:0;top:0; z-index: -1;">
                     <!--<img style="height: 100%;width: 100%;" src="" alt="背景图片">-->
                     <ads></ads>
-                    <book></book>
+                    <classfy-menu style="width: 20%;margin-left: 40px;margin-bottom: 20px;margin-top: 10px;float: left"></classfy-menu>
+                    <div style="float: left;margin-left: 25px;width: 75%;margin-top: 12px;margin-bottom: 20px">
+                        <my-search></my-search>
+                        <homeshow :title="'新书上架'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+                        <homeshow :title="'图书推荐'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+                        <homeshow :title="'图书Top5'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+                    </div>
                 </div>
                 <my-footer style="bottom: 0"></my-footer>
             </el-scrollbar>
         </el-main>
 
     </el-container>
-    <div>
-        <my-title></my-title>
-        <div style="width: 100%; height: 100%;left:0;top:0; z-index: -1; overflow: hidden;">
-            <!--<img style="height: 100%;width: 100%;" src="" alt="背景图片">-->
-            <el-carousel height="500px">
-                <el-carousel-item v-for="item in 3" :key="item">
-                </el-carousel-item>
-            </el-carousel>
-            <classfy-menu style="width: 20%;margin-left: 40px;margin-bottom: 20px;margin-top: 10px;float: left"></classfy-menu>
-            <div style="float: left;margin-left: 25px;width: 75%;margin-top: 12px;margin-bottom: 20px">
-                <my-search></my-search>
-                <homeshow :title="'新书上架'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
-                <homeshow :title="'图书推荐'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
-                <homeshow :title="'图书Top5'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
-            </div>
-        </div>
-        <my-footer style="bottom: 0"></my-footer>
-    </div>
 </template>
 
 <script>

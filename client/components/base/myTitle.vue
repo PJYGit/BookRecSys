@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 100%; height: 60px; box-shadow: 0px 5px 5px #888888">
+    <div style="width: 100%; height: 60px; box-shadow: 0px 5px 5px #bbbaaa">
         <img src="../../assets/image/title.png" style="height: 60px; margin-left: 90px">
         <div style="float: right;line-height: 60px;text-align: center;font-weight: 500">
             <span style="color: #EB7A67;cursor: pointer" @click="toLogin">登录/注册</span>
