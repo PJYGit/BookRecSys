@@ -1,5 +1,5 @@
 # 2#店铺
-* /shop/getinfo 取某商店信息
+## /shop/getinfo 取某商店信息
 
 request:
 
@@ -29,7 +29,7 @@ uid [number]|用户id|用户id
 name|昵称|昵称
 
 ---
-* /shop/booklist 取某商店书本列表
+## /shop/booklist 取某商店书本列表
 
 request:
 
@@ -63,7 +63,7 @@ remain|库存|库存
 price[number]|价格|价格
 
 ---
-* /shop/getbookinfo 取书信息
+## /shop/getbookinfo 取书信息
 
 request:
 
@@ -91,10 +91,10 @@ remain|库存|库存
 price[number]|价格|价格
 
 ---
-2.sub#店铺管理
+## 2.sub#店铺管理
 
 ---
-* /shop/manage/list 取店铺列表
+## /shop/manage/list 取店铺列表
 
 request:
 
@@ -125,7 +125,7 @@ head|商店头像url|
 mark|商店书本均分|
 
 ---
-* /shop/manage/getinfo 取某用户/某店信息
+## /shop/manage/getinfo 取某用户/某店信息
 
 request:
 
@@ -153,7 +153,7 @@ code|商店状态|1审核中2正常3封禁
 head|商店头像url
 mark|商店书本均分|
 
-* /shop/manage/setinfo 修改某用户/某店信息
+## /shop/manage/setinfo 修改某用户/某店信息
 
 键值|名称|描述
 -|-|-
