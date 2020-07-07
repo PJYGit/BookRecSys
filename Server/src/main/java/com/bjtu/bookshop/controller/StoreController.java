@@ -20,12 +20,12 @@ public class StoreController {
         this.storeSerivce = storeSerivce;
     }
 
-    @RequestMapping(value = "/getinfo", method = { RequestMethod.POST })
+    @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
     public Response getShopInfo(@RequestBody JSONObject object) {
         return storeSerivce.getStoreInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"));
     }
 
-    @RequestMapping(value = "/booklist", method = { RequestMethod.POST })
+    @RequestMapping(value = "/booklist", method = {RequestMethod.POST})
     public Response getShopBookList(@RequestBody JSONObject object) {
         return storeSerivce.getBookList(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"));
     }
@@ -35,33 +35,33 @@ public class StoreController {
         return storeSerivce.getBookInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"), object.getIntValue("bid"));
     }
 
-    @RequestMapping(value = "/manage/list", method = { RequestMethod.POST })
+    @RequestMapping(value = "/manage/list", method = {RequestMethod.POST})
     public void getStoreList(@RequestBody JSONObject object) {
 
     }
 
-    @RequestMapping(value = "/manage/getinfo", method = { RequestMethod.POST })
+    @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
     public void getStoreManagerInfo(@RequestBody JSONObject object) {
 
     }
 
-    @RequestMapping(value = "/manage/setinfo", method = { RequestMethod.POST })
+    @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
     public void modifyStoreInfo(@RequestBody JSONObject object) {
 
     }
 
-    @RequestMapping(value = "/manage/addbook", method = { RequestMethod.POST })
+    @RequestMapping(value = "/manage/addbook", method = {RequestMethod.POST})
     public void addBookIntoStore(@RequestBody JSONObject object) {
 
     }
 
-    @RequestMapping(value = "/manage/delbook", method = { RequestMethod.POST })
+    @RequestMapping(value = "/manage/delbook", method = {RequestMethod.POST})
     public void delBookInStore(@RequestBody JSONObject object) {
 
     }
 
-    @RequestMapping(value = "/manage/setbookinfo", method = { RequestMethod.POST })
+    @RequestMapping(value = "/manage/setbookinfo", method = {RequestMethod.POST})
     public void modifyBookInfoInStore(@RequestBody JSONObject object) {
-        
+
     }
 }
