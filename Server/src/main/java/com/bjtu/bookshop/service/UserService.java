@@ -132,6 +132,17 @@ public class UserService {
         } else return new StateResponse(Response.STATE_FAIL);
     }
 
+    public Response searchUserWithPhone(int uid, String token, String phone) {
+        if (isTokenValid(uid, token)) {
+            int role = userMapper.getUserInfoWithUserID(uid).getRole();
+            if (role == 0) return new StateResponse(Response.STATE_FAIL);
+
+            List<UserInfo> userInfos = userMapper.getUserInfoWithPhonePattern(phone);
+
+            return new ListResponse<>(userInfos, Response.STATE_SUCCESS);
+        } else return new StateResponse(Response.STATE_FAIL);
+    }
+
     private boolean isTokenValid(int uid, String token) {
         UserLogin login = userMapper.getUserLoginInfoWithUID(uid);
         return token.equals(login.getToken());
