@@ -35,7 +35,10 @@
 
         methods:{
             toDetail(){
-                this.$router.push({path: `/`+this.bookItem.bid+`/bookDetail`})
+                let link = this.$router.resolve({ path: `/`+this.bookItem.bid+`/bookDetail`,
+                    query: { bid: this.bookItem.bid }});
+                window.open(link.href, '_blank');
+                /*this.$router.push({path: `/`+this.bookItem.bid+`/bookDetail`})*/
             }
         }
     }
