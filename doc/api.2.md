@@ -91,6 +91,31 @@ remain|库存|库存
 price[number]|价格|价格
 
 ---
+## /shop/search 店铺搜索
+request:
+
+键值|名称|描述
+-|-|-
+uid [number]|用户 id|系统内唯一标志符，用于后续操作
+token|验证串|和 uid 一起做身份验证
+word|关键字|店铺名
+
+response:
+
+键值|名称|描述
+-|-|-
+state [number]|返回码|0 为正常，-1 为失败
+shops[] [list\<elm\>]|商店数组|商店数组
+
+其中 elm：
+键值|名称|描述
+-|-|-
+sid|商店id|商店id
+name|商店名|商店名
+pic|商店头图url|商店头图url
+mark|商店评分|商店书本平均评分
+
+---
 ## 2.sub#店铺管理
 
 ---
