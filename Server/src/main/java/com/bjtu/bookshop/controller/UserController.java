@@ -69,4 +69,9 @@ public class UserController {
         UserInfo info = object.getObject("data", UserInfo.class);
         return userService.modifyUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("targetUid"), info);
     }
+
+    @RequestMapping(value = "/manage/search", method = { RequestMethod.POST })
+    public Response searchUser(@RequestBody JSONObject object) {
+        return userService.searchUserWithPhone(object.getIntValue("uid"), object.getString("token"), object.getString("phone"));
+    }
 }
