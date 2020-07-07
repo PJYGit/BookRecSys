@@ -16,8 +16,8 @@
                     <span slot="title" style="font-size: 16px;margin-left: 25px">{{item1.name}}</span>
                 </el-menu-item>
             </el-submenu>-->
-            <el-menu-item :index="item.classfyId">
-                <span slot="title" style="font-size: 18px;margin-left: 10px" @click="toClassfyList">{{item.name}}</span>
+            <el-menu-item :index="item.classfyId" @click="toClassfyList">
+                <span slot="title" style="font-size: 18px;margin-left: 10px">{{item.name}}</span>
             </el-menu-item>
         </el-menu>
     </div>
