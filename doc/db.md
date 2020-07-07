@@ -57,3 +57,7 @@
 - uid 评价者 uid
 - mark 评分
 - content
+
+## book_tag
+- bid [主]
+- tid [主]
