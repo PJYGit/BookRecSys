@@ -1,18 +1,20 @@
-# 1.用户表
+# DB-Design
 
-## user_reg
+## 1.用户表
+
+### user_reg
 
 - uid [主，自增]
 - urn
 - pwd
 - salt
 
-## user_login
+### user_login
 
 - uid [主]
 - token
 
-## user_info
+### user_info
 
 - uid [主]
 - urn
@@ -24,16 +26,16 @@
 - money
 - role # 添加角色类型
 
-## user_address
+### user_address
 
 - uid [主]
 - plid [主]
 - address
 - default
 
-# 2.书本表
+## 2.书本表
 
-## book_info
+### book_info
 
 - bid [主，自增]
 - name
@@ -45,12 +47,12 @@
 - sales 销量
 - remain 库存余量
 
-## book_type 【手录数据的静态表】
+### book_type 【手录数据的静态表】
 
 - tid [主]
 - name
 
-## book_comment
+### book_comment
 
 - cid [主，自增]
 - bid 评价书本的 bid
@@ -58,6 +60,24 @@
 - mark 评分
 - content
 
-## book_tag
+### book_tag
 - bid [主]
 - tid [主]
+
+## 3. 商店表
+
+### store_info
+
+- sid
+- name
+- boss
+- content
+- code
+- head
+- mark
+
+### store_manage
+
+- uid
+- name
+- sid

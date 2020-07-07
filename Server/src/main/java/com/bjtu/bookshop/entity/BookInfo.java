@@ -12,4 +12,5 @@ public class BookInfo {
     private String pic;
     private String sales;
     private String remain;
+    private int tid;
 }
