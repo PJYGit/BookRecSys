@@ -39,8 +39,10 @@
 * /order/getinfo 单个订单信息
 * /order/operate 支付/取消/确认收货
 * /order/comment 评价
+* /order/create 单书直接创建订单
 
 4.sub#订单管理
+* /shop/manage/getlist 取商铺订单
 * /shop/manage/operate 确认发货/取消
 * /shop/manage/setinfo 修改价格/修改产品列表
 
