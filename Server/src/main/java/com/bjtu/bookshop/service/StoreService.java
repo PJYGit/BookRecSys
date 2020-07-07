@@ -21,13 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StoreSerivce {
+public class StoreService {
     private StoreMapper storeMapper;
     private UserMapper userMapper;
     private BookMapper bookMapper;
 
     @Autowired
-    public StoreSerivce(StoreMapper storeMapper, UserMapper userMapper, BookMapper bookMapper) {
+    public StoreService(StoreMapper storeMapper, UserMapper userMapper, BookMapper bookMapper) {
         this.storeMapper = storeMapper;
         this.userMapper = userMapper;
         this.bookMapper = bookMapper;

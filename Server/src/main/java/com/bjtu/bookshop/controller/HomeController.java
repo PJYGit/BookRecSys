@@ -1,7 +1,6 @@
 package com.bjtu.bookshop.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bjtu.bookshop.mapper.BookMapper;
 import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.response.StateResponse;
 import com.bjtu.bookshop.service.BookService;
@@ -23,28 +22,28 @@ public class HomeController {
         this.bookService = bookService;
     }
 
-    @RequestMapping(value = "/top", method = { RequestMethod.POST })
+    @RequestMapping(value = "/top", method = {RequestMethod.POST})
     public String test(@RequestBody JSONObject object) {
 
         return object.toString();
     }
 
-    @RequestMapping(value = "/person", method = { RequestMethod.POST })
+    @RequestMapping(value = "/person", method = {RequestMethod.POST})
     public Response recomandBookForUser() {
         return new StateResponse(Response.STATE_SUCCESS);
     }
 
-    @RequestMapping(value = "/types", method = { RequestMethod.POST })
+    @RequestMapping(value = "/types", method = {RequestMethod.POST})
     public Response getTypes() {
         return new StateResponse(Response.STATE_SUCCESS);
     }
 
-    @RequestMapping(value = "/books", method = { RequestMethod.POST })
+    @RequestMapping(value = "/books", method = {RequestMethod.POST})
     public Response getBookTypes() {
         return new StateResponse(Response.STATE_SUCCESS);
     }
 
-    @RequestMapping(value = "/search", method = { RequestMethod.POST })
+    @RequestMapping(value = "/search", method = {RequestMethod.POST})
     public Response searchBook() {
         return new StateResponse(Response.STATE_SUCCESS);
     }
