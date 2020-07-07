@@ -2,7 +2,7 @@
     <div style="width: 180px;cursor: pointer" @click="toDetail">
         <img :src="bookItem.src" style="width: 180px;">
         <div style="font-size: 18px;line-height: 25px;margin-left: 21px;margin-top: 2px;">
-            {{bookItem.name}}
+            {{bookItem.bname}}
         </div>
         <div style="color: #8c939d;font-size: 15px;line-height: 25px;margin-left: 22px;">
             {{bookItem.author}}
@@ -26,7 +26,7 @@
         data(){
             return{
                 src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                name:"九年级上册历史书",
+                bname:"九年级上册历史书",
                 author:"作者1 作者2等",
                 price:'￥24.00',
                 oldPrice:'￥30.00 ',

@@ -80,42 +80,42 @@
                 bookList:[{
                     bid:1,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    name:"九年级上册历史书",
+                    bname:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },{
                     bid:2,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    name:"九年级上册历史书",
+                    bname:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },{
                     bid:3,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    name:"九年级上册历史书",
+                    bname:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },{
                     bid:4,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    name:"九年级上册历史书",
+                    bname:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },{
                     bid:5,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    name:"九年级上册历史书",
+                    bname:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },{
                     bid:6,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    name:"九年级上册历史书",
+                    bname:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '

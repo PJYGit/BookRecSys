@@ -29,7 +29,7 @@
                                     disabled
                                     show-score
                                     text-color="#eb7a67"
-                                    :colors="['#eb7a67','#eb7a67']"
+                                    :colors="['#eb7a67','#eb7a67','#eb7a67']"
                                     style="margin-left: 10px;float: left">
                             </el-rate>
                             <span style="margin-left: 25px;color: gray;font-weight: 500;">月销 {{bookItem.sales}} 笔</span>
@@ -66,7 +66,7 @@
                                 图书信息
                             </div>
                             <el-divider></el-divider>
-                            <el-row style="width: 80%;margin-left: 20px;font-size: 16px">
+                            <el-row style="margin-left: 20px;font-size: 16px">
                                 <el-col :span="9">
                                     <div class="bookMsg">
                                         ISBN编号：{{bookItem.isbn}}<span v-if="bookItem.isbn===undefined">暂无信息</span>
@@ -99,7 +99,7 @@
                             <div style="font-size: 20px;margin-left: 10px;margin-top: 20px">
                                 内容介绍
                             </div>
-                            <el-divider style="width: 80%"></el-divider>
+                            <el-divider></el-divider>
                             <div style="width: 90%;margin-left: 10px;text-indent: 2em;line-height: 30px">
                                 {{bookItem.content}}
                             </div>
@@ -159,27 +159,42 @@
                 thisBookList:[{
                     bid:1,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    name:"九年级上册历史书",
+                    bname:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },{
                     bid:2,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    name:"九年级上册历史书",
+                    bname:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },{
                     bid:3,
                     src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    name:"九年级上册历史书",
+                    bname:"九年级上册历史书",
                     author:"作者1 作者2等",
                     price:'￥24.00',
                     oldPrice:'￥30.00 '
                 },],
 
-                evaluateList:[],
+                evaluateList:[{
+                    cid:1,
+                    sname:"用户1",
+                    mark:5,
+                    content:"这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价",
+                },{
+                    cid:2,
+                    sname:"用户2",
+                    mark:5,
+                    content:"这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价",
+                },{
+                    cid:3,
+                    sname:"用户3",
+                    mark:4,
+                    content:"这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价",
+                }],
             }
         },
 
