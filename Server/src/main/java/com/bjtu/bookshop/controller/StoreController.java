@@ -2,7 +2,7 @@ package com.bjtu.bookshop.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bjtu.bookshop.response.Response;
-import com.bjtu.bookshop.service.StoreSerivce;
+import com.bjtu.bookshop.service.StoreService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,26 +13,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/shop")
 public class StoreController {
-    private StoreSerivce storeSerivce;
+    private StoreService storeService;
 
     @Autowired
-    public StoreController(StoreSerivce storeSerivce) {
-        this.storeSerivce = storeSerivce;
+    public StoreController(StoreService storeService) {
+        this.storeService = storeService;
     }
 
     @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
     public Response getShopInfo(@RequestBody JSONObject object) {
-        return storeSerivce.getStoreInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"));
+        return storeService.getStoreInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"));
     }
 
     @RequestMapping(value = "/booklist", method = {RequestMethod.POST})
     public Response getShopBookList(@RequestBody JSONObject object) {
-        return storeSerivce.getBookList(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"));
+        return storeService.getBookList(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"));
     }
 
     @RequestMapping(value = "/getbookinfo", method = {RequestMethod.POST})
     public Response getShopBookInfo(@RequestBody JSONObject object) {
-        return storeSerivce.getBookInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"), object.getIntValue("bid"));
+        return storeService.getBookInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"), object.getIntValue("bid"));
     }
 
     @RequestMapping(value = "/manage/list", method = {RequestMethod.POST})
