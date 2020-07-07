@@ -4,7 +4,11 @@
             <my-title></my-title>
         </template>
 
-        666
+        <div style="width: 100%; height: 100%; background: #7f828b;">
+            <el-container>
+                <LoginRegBox></LoginRegBox>
+            </el-container>
+        </div>
 
     </BlockBoard>
 </template>
@@ -13,25 +17,26 @@
     import MyTitle from "../components/base/myTitle";
     import FlowBoard from "../components/board/FlowBoard";
     import BlockBoard from "../components/board/BlockBoard";
+    import LoginRegBox from "../components/login/LoginRegBox";
 
     export default {
-        components: {FlowBoard, MyTitle, BlockBoard},
+        components: {LoginRegBox, FlowBoard, MyTitle, BlockBoard},
         name: "login"
     }
 </script>
 
 <style scoped>
-    >>> .el-scrollbar__view {
-        height: 100%;
+    .bg-purple-dark {
+        background: #99a9bf;
     }
-    .content {
-        min-height: 100%;
+    .bg-purple {
+        background: #d3dce6;
     }
-    .content-inside {
-        padding: 20px 20px 160px;
+    .bg-purple-light {
+        background: #e5e9f2;
     }
-    .footer {
-        height: 160px;
-        margin-top: -160px;
+    .grid-content {
+        border-radius: 4px;
+        min-height: 36px;
     }
 </style>
