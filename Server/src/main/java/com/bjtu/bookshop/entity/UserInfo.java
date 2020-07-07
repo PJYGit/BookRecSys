@@ -12,4 +12,5 @@ public class UserInfo {
     private String viprate;
     private String baned;
     private String money;
+    private int role;
 }

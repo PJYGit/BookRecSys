@@ -102,6 +102,9 @@ public class UserService {
 
     public Response getUserInfo(int uid, String token, int targetUID) {
         if (isTokenValid(uid, token)) {
+            int role = userMapper.getUserInfoWithUserID(uid).getRole();
+            if (role == 0) return new StateResponse(Response.STATE_FAIL);
+
             UserInfo info = userMapper.getUserInfoWithUserID(targetUID);
             return new ItemResponse<>(info, Response.STATE_SUCCESS);
         } else return new StateResponse(Response.STATE_FAIL);
@@ -109,6 +112,10 @@ public class UserService {
 
     public Response modifyUserInfo(int uid, String token, int targetUID, UserInfo info) {
         if (isTokenValid(uid, token)) {
+
+            int role = userMapper.getUserInfoWithUserID(uid).getRole();
+            if (role == 0) return new StateResponse(Response.STATE_FAIL);
+
             UserInfo old = userMapper.getUserInfoWithUserID(targetUID);
 
             if (info.getUid() == 0) info.setUid(old.getUid());
