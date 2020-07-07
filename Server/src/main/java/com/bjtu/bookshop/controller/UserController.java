@@ -1,6 +1,5 @@
 package com.bjtu.bookshop.controller;
 
-
 import com.alibaba.fastjson.JSONObject;
 import com.bjtu.bookshop.entity.UserInfo;
 import com.bjtu.bookshop.response.Response;
@@ -25,7 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/register", method = {RequestMethod.POST})
+    @RequestMapping(value = "/register", method = { RequestMethod.POST })
     public Response userRegister(@RequestBody JSONObject object) {
         if (object.getString("code").equals("000000")) {
             return userService.registerUser(object.getString("urn"), object.getString("uname"));
@@ -34,24 +33,40 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/login", method = {RequestMethod.POST})
+    @RequestMapping(value = "/login", method = { RequestMethod.POST })
     public Response userLogin(@RequestBody JSONObject object) {
         return userService.userLogin(object.getString("urn"), object.getString("pw"));
     }
 
-    @RequestMapping(value = "/logout", method = {RequestMethod.POST})
+    @RequestMapping(value = "/logout", method = { RequestMethod.POST })
     public Response userLogout(@RequestBody JSONObject object) {
         return userService.userLogout(object.getIntValue("uid"), object.getString("token"));
     }
 
-    @RequestMapping(value = "/getinfo", method = {RequestMethod.GET})
+    @RequestMapping(value = "/getinfo", method = { RequestMethod.GET })
     public Response getUserInfo(@RequestParam Integer uid, @RequestParam String token) {
         return userService.getUserInfoWithID(uid);
     }
 
-    @RequestMapping(value = "/setinfo", method = {RequestMethod.POST})
+    @RequestMapping(value = "/setinfo", method = { RequestMethod.POST })
     public Response updateUserInfo(@RequestBody JSONObject object) {
         UserInfo info = object.getObject("data", UserInfo.class);
         return userService.updateUserInfo(object.getIntValue("uid"), object.getString("token"), info);
+    }
+
+    @RequestMapping(value = "/manage/list", method = { RequestMethod.POST })
+    public Response getUserList(@RequestBody JSONObject object) {
+        return userService.getUserList(object.getIntValue("uid"), object.getString("token"), object.getIntValue("page"));
+    }
+
+    @RequestMapping(value = "/manage/getinfo", method = { RequestMethod.POST })
+    public Response getUserInfo(@RequestBody JSONObject object) {
+        return userService.getUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("targetUid"));
+    }
+
+    @RequestMapping(value = "/manage/setinfo", method = { RequestMethod.POST })
+    public Response modifyUserInfo(@RequestBody JSONObject object) {
+        UserInfo info = object.getObject("data", UserInfo.class);
+        return userService.modifyUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("targetUid"), info);
     }
 }
