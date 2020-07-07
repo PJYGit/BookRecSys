@@ -98,6 +98,14 @@ head|头像 url|头像 url
 regtime|注册时间|注册时间 unix 秒时间戳
 vipRate [number]|vip 价格系数|1 不打折 0.8 八折 以此类推
 money|余额|余额
+managed[] [list\<elm\>]|管理的店铺|管理的店铺列表
+
+其中 elm：
+键值|名称|描述
+-|-|-
+sid|商店id|商店id
+sname|商店名|商店名
+boss|是不是老板|是1不是0
 
 ## 1.6/user/setinfo 修改本用户基本信息
 
