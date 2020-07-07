@@ -1,5 +1,7 @@
 package com.bjtu.bookshop.mapper;
 
+import java.util.List;
+
 import com.bjtu.bookshop.entity.UserInfo;
 import com.bjtu.bookshop.entity.UserLogin;
 import com.bjtu.bookshop.entity.UserReg;
@@ -21,10 +23,13 @@ public interface UserMapper {
     @Select("select * from user_info where urn = #{urn}")
     UserInfo getUserInfoWithUrn(String urn);
 
+    @Select("select * from user_info limit 0, #{limit}")
+    List<UserInfo> getUserList(int limit);
+
     @Insert("INSERT INTO user_info(urn, regtime, viprate, baned, money) VALUES(#{urn}, #{regtime}, #{viprate}, #{baned}, #{money})")
     void insertNewUserIntoUserInfo(String urn, long regtime, String viprate, Integer baned, String money);
     
-    @Update("UPDATE SET urn=#{urn}, nickname=#{nickname}, head=#{head}, viprate=#{viprate}, baned=#{baned}, money=#{money} WHERE uid = #{uid}")
+    @Update("UPDATE user_info SET urn=#{urn}, nickname=#{nickname}, head=#{head}, viprate=#{viprate}, baned=#{baned}, money=#{money} WHERE uid = #{uid}")
     void updateUserInfo(UserInfo info);
 
     /* user_info end */
