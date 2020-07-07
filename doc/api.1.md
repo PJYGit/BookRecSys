@@ -236,3 +236,26 @@ state [number]|返回码|0 为正常，-1 为失败
 
     1.只有2可以改role，且不能改成2或从2改成别的
     2.封号只能1或2来
+
+## 1.s.5/user/manage/adduser 添加新用户
+
+POST
+
+request:
+
+键值|名称|描述
+-|-|-
+uid [number]|用户 id|系统内唯一标志符，用于后续操作
+token|验证串|和 uid 一起做身份验证
+password|密码|密码哈希（你1做没做哈希啊，做了就这个也做）
+nickname|昵称|昵称
+vipRate|vip 价格系数|1 不打折 0.8 八折 以此类推
+role|身份|0 普通用户，1 系统管理
+money|余额|余额
+
+response:
+
+键值|名称|描述
+-|-|-
+state [number]|返回码|0 为正常，-1 为失败
+uid [number]|用户 id|系统内唯一标志符，用于后续操作

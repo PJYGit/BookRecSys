@@ -14,6 +14,7 @@
 * /user/manage/search 搜索用户
 * /user/manage/getinfo 取某用户信息
 * /user/manage/setinfo 修改某用户信息
+* /user/manage/adduser 创建新用户
 
 # 2#店铺
 * /shop/getinfo 取某商店信息
@@ -58,3 +59,10 @@
 
 //大概大纲还没写完？
 //第一波写完了，马上开始捋业务逻辑补充
+
+改动：
++ root创建用户接口  添加1.s.5
++ 店铺搜索（用户）
++ 店铺头图设置/传递
++ 单书详细信息（卧槽我居然没写这个？）
++ 个人到管理店铺的桥梁
