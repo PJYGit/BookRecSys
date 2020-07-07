@@ -26,6 +26,9 @@ public interface UserMapper {
     @Select("select * from user_info limit 0, #{limit}")
     List<UserInfo> getUserList(int limit);
 
+    @Select("SELECT * FROM user_info WHERE urn LIKE CONCAT('%',#{urn},'%')")
+    List<UserInfo> getUserInfoWithPhonePattern(String urn);
+
     @Insert("INSERT INTO user_info(urn, regtime, viprate, baned, money) VALUES(#{urn}, #{regtime}, #{viprate}, #{baned}, #{money})")
     void insertNewUserIntoUserInfo(String urn, long regtime, String viprate, Integer baned, String money);
     
