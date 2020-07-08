@@ -7,5 +7,6 @@ export default {
     //登录模块接口
     userLogin: {url: 'user/login'},
     userGetInfo: {url: 'user/getinfo', method: 'get'},
+    userGetPhoneCode: {url: 'user/phone'},
 
 }

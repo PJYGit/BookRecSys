@@ -1,7 +1,7 @@
 <template>
     <div style="width: 100%; height: 60px; box-shadow: 0px 4px 4px #bbbaaa">
-        <img src="../../assets/image/title.png" style="height: 60px; margin-left: 90px">
-        <div style="float: right;line-height: 60px;text-align: center;font-weight: 500">
+        <img src="../../assets/image/title.png" style="height: 60px; margin-left: 90px" @click="toHome">
+        <div style="float: right;line-height: 60px;text-align: center;font-weight: 500" v-if="hideMenu == null">
             <span style="color: #EB7A67;cursor: pointer" @click="toLogin">登录/注册</span>
             <span style="margin-left: 40px;cursor: pointer" @click="toCart">购物车</span>
             <span style="margin-left: 40px;cursor: pointer" @click="toMyOrder">我的订单</span>
@@ -15,12 +15,13 @@
 <script>
     export default {
         name: "myTitle",
+        props: ['hideMenu'],
         methods:{
             toLogin(){
                 //console.log("click1");
             },
             toCart(){
-                //console.log("click2");
+                this.$router.push("/car");
             },
             toMyOrder(){
                 //console.log("click3");
@@ -30,6 +31,9 @@
             },
             toService(){
                 //console.log("click5");
+            },
+            toHome(){
+                this.$router.push("/");
             }
         }
     }

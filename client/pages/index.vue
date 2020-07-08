@@ -1,31 +1,26 @@
 <template>
-    <el-container style="height:100%;">
+    <FlowBoard>
 
-        <el-header style="padding: 0px; z-index: 10">
-            <my-title></my-title>
-        </el-header>
+        <template v-slot:header>
+            <MyTitle></MyTitle>
+        </template>
 
-        <el-main style="padding: 60px 0 0 ;top: 0px; position: absolute; width: 100%; height: 100%;">
-            <el-scrollbar style="height:100% ;overflow-x: hidden;">
-                <!--<img style="height: 100%;width: 100%;" src="" alt="背景图片">-->
-                <ads></ads>
-                <el-container>
-                    <el-aside style="margin-top: 20px;margin-left: 30px;width: 20%">
-                        <classfy-menu :active-index="'0'" :is-main="0"></classfy-menu>
-                    </el-aside>
-                    <el-main>
-                        <my-search style="margin-top: 2px"></my-search>
-                        <homeshow :title="'新书上架'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
-                        <homeshow :title="'图书推荐'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
-                        <homeshow :title="'图书Top榜'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
-                    </el-main>
-                </el-container>
-                <my-footer></my-footer>
+        <template style="padding: 0px; margin: 0px">
+        <ads></ads>
+        <el-container>
+            <el-aside style="margin-top: 20px;margin-left: 30px;width: 20%">
+                <classfy-menu :active-index="'0'" :is-main="0"></classfy-menu>
+            </el-aside>
+            <el-main>
+                <my-search style="margin-top: 2px"></my-search>
+                <homeshow :title="'新书上架'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+                <homeshow :title="'图书推荐'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+                <homeshow :title="'图书Top榜'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
+            </el-main>
+        </el-container>
+        </template>
 
-            </el-scrollbar>
-        </el-main>
-
-    </el-container>
+    </FlowBoard>
 
 </template>
 
@@ -40,9 +35,10 @@
     import MySearch from "../components/base/mySearch";
     import Homeshow from "../components/homeshow";
     import ads from "../components/home/ads";
+    import FlowBoard from "../components/board/FlowBoard";
 
     export default {
-        components: {MyFooter, MyTitle, Book, ads, Homeshow, MySearch, ClassfyMenu},
+        components: {FlowBoard, MyFooter, MyTitle, Book, ads, Homeshow, MySearch, ClassfyMenu},
         data() {
             let validateRepeatPassword = (rule, value, cb) => {
                 console.log(value)

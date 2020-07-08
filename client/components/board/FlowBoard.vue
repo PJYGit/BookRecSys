@@ -37,7 +37,7 @@
         min-height: 100%;
     }
     .content-inside {
-        padding: 20px 20px 85px;
+        padding: 0px 0px 85px;
     }
     .footer {
         height: 85px;

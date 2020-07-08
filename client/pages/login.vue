@@ -1,7 +1,7 @@
 <template>
     <BlockBoard style="min-width: 600px">
         <template v-slot:header>
-            <my-title></my-title>
+            <my-title hideMenu></my-title>
         </template>
 
         <div class="loginContentHower">
