@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 180px;cursor: pointer" @click="toDetail">
+    <div style="width: 180px;cursor: pointer;" @click="toDetail">
         <img :src="bookItem.src" style="width: 180px;">
         <div style="font-size: 18px;line-height: 25px;margin-left: 21px;margin-top: 2px;">
             {{bookItem.bname}}
@@ -13,6 +13,7 @@
                 {{bookItem.oldPrice}}</span>
         </div>
     </div>
+
 </template>
 
 <script>
