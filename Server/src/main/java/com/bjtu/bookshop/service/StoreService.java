@@ -98,7 +98,7 @@ public class StoreService {
                 ReturnClass class1 = new ReturnClass();
                 class1.storeInfo = info;
                 class1.bossInfo = userMapper.getUserInfoWithUserID(info.getBoss());
-                
+
                 List<StoreManage> manages = storeMapper.getStoreManagerWithSID(info.getSid());
                 List<UserInfo> managerInfos = new LinkedList<>();
                 for (StoreManage manage : manages) {
@@ -154,7 +154,7 @@ public class StoreService {
             JSONArray tids = object.getJSONArray("tid");
             BookInfo bookInfo = bookMapper.getBookInfoWithNameAndSID(object.getIntValue("sid"), object.getString("bname"));
 
-            for (int i = 0 ; i < tids.size(); i++) {
+            for (int i = 0; i < tids.size(); i++) {
                 bookMapper.insertBookTag(bookInfo.getBid(), tids.getIntValue(i));
             }
 

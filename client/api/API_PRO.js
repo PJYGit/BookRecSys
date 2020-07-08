@@ -6,5 +6,6 @@ export default {
     method: 'post',
     //登录模块接口
     userLogin: {url: 'user/login'},
+    userGetInfo: {url: 'user/getinfo', method: 'get'},
 
 }

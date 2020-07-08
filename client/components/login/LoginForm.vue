@@ -60,7 +60,7 @@
                     }else{
                         this.doLoginFail();
                     }
-                }).catch( err => {
+                }, err => {
                     console.log("ERR" + err);
                     this.doLoginFail();
                 })
