@@ -12,6 +12,7 @@
             <el-col :span="3" class="hrefClass">100元以上</el-col>
             <el-col :span="8">
                 <el-container>
+                    <!--限制数字输入还没做-->
                     <el-input size="mini" v-model="rangemin" placeholder="价格" style="width: 80px;margin-right: 5px"></el-input>
                      -
                     <el-input size="mini" v-model="rangemax" placeholder="价格" style="width: 80px;margin-left: 5px"></el-input>
