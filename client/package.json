@@ -20,6 +20,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.19.4",
     "nuxt": "^1.0.0",
+    "vue-cookie": "^1.1.4",
     "vue-quill-editor": "^3.0.6"
   },
   "devDependencies": {

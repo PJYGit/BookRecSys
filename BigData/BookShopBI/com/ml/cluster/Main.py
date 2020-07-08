@@ -9,10 +9,10 @@ if __name__ == '__main__':
     end = sys.argv[2]
 
     # 准备数据并做数据归一化
-    prepare_normaliz(start, end)
+    # prepare_normaliz(start, end)
 
     # 聚类并输出
-    cluster_output()
+    # cluster_output()
     #
-    # # 得到聚类结果
-    # get_finalresult()
+    # 得到聚类结果
+    get_finalresult()
