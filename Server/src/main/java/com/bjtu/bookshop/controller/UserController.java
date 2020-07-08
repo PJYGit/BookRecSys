@@ -43,7 +43,7 @@ public class UserController {
         return userService.userLogout(object.getIntValue("uid"), object.getString("token"));
     }
 
-    @RequestMapping(value = "/getinfo", method = {RequestMethod.GET})
+    @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
     public Response getUserInfo(@RequestParam Integer uid, @RequestParam String token) {
         return userService.getUserInfoWithID(uid);
     }
