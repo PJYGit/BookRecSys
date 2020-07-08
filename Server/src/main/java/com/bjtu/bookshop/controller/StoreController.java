@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/shop")
 public class StoreController {
-    private StoreService storeService;
+    private final StoreService storeService;
 
     @Autowired
     public StoreController(StoreService storeService) {
@@ -32,27 +32,27 @@ public class StoreController {
 
     @RequestMapping(value = "/getbookinfo", method = {RequestMethod.POST})
     public Response getShopBookInfo(@RequestBody JSONObject object) {
-        return storeService.getBookInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"), object.getIntValue("bid"));
+        return storeService.getBookInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("bid"));
     }
 
     @RequestMapping(value = "/manage/list", method = {RequestMethod.POST})
-    public void getStoreList(@RequestBody JSONObject object) {
-
+    public Response getStoreList(@RequestBody JSONObject object) {
+        return storeService.getStoreList(object.getIntValue("uid"), object.getString("token"), object.getIntValue("page"));
     }
 
     @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
-    public void getStoreManagerInfo(@RequestBody JSONObject object) {
-
+    public Response getStoreManagerInfo(@RequestBody JSONObject object) {
+        return storeService.getStoreManagerInfo(object.getIntValue("uid"), object.getString("token"), object.getInteger("uid"), object.getInteger("sid"));
     }
 
     @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
-    public void modifyStoreInfo(@RequestBody JSONObject object) {
-
+    public Response modifyStoreInfo(@RequestBody JSONObject object) {
+        return storeService.updateStoreInfo(object.getIntValue("uid"), object.getString("token"));
     }
 
     @RequestMapping(value = "/manage/addbook", method = {RequestMethod.POST})
-    public void addBookIntoStore(@RequestBody JSONObject object) {
-
+    public Response addBookIntoStore(@RequestBody JSONObject object) {
+        return storeService.addBook(object.getIntValue("uid"), object.getString("token"), object);
     }
 
     @RequestMapping(value = "/manage/delbook", method = {RequestMethod.POST})
@@ -61,7 +61,7 @@ public class StoreController {
     }
 
     @RequestMapping(value = "/manage/setbookinfo", method = {RequestMethod.POST})
-    public void modifyBookInfoInStore(@RequestBody JSONObject object) {
-
+    public Response modifyBookInfoInStore(@RequestBody JSONObject object) {
+        return storeService.updateBookInfo(object.getIntValue("uid"), object.getString("token"), object);
     }
 }
