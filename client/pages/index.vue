@@ -11,7 +11,7 @@
                 <ads></ads>
                 <el-container>
                     <el-aside style="margin-top: 20px;margin-left: 30px;width: 20%">
-                        <classfy-menu></classfy-menu>
+                        <classfy-menu :active-index="'0'" :is-main="0"></classfy-menu>
                     </el-aside>
                     <el-main>
                         <my-search style="margin-top: 2px"></my-search>

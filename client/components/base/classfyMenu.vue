@@ -3,11 +3,11 @@
         <div style="background-color: #ef9585;color: white;font-size: 28px;font-weight: 700;
         height: 60px;text-align: center;padding-top: 10px">图书分类</div>
         <el-menu
-                default-active="2"
+                :default-active="activeIndex"
                 class="el-menu-vertical-demo"
                 background-color="#ffffff"
                 text-color="#000000"
-                active-text-color="#EB7A67" v-for="item in menuList" :key="item.classfyId">
+                active-text-color="#EB7A67" v-for="item in menuList" :key="item.tid">
             <!--<el-submenu v-if="item.subMenu.length!==0" :index="item.classfyId">
                 <template slot="title">
                     <span style="font-size: 18px;margin-left: 10px">{{item.name}}</span>
@@ -16,7 +16,7 @@
                     <span slot="title" style="font-size: 16px;margin-left: 25px">{{item1.name}}</span>
                 </el-menu-item>
             </el-submenu>-->
-            <el-menu-item :index="item.classfyId" @click="toClassfyList">
+            <el-menu-item :index="item.tid.toString()" @click="toClassfyList(item)">
                 <span slot="title" style="font-size: 18px;margin-left: 10px">{{item.name}}</span>
             </el-menu-item>
         </el-menu>
@@ -26,34 +26,42 @@
 <script>
     export default {
         name: "classfyMenu",
+        props:{
+            activeIndex:{
+                type:String,
+            },
+            isMain:{
+                type: Number,
+            }
+        },
         data(){
             return{
                 menuList:[{
-                    tid:'1',
+                    tid:1,
                     name:"有书推荐",
                     cnt:300,
                 },{
-                    classfyId:'2',
+                    tid:2,
                     name:"文学",
                     cnt:2000,
                 },{
-                    classfyId:'3',
+                    tid:3,
                     name:"教辅",
                     cnt:250,
                 },{
-                    classfyId:'4',
+                    tid:4,
                     name:"社会科学",
                     cnt:250,
                 },{
-                    classfyId:'5',
+                    tid:5,
                     name:"童书",
                     cnt:250,
                 },{
-                    classfyId:'6',
+                    tid:6,
                     name:"艺术",
                     cnt:250,
                 },{
-                    classfyId:'7',
+                    tid:7,
                     name:"生活",
                     cnt:250,
                 },]
@@ -61,8 +69,12 @@
         },
 
         methods:{
-            toClassfyList(){
-                this.$router.push({path: `/classfyBookList`},)
+            toClassfyList(item){
+                this.$router.push({path: `/classfyBookList`,query: { tid: item.tid }});
+                if(this.isMain!==0){
+                    this.$emit('MenuMethod',item);
+                }
+
             },
         },
     }
