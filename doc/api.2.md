@@ -215,7 +215,6 @@ content|书简介|书简介
 pic|书图片|书图片
 remain|库存|库存
 price[number]|价格|价格
-sid|对应商店ID|
 
 response:
 
@@ -250,7 +249,7 @@ token|验证串|和 uid 一起做身份验证
 bid|指定书id|指定书id
 tid[]|分类id|分类id数组
 bname|书本名|书本名
-auther|作者|作者
+author|作者|作者
 content|书简介|书简介
 pic|书图片|书图片
 remain|库存|库存
