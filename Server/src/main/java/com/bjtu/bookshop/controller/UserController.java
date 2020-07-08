@@ -27,7 +27,7 @@ public class UserController {
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     public Response userRegister(@RequestBody JSONObject object) {
         if (object.getString("code").equals("000000")) {
-            return userService.registerUser(object.getString("urn"), object.getString("uname"));
+            return userService.registerUser(object.getString("urn"), object.getString("uname"), object.getString("psw"));
         } else {
             return new StateResponse(Response.STATE_FAIL);
         }
@@ -73,5 +73,10 @@ public class UserController {
     @RequestMapping(value = "/manage/search", method = {RequestMethod.POST})
     public Response searchUser(@RequestBody JSONObject object) {
         return userService.searchUserWithPhone(object.getIntValue("uid"), object.getString("token"), object.getString("phone"));
+    }
+
+    @RequestMapping(value = "/manage/adduser", method = {RequestMethod.POST})
+    public Response addUser(@RequestBody JSONObject object) {
+        return userService.addUser(object);
     }
 }

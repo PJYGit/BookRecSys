@@ -56,8 +56,8 @@ public class StoreController {
     }
 
     @RequestMapping(value = "/manage/delbook", method = {RequestMethod.POST})
-    public void delBookInStore(@RequestBody JSONObject object) {
-
+    public Response delBookInStore(@RequestBody JSONObject object) {
+        return storeService.delBook(object.getIntValue("uid"), object.getString("token"), object.getIntValue("bid"));
     }
 
     @RequestMapping(value = "/manage/setbookinfo", method = {RequestMethod.POST})

@@ -20,6 +20,8 @@ import com.bjtu.bookshop.response.StateResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.Data;
+
 @Service
 public class StoreService {
     private StoreMapper storeMapper;
@@ -37,7 +39,7 @@ public class StoreService {
         if (isTokenValid(uid, token)) {
             StoreInfo info = storeMapper.getStoreInfoWithSID(sid);
             UserInfo bossInfo = userMapper.getUserInfoWithUserID(info.getBoss());
-            List<StoreManage> storeManages = storeMapper.getStoreTypeWithSID(sid);
+            List<StoreManage> storeManages = storeMapper.getStoreManagerWithSID(sid);
             List<UserInfo> managers = new LinkedList<>();
 
             for (StoreManage manager : storeManages) {
@@ -76,6 +78,58 @@ public class StoreService {
             data.put("bookInfo", info);
             data.put("tags", tags);
             return new ItemResponse<>(data, Response.STATE_SUCCESS);
+        } else return new StateResponse(Response.STATE_FAIL);
+    }
+
+    public Response getStoreList(int uid, String token, int page) {
+        if (isTokenValid(uid, token)) {
+            if (page <= 0) page = 1;
+            List<StoreInfo> storeInfos = storeMapper.getStoreListWithPage((page - 1) * 20, page * 20);
+
+            @Data
+            class ReturnClass {
+                UserInfo bossInfo;
+                List<UserInfo> managerInfos;
+            }
+            List<ReturnClass> list = new LinkedList<>();
+            for (StoreInfo info : storeInfos) {
+                ReturnClass class1 = new ReturnClass();
+                UserInfo bossInfo = userMapper.getUserInfoWithUserID(info.getBoss());
+                class1.bossInfo = bossInfo;
+                
+                List<StoreManage> manages = storeMapper.getStoreManagerWithSID(info.getSid());
+                List<UserInfo> managerInfos = new LinkedList<>();
+                for (StoreManage manage : manages) {
+                    UserInfo managerInfo = userMapper.getUserInfoWithUserID(manage.getUid());
+                    managerInfos.add(managerInfo);
+                }
+                class1.managerInfos = managerInfos;
+            }
+
+            return new ItemResponse<>(list, Response.STATE_SUCCESS);
+        } else return new StateResponse(Response.STATE_FAIL);
+    }
+
+
+    public Response addBook(int uid, String token) {
+        if (isTokenValid(uid, token)) {
+            BookInfo info = new BookInfo();
+
+            return new StateResponse(Response.STATE_SUCCESS);
+        } else return new StateResponse(Response.STATE_FAIL);
+    }
+
+    public Response delBook(int uid, String token, int bid) {
+        if (isTokenValid(uid, token)) {
+            bookMapper.deleteBookWithBID(bid);
+            return new StateResponse(Response.STATE_SUCCESS);
+        } else return new StateResponse(Response.STATE_FAIL);
+    }
+
+    public Response setBookInfo(int uid, String token) {
+        if (isTokenValid(uid, token)) {
+
+            return new StateResponse(Response.STATE_SUCCESS);
         } else return new StateResponse(Response.STATE_FAIL);
     }
 

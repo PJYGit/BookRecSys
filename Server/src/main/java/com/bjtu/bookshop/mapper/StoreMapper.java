@@ -16,6 +16,9 @@ public interface StoreMapper {
     @Select("select * from store_info where sid = #{sid}")
     StoreInfo getStoreInfoWithSID(int sid);
 
+    @Select("select * from store_info limit #{start}, #{end}")
+    List<StoreInfo> getStoreListWithPage(int start, int end);
+
     @Select("select * from store_manage where sid = #{sid}")
-    List<StoreManage> getStoreTypeWithSID(int sid);
+    List<StoreManage> getStoreManagerWithSID(int sid);
 }
