@@ -61,7 +61,7 @@ token|验证串|和 uid 一起做身份验证
 
 ## 1.4/user/phone 发送手机验证码[不写先]
 
-GET
+POST
 
 request:
 
