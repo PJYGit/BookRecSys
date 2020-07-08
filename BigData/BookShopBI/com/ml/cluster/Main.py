@@ -1,4 +1,5 @@
 import sys
+sys.path.append('/home/software/files/BookShopBI/BookShopBI/')
 
 from com.ml.cluster.dimension_and_normalization import prepare_normaliz
 from com.ml.cluster.user_cluster import cluster_output, get_finalresult
@@ -12,6 +13,6 @@ if __name__ == '__main__':
 
     # 聚类并输出
     cluster_output()
-
-    # 得到聚类结果
-    get_finalresult()
+    #
+    # # 得到聚类结果
+    # get_finalresult()
