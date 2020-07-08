@@ -14,11 +14,13 @@
 * /user/manage/search 搜索用户
 * /user/manage/getinfo 取某用户信息
 * /user/manage/setinfo 修改某用户信息
+* /user/manage/adduser 创建新用户
 
 # 2#店铺
 * /shop/getinfo 取某商店信息
 * /shop/booklist 取某商店书本列表
 * /shop/getbookinfo 取书信息
+* /shop/search 店铺搜索
 
 2.sub#店铺管理
 * /shop/manage/list 取店铺列表
@@ -56,5 +58,14 @@
 * /home/books 指定类别的图书列表
 * /home/serach 图书搜索
 
+# 7#书籍
+* /book/info 取单书信息
+
 //大概大纲还没写完？
 //第一波写完了，马上开始捋业务逻辑补充
+
+改动：
++ root创建用户接口  添加1.s.5
++ 店铺搜索（用户） 添加2.5
++ 单书详细信息（卧槽我居然没写这个？）添加7.1
++ 个人到管理店铺的桥梁 修改1.5

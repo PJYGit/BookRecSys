@@ -107,6 +107,9 @@ uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 tid|类别|类别 id，默认为全部
 word|关键字|搜索关键字
+rangemin|最低售价|最低售价
+rangemax|最高售价|最高售价
+order|顺序|0为销量降序，1为价格降序，2为价格升序
 
 response:
 
