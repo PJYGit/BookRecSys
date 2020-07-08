@@ -77,7 +77,7 @@ state [number]|返回码|0 为正常，-1 为失败
 
 ## 1.5/user/getinfo 取本用户基本信息
 
-GET
+POST
 
 request:
 
