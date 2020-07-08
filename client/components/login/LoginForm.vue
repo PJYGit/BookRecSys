@@ -10,7 +10,8 @@
             </el-form-item>
             <el-form-item>
                 <br/>
-                <el-button type="primary" style="width: 100%" @click="checkAndSubmit()">登录</el-button>
+                <el-button type="primary" style="width: 100%" :loading="locks.submitLock"
+                           @click="checkAndSubmit()">登录</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -24,7 +25,7 @@
         data() {
             return {
                 loginForm : {
-                    username : "",
+                    username : "18876002015",
                     password : "",
                 },
                 rules: {
@@ -36,6 +37,9 @@
                         { required: true, message: '请输入密码', trigger: 'blur' },
                         { min: 6, max: 18, message: '请输入正确的密码', trigger: 'blur' }
                     ],
+                },
+                locks : {
+                    submitLock : false,
                 }
             }
         },
@@ -49,17 +53,26 @@
                     pw: pwd,
                 };
 
-                API.userLogin(req).then(
-                    rsp => {
-                        console.log("suc");
+                this.locks.submitLock = true;
+                API.userLogin(JSON.stringify(req)).then(rsp => {
+                    if(rsp.state == 0){
+                        this.doLoginSuccess(rsp.item);
+                    }else{
+                        this.doLoginFail();
                     }
-                ).catch(
-                    err => {
-                        console.log("err");
-                    }
-                )
-
-                console.log("LOGIN with " + uname + " , " + pwd);
+                }).catch( err => {
+                    console.log("ERR" + err);
+                    this.doLoginFail();
+                })
+            },
+            doLoginFail : function(err){
+                this.locks.submitLock = false;
+                this.$message.error('登录失败');
+            },
+            doLoginSuccess : function(data){
+                this.$cookie.set("uid",data.uid);
+                this.$cookie.set("token",data.token);
+                this.$router.push('/');
             },
             checkAndSubmit : function(){
                 this.$refs['loginForm'].validate((valid) => {
