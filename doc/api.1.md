@@ -61,7 +61,7 @@ token|验证串|和 uid 一起做身份验证
 
 ## 1.4/user/phone 发送手机验证码[不写先]
 
-GET
+POST
 
 request:
 
@@ -77,7 +77,7 @@ state [number]|返回码|0 为正常，-1 为失败
 
 ## 1.5/user/getinfo 取本用户基本信息
 
-GET
+POST
 
 request:
 

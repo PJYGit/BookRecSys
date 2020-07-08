@@ -171,7 +171,7 @@ public class UserService {
             String uToken = StringUtil.getRandString(psw + salt);
             userMapper.insertNewUserLoginIntoUserLogin(info.getUid(), uToken);
 
-            return new ItemResponse<>(0 , Response.STATE_SUCCESS);
+            return new ItemResponse<>(0, Response.STATE_SUCCESS);
         } else return new StateResponse(Response.STATE_FAIL);
     }
 
