@@ -41,11 +41,11 @@
 - name
 - author
 - sid 对应商店 id
-- tid 对应类型 id
 - content
 - pic
 - sales 销量
 - remain 库存余量
+- price 价钱
 
 ### book_type 【手录数据的静态表】
 
@@ -81,3 +81,22 @@
 - uid
 - name
 - sid
+
+## 4. 购物车表
+
+### car_info
+
+- uid
+- sid
+- bid
+- cnt
+
+## 5. 订单表
+
+### order_info
+
+- cid
+- uid
+- bid
+- cnt
+- code

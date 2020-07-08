@@ -15,14 +15,6 @@ for (var api in APICONFIG) {
         let apiInfo = APICONFIG[api]
         let method = apiInfo.method || APICONFIG.method
 
-        let token
-        if (context === undefined) {
-          token = data.token || ''
-          token = Cookies.get('token')
-        } else {
-          token = context.store.state.token
-        }
-        delete data.token
 
         let config = {
           baseURL: APICONFIG.baseURL,
@@ -30,8 +22,8 @@ for (var api in APICONFIG) {
           method: method,
           data: data,
           headers: {
-            'token': token
-          }
+            'Content-Type': 'application/json'
+          },
         }
 
         console.log(config)

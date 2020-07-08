@@ -9,8 +9,8 @@ public class UserInfo {
     private String nickname;
     private long regtime;
     private String head;
-    private String viprate;
-    private String baned;
+    private double viprate;
+    private int baned;
     private String money;
     private int role;
 }

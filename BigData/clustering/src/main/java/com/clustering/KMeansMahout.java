@@ -1,6 +1,5 @@
 package com.clustering;
 
-import com.utils.HdfsUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.mahout.clustering.Cluster;
@@ -11,17 +10,19 @@ import org.apache.mahout.common.HadoopUtil;
 import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
 import org.apache.mahout.utils.clustering.ClusterDumper;
 
+import com.utils.HdfsUtil;
+
 public class KMeansMahout {
 
-    private static final String HDFS = "hdfs://10.20.0.10:9000";
+    private static final String HDFS = "hdfs://ecs-hadoop-master:9000";
 
     public static void main(String[] args) throws Exception {
-        String localFile = "D:\\GaoLei\\clustering_demo\\data.dat";
+        // String localFile = "D:\\GaoLei\\2018年工作\\6 云计算和大数据实训案例\\Hadoop相关\\3 智能图书推荐系统\\聚类算法\\clustering_demo\\data\\iris.dat";
 
         // mahout输出至HDFS的目录
         String outputPath = HDFS + "/user/hdfs/kmeans/output";
         // mahout的输入目录
-        String inputPath = HDFS + "/user/hdfs/kmeans/input/";
+        String inputPath = HDFS + "/user/hdfs/kmeans/input/cluster_input";
 
         // canopy算法的t1
         double t1 = 2;
@@ -37,9 +38,9 @@ public class KMeansMahout {
         Configuration conf = new Configuration();
 
         HdfsUtil hdfs = new HdfsUtil(HDFS, conf);
-        hdfs.rmr(inputPath);
-        hdfs.mkdirs(inputPath);
-        hdfs.copyFile(localFile, inputPath);
+        // hdfs.rmr(inputPath);
+        // hdfs.mkdirs(inputPath);
+        // hdfs.copyFile(localFile, inputPath);
         hdfs.ls(inputPath);
 
         // 每次执行聚类前，删除掉上一次的输出目录
@@ -49,7 +50,8 @@ public class KMeansMahout {
     }
 
     private static void run(Configuration conf, Path input, Path output,
-                            EuclideanDistanceMeasure euclideanDistanceMeasure, double t1, double t2, double convergenceDelta, int maxIterations) throws Exception {
+                            EuclideanDistanceMeasure euclideanDistanceMeasure, double t1, double t2, double convergenceDelta,
+                            int maxIterations) throws Exception {
 
         Path directoryContainingConvertedInput = new Path(output, "data");
 
@@ -62,17 +64,20 @@ public class KMeansMahout {
         Path canopyOutput = new Path(output, "canopies");
 
         // 执行Canopy聚类
-        CanopyDriver.run(conf, directoryContainingConvertedInput, canopyOutput, euclideanDistanceMeasure, t1, t2, false, 0.0, false);
+        CanopyDriver.run(conf, directoryContainingConvertedInput, canopyOutput, euclideanDistanceMeasure, t1, t2, false,
+                0.0, false);
 
         System.out.println("Running KMeans");
         // 执行k-means聚类，并使用canopy目录
         KMeansDriver.run(conf, directoryContainingConvertedInput,
-                new Path(canopyOutput, Cluster.INITIAL_CLUSTERS_DIR + "-final"), output, convergenceDelta, maxIterations, true, 0.0, false);
+                new Path(canopyOutput, Cluster.INITIAL_CLUSTERS_DIR + "-final"), output, convergenceDelta,
+                maxIterations, true, 0.0, false);
 
         System.out.println("run clusterdumper");
         // 将聚类的结果输出至HDFS
-        ClusterDumper clusterDumper = new ClusterDumper(new Path(output, "clusters-*-final"),new Path(output, "clusteredPoints"));
+        ClusterDumper clusterDumper = new ClusterDumper(new Path(output, "clusters-*-final"),
+                new Path(output, "clusteredPoints"));
         clusterDumper.printClusters(null);
+
     }
 }
-

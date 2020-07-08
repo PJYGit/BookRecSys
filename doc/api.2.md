@@ -210,7 +210,7 @@ uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 tid[]|分类id|分类id数组
 bname|书本名|书本名
-auther|作者|作者
+author|作者|作者
 content|书简介|书简介
 pic|书图片|书图片
 remain|库存|库存
@@ -249,7 +249,7 @@ token|验证串|和 uid 一起做身份验证
 bid|指定书id|指定书id
 tid[]|分类id|分类id数组
 bname|书本名|书本名
-auther|作者|作者
+author|作者|作者
 content|书简介|书简介
 pic|书图片|书图片
 remain|库存|库存

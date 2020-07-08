@@ -49,6 +49,7 @@ request:
 urn|手机号|手机号字串
 uname|用户名|可重用户名
 code|验证码|验证码，你先写成 = ("000000".equal(code))
+psw|密码|
 
 response:
 
@@ -255,10 +256,12 @@ request:
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
-password|密码|密码哈希（你1做没做哈希啊，做了就这个也做）
+urn|手机号|
+password|密码|密码哈希（你1做没做哈希啊，做了就这个也做）（就MD5了）
 nickname|昵称|昵称
 vipRate|vip 价格系数|1 不打折 0.8 八折 以此类推
 role|身份|0 普通用户，1 系统管理
+baned|是否被Block|0 没有，1 block
 money|余额|余额
 
 response:

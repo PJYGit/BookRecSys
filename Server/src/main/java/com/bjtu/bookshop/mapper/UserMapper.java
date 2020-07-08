@@ -23,14 +23,17 @@ public interface UserMapper {
     @Select("select * from user_info where urn = #{urn}")
     UserInfo getUserInfoWithUrn(String urn);
 
-    @Select("select * from user_info limit 0, #{limit}")
-    List<UserInfo> getUserList(int limit);
+    @Select("select * from user_info limit #{start}, #{end}")
+    List<UserInfo> getUserList(int start, int end);
 
     @Select("SELECT * FROM user_info WHERE urn LIKE CONCAT('%',#{urn},'%')")
     List<UserInfo> getUserInfoWithPhonePattern(String urn);
 
     @Insert("INSERT INTO user_info(urn, regtime, viprate, baned, money) VALUES(#{urn}, #{regtime}, #{viprate}, #{baned}, #{money})")
-    void insertNewUserIntoUserInfo(String urn, long regtime, String viprate, Integer baned, String money);
+    void insertNewUserIntoUserInfo(String urn, long regtime, double viprate, Integer baned, String money);
+
+    @Insert("INSERT INTO user_info(urn, nickname, regtime, viprate, head, baned, money, role) VALUES(#{urn}, #{nickname}, #{regtime}, #{viprate}, #{head}, #{baned}, #{money}, #{role})")
+    void insertUserIntoUserInfo(UserInfo info);
     
     @Update("UPDATE user_info SET urn=#{urn}, nickname=#{nickname}, head=#{head}, viprate=#{viprate}, baned=#{baned}, money=#{money} WHERE uid = #{uid}")
     void updateUserInfo(UserInfo info);

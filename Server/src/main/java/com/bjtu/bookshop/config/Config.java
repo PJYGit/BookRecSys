@@ -15,7 +15,7 @@ public class Config {
                 registry.addMapping("/**")
                         .allowCredentials(false)
                         .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
-                        .allowedOrigins(".");
+                        .allowedOrigins("*");
             }
         };
     }

@@ -6,9 +6,12 @@ import Vuex from 'vuex'
 import Cookie from 'cookie'
 import Cookies from 'js-cookie'
 import API from '../api'
+import VueCookie from 'vue-cookie'
 import _ from 'lodash'
 
 Vue.use(Vuex)
+Vue.use(VueCookie)
+
 const cookieTokenName = 'token'
 const cookieTokenExpiredName = 'token_expired'
 const cookieType = 'type'
