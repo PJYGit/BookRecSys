@@ -3,9 +3,11 @@ package com.bjtu.bookshop.service;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bjtu.bookshop.entity.UserInfo;
-import com.bjtu.bookshop.entity.UserLogin;
-import com.bjtu.bookshop.entity.UserReg;
+import com.bjtu.bookshop.bean.db.UserInfo;
+import com.bjtu.bookshop.bean.db.UserLogin;
+import com.bjtu.bookshop.bean.db.UserReg;
+import com.bjtu.bookshop.bean.request.CommonRequests.*;
+import com.bjtu.bookshop.bean.response.UserResponses.*;
 import com.bjtu.bookshop.mapper.UserMapper;
 import com.bjtu.bookshop.response.ItemResponse;
 import com.bjtu.bookshop.response.ListResponse;
@@ -27,48 +29,48 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public Response registerUser(String urn, String uname, String psw) {
-        // 添加新用户到用户消息表
-        userMapper.insertNewUserIntoUserInfo(urn, NumberUtil.getUnixTimestamp(), 1.0, 0, "0");
-        // 获取新用户的 uid
-        UserInfo info = userMapper.getUserInfoWithUrn(urn);
-        String salt = StringUtil.MD5("000000");
-        userMapper.insertNewUserRegIntoUserReg(info.getUid(), urn, "000000", salt);
-
-        // 生成 token
-        String token = StringUtil.getRandString("000000" + salt);
-        userMapper.insertNewUserLoginIntoUserLogin(info.getUid(), token);
-
-        UserLogin login = userMapper.getUserLoginInfoWithUID(info.getUid());
-        return new ItemResponse<>(login, Response.STATE_SUCCESS);
+    public boolean checkUserToken(UserAuthorization uinfo){
+        UserLogin loginInfo = userMapper.getUserLoginInfoWithUID(uinfo.getUid());
+        return (loginInfo != null) && (uinfo.getToken().equals(loginInfo.getToken()));
     }
 
-    public Response userLogin(String urn, String pw) {
-        UserInfo info = userMapper.getUserInfoWithUrn(urn);
-        if (info == null) return new StateResponse(Response.STATE_FAIL);
-        UserReg reg = userMapper.getUserRegWithUserID(info.getUid());
+    /** 1.1 body **/
+    public LoginResponse userLogin(String urn, String pw) {
+        UserReg reg = userMapper.getUserRegWithPhone(urn);
+        if (reg == null) return new LoginResponse(){{setState(-10);}};
+        if (! reg.getPwd().equals(pw)) return new LoginResponse(){{setState(-11);}};
 
-        String tmp = StringUtil.MD5(pw);
-
-        if (tmp.equals(reg.getSalt())) {
-            userMapper.updateUserLoginToken(info.getUid(), StringUtil.getRandString(pw + tmp));
-            UserLogin login = userMapper.getUserLoginInfoWithUID(info.getUid());
-            return new ItemResponse<>(login, Response.STATE_SUCCESS);
-        } else {
-            return new StateResponse(Response.STATE_FAIL);
-        }
+        String token = StringUtil.getRandString();
+        userMapper.updateUserLoginToken(reg.getUid(), token);
+        return new LoginResponse(0, reg.getUid(), token);
     }
 
-    public Response getPhoneCode() {
-        return new StateResponse(Response.STATE_SUCCESS);
+    /** 1.2 body **/
+    public LogoutResponse userLogout(int uid) {
+        String token = StringUtil.getRandString();
+        userMapper.updateUserLoginToken(uid, token);
+        return new LogoutResponse(0);
     }
 
-    public Response userLogout(int uid, String token) {
-        if (isTokenValid(uid, token)) {
-            userMapper.updateUserLoginToken(uid, StringUtil.getRandString(token));
-            return new StateResponse(Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+    public RegisterResponse registerUser(String urn, String uname, String psw, String code) {
+        UserReg preReg = userMapper.getUserRegWithPhone(urn);
+        if (preReg != null) return new RegisterResponse(){{setState(-10);}};
+        if (! "000000".equals(code)) return new RegisterResponse(){{setState(-11);}};
+
+        String salt = StringUtil.getRandString();
+        int uid = userMapper.createNewUser(urn, psw, salt);
+
+        userMapper.createNewUserInfo(uid, urn, uname, NumberUtil.getUnixTimestamp(),
+                "", 100, 0, 30000, 0);
+
+        String token = StringUtil.getRandString();
+        userMapper.updateUserLoginToken(uid, token);
+
+        return new RegisterResponse(0,uid,token);
     }
+
+
+
 
     public Response getUserInfoWithID(int uid, String token) {
         if (isTokenValid(uid, token)) {
@@ -159,7 +161,7 @@ public class UserService {
             String psw = object.getString("password");
             user.setNickname(object.getString("nickname"));
             user.setRegtime(NumberUtil.getUnixTimestamp());
-            user.setViprate(object.getDoubleValue("vipRate"));
+            //user.setViprate(object.getDoubleValue("vipRate"));
             user.setRole(object.getIntValue("role"));
             user.setMoney(object.getString("money"));
             user.setBaned(object.getIntValue("baned"));

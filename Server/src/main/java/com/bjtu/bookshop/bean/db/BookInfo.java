@@ -1,8 +1,12 @@
-package com.bjtu.bookshop.entity;
+package com.bjtu.bookshop.bean.db;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookInfo {
     private int bid;
     private String name;
@@ -12,5 +16,5 @@ public class BookInfo {
     private String pic;
     private String sales;
     private String remain;
-    private double price;
+    private int price;
 }
