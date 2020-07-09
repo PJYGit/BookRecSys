@@ -43,8 +43,10 @@ public class UserController {
      * user/logout
      */
     @RequestMapping(value = "/logout", method = {RequestMethod.POST})
-    public Response userLogout(@RequestBody JSONObject object) {
-        return userService.userLogout(object.getIntValue("uid"), object.getString("token"));
+    public LogoutResponse userLogout(@Valid LogoutRequest req, BindingResult br) {
+        if(br.hasErrors()) return LogoutResponse.FailWith(-1);
+        if(! userService.checkUserToken(req)) return LogoutResponse.FailWith(-10);
+        return userService.userLogout(req.getUid());
     }
 
     @RequestMapping(value = "/register", method = {RequestMethod.POST})

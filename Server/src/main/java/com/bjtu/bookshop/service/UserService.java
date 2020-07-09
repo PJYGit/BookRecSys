@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.bjtu.bookshop.bean.db.UserInfo;
 import com.bjtu.bookshop.bean.db.UserLogin;
 import com.bjtu.bookshop.bean.db.UserReg;
+import com.bjtu.bookshop.bean.request.UserRequests.*;
 import com.bjtu.bookshop.bean.response.UserResponses.*;
 import com.bjtu.bookshop.mapper.UserMapper;
 import com.bjtu.bookshop.response.ItemResponse;
@@ -28,6 +29,28 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
+    public boolean checkUserToken(UserAuthorization uinfo){
+        UserLogin loginInfo = userMapper.getUserLoginInfoWithUID(uinfo.getUid());
+        return (loginInfo != null) && (uinfo.getToken().equals(loginInfo.getToken()));
+    }
+
+    /** 1.1 body **/
+    public LoginResponse userLogin(String urn, String pw) {
+        UserReg reg = userMapper.getUserRegWithPhone(urn);
+        if (reg == null) return LoginResponse.FailWith(-10);
+        if (! reg.getPwd().equals(pw)) return LoginResponse.FailWith(-11);
+
+        String token = StringUtil.getRandString();
+        userMapper.updateUserLoginToken(reg.getUid(), token);
+        return new LoginResponse(0, reg.getUid(), token);
+    }
+
+    /** 1.2 body **/
+    public LogoutResponse userLogout(int uid) {
+        userMapper.updateUserLoginToken(uid, StringUtil.getRandString());
+        return new LogoutResponse(0);
+    }
+
     public Response registerUser(String urn, String uname, String psw) {
         // 添加新用户到用户消息表
         userMapper.insertNewUserIntoUserInfo(urn, NumberUtil.getUnixTimestamp(), 1.0, 0, "0");
@@ -44,22 +67,8 @@ public class UserService {
         return new ItemResponse<>(login, Response.STATE_SUCCESS);
     }
 
-    public LoginResponse userLogin(String urn, String pw) {
-        UserReg reg = userMapper.getUserRegWithPhone(urn);
-        if (reg == null) return LoginResponse.FailWith(-10);
-        if (! reg.getPwd().equals(pw)) return LoginResponse.FailWith(-11);
 
-        String token = StringUtil.getRandString();
-        userMapper.updateUserLoginToken(reg.getUid(), token);
-        return new LoginResponse(0, reg.getUid(), token);
-    }
 
-    public Response userLogout(int uid, String token) {
-        if (isTokenValid(uid, token)) {
-            userMapper.updateUserLoginToken(uid, StringUtil.getRandString(token));
-            return new StateResponse(Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
-    }
 
     public Response getUserInfoWithID(int uid, String token) {
         if (isTokenValid(uid, token)) {

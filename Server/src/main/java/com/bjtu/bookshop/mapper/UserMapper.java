@@ -64,14 +64,14 @@ public interface UserMapper {
     //WJ_BEGIN
     ///////////////////////////////////////////////////////////////////////////////////
 
+    //手机号取注册信息
     @Select("select * from user_reg where urn = #{phone}")
     UserReg getUserRegWithPhone(String phone);
-    //手机号取注册信息
 
+    //uid token 更新token
     @Insert("insert into user_login " +
             "values (#{uid},#{token}) " +
             "ON DUPLICATE KEY UPDATE token = #{token}")
     void updateUserLoginToken(int uid, String token);
-    //uid token 更新token
 
 }

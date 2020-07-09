@@ -18,4 +18,14 @@ public class UserResponses {
         }
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class LogoutResponse{
+        int state;
+        public static LogoutResponse FailWith(int _state){
+            return new LogoutResponse(){{state = _state;}};
+        }
+    }
+
 }
