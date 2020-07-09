@@ -78,7 +78,7 @@
             },
             toSelfCenter(){
                 if(this.onLine){
-                    //this.$router.push("/car");
+                    this.$router.push("/personalCenter");
                 } else {
                     this.$router.push("/login");
                 }

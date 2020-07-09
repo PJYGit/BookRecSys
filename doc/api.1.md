@@ -143,7 +143,17 @@ head|头像 url|头像 url
 regtime|注册时间|注册时间 unix 秒时间戳
 vipRate [number]|vip 价格系数|1 不打折 0.8 八折 以此类推
 money|余额|余额
+address[] [list\<loc\>]|地址列表|地址列表
 managed[] [list\<elm\>]|管理的店铺|管理的店铺列表
+
+其中 loc：
+键值|名称|描述
+-|-|-
+title|地址名|地址名
+content|地址内容|地址内容
+name|收货人姓名|收货人姓名
+phone|手机号|手机号
+selected|是否默认|是1 不是0
 
 其中 elm：
 键值|名称|描述
