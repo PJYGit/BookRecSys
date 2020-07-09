@@ -44,8 +44,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
-    public Response getUserInfo(@RequestParam Integer uid, @RequestParam String token) {
-        return userService.getUserInfoWithID(uid);
+    public Response getUserInfo(@RequestBody JSONObject object) {
+        return userService.getUserInfoWithID(object.getIntValue("uid"), object.getString("token"));
     }
 
     @RequestMapping(value = "/setinfo", method = {RequestMethod.POST})
@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
-    public Response getUserInfo(@RequestBody JSONObject object) {
+    public Response getUserInfoM(@RequestBody JSONObject object) {
         return userService.getUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("target"));
     }
 

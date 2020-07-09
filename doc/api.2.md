@@ -284,7 +284,6 @@ request:
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
-uid|店主id|店主id
 sid|商店id|商店id
 
 (注：保证请求中uid和sid至少有一个)

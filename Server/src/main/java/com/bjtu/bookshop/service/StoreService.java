@@ -82,6 +82,13 @@ public class StoreService {
         } else return new StateResponse(Response.STATE_FAIL);
     }
 
+    public Response searchStore(int uid, String token, String word) {
+        if (isTokenValid(uid, token)) {
+            List<StoreInfo> list = storeMapper.searchStoreInfo(word);
+            return new ItemResponse<>(list, Response.STATE_SUCCESS);
+        } else return new StateResponse(Response.STATE_FAIL);
+    }
+
     public Response getStoreList(int uid, String token, int page) {
         if (isTokenValid(uid, token)) {
             if (page <= 0) page = 1;
@@ -112,22 +119,20 @@ public class StoreService {
         } else return new StateResponse(Response.STATE_FAIL);
     }
 
-    public Response getStoreManagerInfo(int uid, String token, Integer bossID, Integer sid) {
+    public Response getStoreManagerInfo(int uid, String token, Integer sid) {
         if (isTokenValid(uid, token)) {
             JSONObject data = new JSONObject();
-            if (bossID != null) {
-                UserInfo bossInfo = userMapper.getUserInfoWithUserID(bossID);
-                data.put("boss", bossInfo);
+            StoreInfo storeInfo = storeMapper.getStoreInfoWithSID(sid);
+            UserInfo bossInfo = userMapper.getUserInfoWithUserID(storeInfo.getBoss());
+            data.put("boss", bossInfo);
+
+            List<StoreManage> list = storeMapper.getStoreManagerWithSID(sid);
+            List<UserInfo> managerInfo = new LinkedList<>();
+            for (StoreManage manage : list) {
+                UserInfo manager = userMapper.getUserInfoWithUserID(manage.getUid());
+                managerInfo.add(manager);
             }
-            if (sid != null) {
-                List<StoreManage> list = storeMapper.getStoreManagerWithSID(sid);
-                List<UserInfo> managerInfo = new LinkedList<>();
-                for (StoreManage manage : list) {
-                    UserInfo manager = userMapper.getUserInfoWithUserID(manage.getUid());
-                    managerInfo.add(manager);
-                }
-                data.put("manager", managerInfo);
-            }
+            data.put("manager", managerInfo);
             return new ItemResponse<>(data, Response.STATE_FAIL);
         } else return new StateResponse(Response.STATE_FAIL);
     }
