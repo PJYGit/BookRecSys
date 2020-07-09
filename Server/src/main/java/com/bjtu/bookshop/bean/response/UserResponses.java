@@ -1,5 +1,7 @@
 package com.bjtu.bookshop.bean.response;
 
+import com.bjtu.bookshop.bean.response.CommonResponses.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,23 +11,26 @@ public class UserResponses {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class LoginResponse{
+    public static class LoginResponse implements StateHolder {
         int state;
         int uid;
         String token;
-        public static LoginResponse FailWith(int _state){
-            return new LoginResponse(){{state = _state;}};
-        }
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class LogoutResponse{
+    public static class LogoutResponse implements StateHolder {
         int state;
-        public static LogoutResponse FailWith(int _state){
-            return new LogoutResponse(){{state = _state;}};
-        }
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RegisterResponse implements StateHolder {
+        int state;
+        int uid;
+        String token;
     }
 
 }

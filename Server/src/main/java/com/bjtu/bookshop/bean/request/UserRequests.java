@@ -1,16 +1,13 @@
 package com.bjtu.bookshop.bean.request;
 
+import com.bjtu.bookshop.bean.request.CommonRequests.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
 public class UserRequests {
-
-    public interface UserAuthorization {
-        int getUid();
-        String getToken();
-    }
 
     @Data
     @AllArgsConstructor
@@ -21,9 +18,18 @@ public class UserRequests {
 
     @Data
     @AllArgsConstructor
-    public static class LogoutRequest implements UserAuthorization{
+    public static class LogoutRequest implements UserAuthorization {
         @NotNull int uid;
         @NotNull String token;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class RegisterRequest {
+        @NotNull String urn;
+        String uname;
+        @NotNull String code;
+        @NotNull String psw;
     }
 
 }

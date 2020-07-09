@@ -183,7 +183,7 @@ public class StoreService {
             if (object.getString("content") != null) info.setContent(object.getString("content"));
             if (object.getString("pic") != null) info.setPic(object.getString("pic"));
             if (object.getString("remain") != null) info.setRemain(object.getString("remain"));
-            if (object.getDoubleValue("price") != 0) info.setPrice(object.getDoubleValue("price"));
+            //if (object.getDoubleValue("price") != 0) info.setPrice(object.getDoubleValue("price"));
             bookMapper.updateBookInfo(info);
 
             JSONArray array = object.getJSONArray("tid");

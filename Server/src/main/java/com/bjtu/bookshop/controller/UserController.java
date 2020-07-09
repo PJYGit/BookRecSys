@@ -30,32 +30,34 @@ public class UserController {
 
     /**
      * 1.1
-     * user/login
+     * user/login 用户登录
      */
     @RequestMapping(value = "/login", method = {RequestMethod.POST})
     public LoginResponse userLogin(@Valid LoginRequest req, BindingResult br) {
-        if(br.hasErrors()) return LoginResponse.FailWith(-1);
+        if(br.hasErrors()) return new LoginResponse(){{setState(-1);}};
         return userService.userLogin(req.getUrn(), req.getPw());
     }
 
     /**
      * 1.2
-     * user/logout
+     * user/logout 用户登出
      */
     @RequestMapping(value = "/logout", method = {RequestMethod.POST})
     public LogoutResponse userLogout(@Valid LogoutRequest req, BindingResult br) {
-        if(br.hasErrors()) return LogoutResponse.FailWith(-1);
-        if(! userService.checkUserToken(req)) return LogoutResponse.FailWith(-10);
+        if(br.hasErrors()) return new LogoutResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new LogoutResponse(){{FailWith(-10);}};
         return userService.userLogout(req.getUid());
     }
 
+    /**
+     * 1.3
+     * /user/register 用户注册
+     */
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
-    public Response userRegister(@RequestBody JSONObject object) {
-        if (object.getString("code").equals("000000")) {
-            return userService.registerUser(object.getString("urn"), object.getString("uname"), object.getString("psw"));
-        } else {
-            return new StateResponse(Response.STATE_FAIL);
-        }
+    public RegisterResponse userRegister(@Valid RegisterRequest req, BindingResult br) {
+        if(br.hasErrors()) return new RegisterResponse(){{setState(-1);}};
+        if(req.getUname() == null || req.getUname().isEmpty()) req.setUname(req.getUrn());
+        return userService.registerUser(req.getUrn(), req.getUname(), req.getPsw(),req.getCode());
     }
 
 
