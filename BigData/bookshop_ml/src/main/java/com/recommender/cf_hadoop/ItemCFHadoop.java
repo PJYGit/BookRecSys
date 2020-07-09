@@ -60,10 +60,10 @@ public class ItemCFHadoop {
 
     public static JobConf config() {
         JobConf conf = new JobConf(ItemCFHadoop.class);
-        // conf.setJobName("ItemCFHadoop");
-        conf.addResource("classpath:/resources/core-site.xml");
-        conf.addResource("classpath:/resources/hdfs-site.xml");
-        conf.addResource("classpath:/resources/mapred-site.xml");
+        conf.setJobName("ItemCFHadoop");
+        conf.addResource("/home/hadoop/hadoop-3.1.3/etc/hadoop/core-site.xml");
+        conf.addResource("/home/hadoop/hadoop-3.1.3/etc/hadoop/hdfs-site.xml");
+        conf.addResource("/home/hadoop/hadoop-3.1.3/etc/hadoop/mapred-site.xml");
         return conf;
     }
 }
