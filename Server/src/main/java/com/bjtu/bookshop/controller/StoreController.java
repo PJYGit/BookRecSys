@@ -52,7 +52,7 @@ public class StoreController {
 
     @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
     public Response modifyStoreInfo(@RequestBody JSONObject object) {
-        // TODO 未完成
+        // TODO 未完成，给董老师吧
         return storeService.updateStoreInfo(object.getIntValue("uid"), object.getString("token"));
     }
 
