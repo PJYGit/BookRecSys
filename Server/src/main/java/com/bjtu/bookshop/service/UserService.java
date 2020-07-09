@@ -3,9 +3,10 @@ package com.bjtu.bookshop.service;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bjtu.bookshop.entity.UserInfo;
-import com.bjtu.bookshop.entity.UserLogin;
-import com.bjtu.bookshop.entity.UserReg;
+import com.bjtu.bookshop.bean.db.UserInfo;
+import com.bjtu.bookshop.bean.db.UserLogin;
+import com.bjtu.bookshop.bean.db.UserReg;
+import com.bjtu.bookshop.bean.response.UserResponses.*;
 import com.bjtu.bookshop.mapper.UserMapper;
 import com.bjtu.bookshop.response.ItemResponse;
 import com.bjtu.bookshop.response.ListResponse;
@@ -43,20 +44,14 @@ public class UserService {
         return new ItemResponse<>(login, Response.STATE_SUCCESS);
     }
 
-    public Response userLogin(String urn, String pw) {
-        UserInfo info = userMapper.getUserInfoWithUrn(urn);
-        if (info == null) return new StateResponse(500);
-        UserReg reg = userMapper.getUserRegWithUserID(info.getUid());
+    public LoginResponse userLogin(String urn, String pw) {
+        UserReg reg = userMapper.getUserRegWithPhone(urn);
+        if (reg == null) return LoginResponse.FailWith(-10);
+        if (! reg.getPwd().equals(pw)) return LoginResponse.FailWith(-11);
 
-        String tmp = StringUtil.MD5(pw);
-
-        if (tmp.equals(reg.getSalt())) {
-            userMapper.updateUserLoginToken(info.getUid(), StringUtil.getRandString(pw + tmp));
-            UserLogin login = userMapper.getUserLoginInfoWithUID(info.getUid());
-            return new ItemResponse<>(login, Response.STATE_SUCCESS);
-        } else {
-            return new StateResponse(Response.STATE_FAIL);
-        }
+        String token = StringUtil.getRandString();
+        userMapper.updateUserLoginToken(reg.getUid(), token);
+        return new LoginResponse(0, reg.getUid(), token);
     }
 
     public Response userLogout(int uid, String token) {

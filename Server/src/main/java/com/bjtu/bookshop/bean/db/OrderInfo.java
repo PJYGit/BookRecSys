@@ -1,4 +1,4 @@
-package com.bjtu.bookshop.entity;
+package com.bjtu.bookshop.bean.db;
 
 import lombok.Data;
 

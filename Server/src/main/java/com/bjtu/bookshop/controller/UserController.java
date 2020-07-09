@@ -1,17 +1,21 @@
 package com.bjtu.bookshop.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bjtu.bookshop.entity.UserInfo;
+import com.bjtu.bookshop.bean.db.UserInfo;
+import com.bjtu.bookshop.bean.request.UserRequests.*;
+import com.bjtu.bookshop.bean.response.UserResponses.*;
 import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.response.StateResponse;
 import com.bjtu.bookshop.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
@@ -24,6 +28,25 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * 1.1
+     * user/login
+     */
+    @RequestMapping(value = "/login", method = {RequestMethod.POST})
+    public LoginResponse userLogin(@Valid LoginRequest req, BindingResult br) {
+        if(br.hasErrors()) return LoginResponse.FailWith(-1);
+        return userService.userLogin(req.getUrn(), req.getPw());
+    }
+
+    /**
+     * 1.2
+     * user/logout
+     */
+    @RequestMapping(value = "/logout", method = {RequestMethod.POST})
+    public Response userLogout(@RequestBody JSONObject object) {
+        return userService.userLogout(object.getIntValue("uid"), object.getString("token"));
+    }
+
     @RequestMapping(value = "/register", method = {RequestMethod.POST})
     public Response userRegister(@RequestBody JSONObject object) {
         if (object.getString("code").equals("000000")) {
@@ -33,15 +56,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/login", method = {RequestMethod.POST})
-    public Response userLogin(@RequestBody JSONObject object) {
-        return userService.userLogin(object.getString("urn"), object.getString("pw"));
-    }
 
-    @RequestMapping(value = "/logout", method = {RequestMethod.POST})
-    public Response userLogout(@RequestBody JSONObject object) {
-        return userService.userLogout(object.getIntValue("uid"), object.getString("token"));
-    }
 
     @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
     public Response getUserInfo(@RequestBody JSONObject object) {

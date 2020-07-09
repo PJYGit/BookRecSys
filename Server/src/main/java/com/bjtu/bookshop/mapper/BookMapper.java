@@ -2,8 +2,8 @@ package com.bjtu.bookshop.mapper;
 
 import java.util.List;
 
-import com.bjtu.bookshop.entity.BookInfo;
-import com.bjtu.bookshop.entity.BookTag;
+import com.bjtu.bookshop.bean.db.BookInfo;
+import com.bjtu.bookshop.bean.db.BookTag;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;

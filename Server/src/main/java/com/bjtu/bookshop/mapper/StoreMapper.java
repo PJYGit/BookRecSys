@@ -3,8 +3,8 @@ package com.bjtu.bookshop.mapper;
 
 import java.util.List;
 
-import com.bjtu.bookshop.entity.StoreInfo;
-import com.bjtu.bookshop.entity.StoreManage;
+import com.bjtu.bookshop.bean.db.StoreInfo;
+import com.bjtu.bookshop.bean.db.StoreManage;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

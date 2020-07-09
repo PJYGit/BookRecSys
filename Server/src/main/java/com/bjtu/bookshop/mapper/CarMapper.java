@@ -1,6 +1,6 @@
 package com.bjtu.bookshop.mapper;
 
-import com.bjtu.bookshop.entity.CarInfo;
+import com.bjtu.bookshop.bean.db.CarInfo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 

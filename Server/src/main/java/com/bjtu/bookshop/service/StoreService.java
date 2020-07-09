@@ -5,12 +5,12 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.bjtu.bookshop.entity.BookInfo;
-import com.bjtu.bookshop.entity.BookTag;
-import com.bjtu.bookshop.entity.StoreInfo;
-import com.bjtu.bookshop.entity.StoreManage;
-import com.bjtu.bookshop.entity.UserInfo;
-import com.bjtu.bookshop.entity.UserLogin;
+import com.bjtu.bookshop.bean.db.BookInfo;
+import com.bjtu.bookshop.bean.db.BookTag;
+import com.bjtu.bookshop.bean.db.StoreInfo;
+import com.bjtu.bookshop.bean.db.StoreManage;
+import com.bjtu.bookshop.bean.db.UserInfo;
+import com.bjtu.bookshop.bean.db.UserLogin;
 import com.bjtu.bookshop.mapper.BookMapper;
 import com.bjtu.bookshop.mapper.StoreMapper;
 import com.bjtu.bookshop.mapper.UserMapper;

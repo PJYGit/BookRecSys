@@ -2,9 +2,9 @@ package com.bjtu.bookshop.mapper;
 
 import java.util.List;
 
-import com.bjtu.bookshop.entity.UserInfo;
-import com.bjtu.bookshop.entity.UserLogin;
-import com.bjtu.bookshop.entity.UserReg;
+import com.bjtu.bookshop.bean.db.UserInfo;
+import com.bjtu.bookshop.bean.db.UserLogin;
+import com.bjtu.bookshop.bean.db.UserReg;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -58,8 +58,20 @@ public interface UserMapper {
     @Insert("INSERT INTO user_login(uid, token) VALUES(#{uid}, #{token})")
     void insertNewUserLoginIntoUserLogin(int uid, String token);
 
-    @Update("UPDATE user_login SET token = #{token} WHERE uid = #{uid}")
-    void updateUserLoginToken(int uid, String token);
-
     /* user_login end */
+
+    ///////////////////////////////////////////////////////////////////////////////////
+    //WJ_BEGIN
+    ///////////////////////////////////////////////////////////////////////////////////
+
+    @Select("select * from user_reg where urn = #{phone}")
+    UserReg getUserRegWithPhone(String phone);
+    //手机号取注册信息
+
+    @Insert("insert into user_login " +
+            "values (#{uid},#{token}) " +
+            "ON DUPLICATE KEY UPDATE token = #{token}")
+    void updateUserLoginToken(int uid, String token);
+    //uid token 更新token
+
 }
