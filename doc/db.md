@@ -81,3 +81,22 @@
 - uid
 - name
 - sid
+
+## 4. 购物车表
+
+### car_info
+
+- uid
+- sid
+- bid
+- cnt
+
+## 5. 订单表
+
+### order_info
+
+- cid
+- uid
+- bid
+- cnt
+- code

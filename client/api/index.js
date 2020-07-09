@@ -15,7 +15,6 @@ for (var api in APICONFIG) {
         let apiInfo = APICONFIG[api]
         let method = apiInfo.method || APICONFIG.method
 
-
         let config = {
           baseURL: APICONFIG.baseURL,
           url: apiInfo.url,
@@ -31,26 +30,16 @@ for (var api in APICONFIG) {
         axios(config).then((res) => {
           try {
             let apiData = res.data
-            console.log(apiData)
-
-            // 异常响应
-            if (apiData.code !== 0) {
-              //alert(apiData.message)
-              if (context) {
-                // page 页面请求错误处理方式：公共处理
-                context.error({statusCode: 500, message: `CODE[${apiData.code}] ERROR[${apiData.message}]`})
-                resolve({})
-              } else {
-                // ajax 请求错误处理方式：交由相应的调用页面处理
-                resolve(apiData)
-              }
-            }
-            resolve(apiData.data)
-            console.log(apiData.data)
+            resolve(apiData)
           } catch (err) {
+            reject(err);
           }
-        }).catch(res => {
+        }, err => {
+          reject(err);
+        }).catch( err => {
+          reject(err);
         })
+
       })
     }
   })(api)

@@ -66,13 +66,12 @@ public class UserService {
         } else return new StateResponse(Response.STATE_FAIL);
     }
 
-    public Response getUserInfoWithID(Integer uid) {
-        UserInfo info;
-        if (uid == null)
-            info = null;
-        else
+    public Response getUserInfoWithID(int uid, String token) {
+        if (isTokenValid(uid, token)) {
+            UserInfo info;
             info = userMapper.getUserInfoWithUserID(uid);
-        return new ItemResponse<UserInfo>(info, Response.STATE_SUCCESS);
+            return new ItemResponse<>(info, Response.STATE_SUCCESS);
+        } else return new StateResponse(Response.STATE_FAIL);
     }
 
     public Response updateUserInfo(int uid, String token, UserInfo info) {
@@ -130,7 +129,7 @@ public class UserService {
             if (info.getMoney() == null) info.setMoney(old.getMoney());
 
             userMapper.updateUserInfo(info);
-            return new ItemResponse<>(info, Response.STATE_SUCCESS);
+            return new StateResponse(Response.STATE_SUCCESS);
         } else return new StateResponse(Response.STATE_FAIL);
     }
 
@@ -171,7 +170,7 @@ public class UserService {
             String uToken = StringUtil.getRandString(psw + salt);
             userMapper.insertNewUserLoginIntoUserLogin(info.getUid(), uToken);
 
-            return new ItemResponse<>(0 , Response.STATE_SUCCESS);
+            return new ItemResponse<>(info.getUid(), Response.STATE_SUCCESS);
         } else return new StateResponse(Response.STATE_FAIL);
     }
 

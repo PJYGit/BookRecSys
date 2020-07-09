@@ -19,6 +19,9 @@ public interface StoreMapper {
     @Select("select * from store_info limit #{start}, #{end}")
     List<StoreInfo> getStoreListWithPage(int start, int end);
 
+    @Select("SELECT * FROM store_info WHERE name LIKE CONCAT('%',#{name},'%')")
+    List<StoreInfo> searchStoreInfo(String name);
+
     @Select("select * from store_manage where sid = #{sid}")
     List<StoreManage> getStoreManagerWithSID(int sid);
 }

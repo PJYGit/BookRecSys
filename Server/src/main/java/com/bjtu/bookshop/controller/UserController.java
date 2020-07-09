@@ -43,9 +43,9 @@ public class UserController {
         return userService.userLogout(object.getIntValue("uid"), object.getString("token"));
     }
 
-    @RequestMapping(value = "/getinfo", method = {RequestMethod.GET})
-    public Response getUserInfo(@RequestParam Integer uid, @RequestParam String token) {
-        return userService.getUserInfoWithID(uid);
+    @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
+    public Response getUserInfo(@RequestBody JSONObject object) {
+        return userService.getUserInfoWithID(object.getIntValue("uid"), object.getString("token"));
     }
 
     @RequestMapping(value = "/setinfo", method = {RequestMethod.POST})
@@ -60,14 +60,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
-    public Response getUserInfo(@RequestBody JSONObject object) {
-        return userService.getUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("targetUid"));
+    public Response getUserInfoM(@RequestBody JSONObject object) {
+        return userService.getUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("target"));
     }
 
     @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
     public Response modifyUserInfo(@RequestBody JSONObject object) {
         UserInfo info = object.getObject("data", UserInfo.class);
-        return userService.modifyUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("targetUid"), info);
+        return userService.modifyUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("target"), info);
     }
 
     @RequestMapping(value = "/manage/search", method = {RequestMethod.POST})

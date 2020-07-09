@@ -21,6 +21,20 @@ token|验证串|和 uid 一起做身份验证
 
 注：1.哈希你随意
 
+返回实例：
+
+```json
+{
+    "item": {
+        "uid": 7,
+        "token": "a04baa4f1afd48345ee5a500933d82fe"
+    },
+    "state": 0
+}
+```
+
+
+
 ## 1.2/user/logout 用户登出
 
 POST
@@ -37,6 +51,14 @@ response:
 键值|名称|描述
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
+
+返回实例：
+
+```json
+
+```
+
+
 
 ## 1.3/user/register 用户注册
 
@@ -59,9 +81,23 @@ state [number]|返回码|0 为正常，-1 为失败
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 
+返回实例：
+
+```json
+{
+    "item": {
+        "uid": 12,
+        "token": "2c962b8c54006872afc9c123d253787a"
+    },
+    "state": 0
+}
+```
+
+
+
 ## 1.4/user/phone 发送手机验证码[不写先]
 
-GET
+POST
 
 request:
 
@@ -75,9 +111,17 @@ response:
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
 
+返回实例：
+
+```json
+
+```
+
+
+
 ## 1.5/user/getinfo 取本用户基本信息
 
-GET
+POST
 
 request:
 
@@ -108,6 +152,27 @@ sid|商店id|商店id
 sname|商店名|商店名
 boss|是不是老板|是1不是0
 
+返回实例：
+
+```json
+{
+    "item": {
+        "uid": 7,
+        "urn": "18876002015",
+        "nickname": "李高丞",
+        "regtime": 1594023395,
+        "head": "test",
+        "viprate": 1.0,
+        "baned": 0,
+        "money": "0",
+        "role": 2
+    },
+    "state": 0
+}
+```
+
+
+
 ## 1.6/user/setinfo 修改本用户基本信息
 
 POST
@@ -118,6 +183,17 @@ request:
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
+data[object]|数据|需要修改的数据信息
+```json
+{
+    "uid": 7,
+    "token": "a04baa4f1afd48345ee5a500933d82fe",
+    "data": {
+        "money": "100"
+    }
+}
+```
+
 可选项为上述所有可修改项
 
 response:
@@ -125,6 +201,16 @@ response:
 键值|名称|描述
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
+
+返回实例：
+
+```json
+{
+    "state": 0
+}
+```
+
+
 
 ## 1.s.1/user/manage/list 取用户列表
 
@@ -158,6 +244,73 @@ baned|封禁|0 正常 1 封禁
 role|身份|0 普通用户，1 系统管理，2 超级管理
 money|余额|余额
 
+返回实例：
+
+```json
+{
+    "list": [
+        {
+            "uid": 3,
+            "urn": "test",
+            "nickname": null,
+            "regtime": 1594019916000,
+            "head": null,
+            "viprate": 1.0,
+            "baned": 0,
+            "money": "0",
+            "role": 0
+        },
+        {
+            "uid": 7,
+            "urn": "18876002015",
+            "nickname": "李高丞",
+            "regtime": 1594023395,
+            "head": "test",
+            "viprate": 1.0,
+            "baned": 0,
+            "money": "100",
+            "role": 2
+        },
+        {
+            "uid": 10,
+            "urn": "18876002000",
+            "nickname": "test1",
+            "regtime": 1594197562,
+            "head": null,
+            "viprate": 1.0,
+            "baned": 0,
+            "money": "0",
+            "role": 1
+        },
+        {
+            "uid": 11,
+            "urn": "18876002015",
+            "nickname": null,
+            "regtime": 1594261591,
+            "head": null,
+            "viprate": 1.0,
+            "baned": 0,
+            "money": "0",
+            "role": 0
+        },
+        {
+            "uid": 12,
+            "urn": "18876002011",
+            "nickname": null,
+            "regtime": 1594261699,
+            "head": null,
+            "viprate": 1.0,
+            "baned": 0,
+            "money": "0",
+            "role": 0
+        }
+    ],
+    "state": 0
+}
+```
+
+
+
 ## 1.s.2/user/manage/search 搜索用户
 
 POST
@@ -169,6 +322,14 @@ request:
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 phone|手机号|手机号字串
+
+```json
+{
+    "uid": 7,
+    "token": "a04baa4f1afd48345ee5a500933d82fe",
+    "phone": "188"
+}
+```
 
 response:
 
@@ -189,6 +350,62 @@ vipRate|vip 价格系数|1 不打折 0.8 八折 以此类推
 baned|封禁|0 正常 1 封禁
 role|身份|0 普通用户，1 系统管理，2 超级管理
 money|余额|余额
+
+返回实例：
+
+```json
+{
+    "list": [
+        {
+            "uid": 7,
+            "urn": "18876002015",
+            "nickname": "李高丞",
+            "regtime": 1594023395,
+            "head": "test",
+            "viprate": 1.0,
+            "baned": 0,
+            "money": "100",
+            "role": 2
+        },
+        {
+            "uid": 10,
+            "urn": "18876002000",
+            "nickname": "test1",
+            "regtime": 1594197562,
+            "head": null,
+            "viprate": 1.0,
+            "baned": 0,
+            "money": "0",
+            "role": 1
+        },
+        {
+            "uid": 11,
+            "urn": "18876002015",
+            "nickname": null,
+            "regtime": 1594261591,
+            "head": null,
+            "viprate": 1.0,
+            "baned": 0,
+            "money": "0",
+            "role": 0
+        },
+        {
+            "uid": 12,
+            "urn": "18876002011",
+            "nickname": null,
+            "regtime": 1594261699,
+            "head": null,
+            "viprate": 1.0,
+            "baned": 0,
+            "money": "0",
+            "role": 0
+        }
+    ],
+    "state": 0
+}
+```
+
+
 
 ## 1.s.3/user/manage/getinfo 取某用户信息
 
@@ -222,6 +439,27 @@ baned|封禁|0 正常 1 封禁
 role|身份|0 普通用户，1 系统管理，2 超级管理
 money|余额|余额
 
+返回实例：
+
+```json
+{
+    "item": {
+        "uid": 7,
+        "urn": "18876002015",
+        "nickname": "李高丞",
+        "regtime": 1594023395,
+        "head": "test",
+        "viprate": 1.0,
+        "baned": 0,
+        "money": "100",
+        "role": 2
+    },
+    "state": 0
+}
+```
+
+
+
 ## 1.s.4/user/manage/setinfo 修改某用户信息
 
 POST
@@ -233,6 +471,18 @@ request:
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 target [number]|目标 uid|目标用户 uid
+data[object]||
+```json
+{
+    "uid": 7,
+    "token": "a04baa4f1afd48345ee5a500933d82fe",
+    "target": 7,
+    "data": {
+        "money": 200
+    }
+}
+```
+
 其余可选项见上
 
 response:
@@ -245,6 +495,16 @@ state [number]|返回码|0 为正常，-1 为失败
 
     1.只有2可以改role，且不能改成2或从2改成别的
     2.封号只能1或2来
+
+返回实例：
+
+```json
+{
+    "state": 0
+}
+```
+
+
 
 ## 1.s.5/user/manage/adduser 添加新用户
 
@@ -270,3 +530,13 @@ response:
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
+
+返回实例：
+
+```json
+{
+    "item": 15,
+    "state": 0
+}
+```
+

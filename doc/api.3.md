@@ -36,6 +36,7 @@ uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 bid|书本id|书本id
 cnt|个数|个数
+sid|商店id|
 
 response:
 
