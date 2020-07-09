@@ -45,7 +45,7 @@ public class UserService {
 
     public Response userLogin(String urn, String pw) {
         UserInfo info = userMapper.getUserInfoWithUrn(urn);
-        if (info == null) return new StateResponse(500);
+        if (info == null) return new StateResponse(Response.STATE_FAIL);
         UserReg reg = userMapper.getUserRegWithUserID(info.getUid());
 
         String tmp = StringUtil.MD5(pw);
@@ -57,6 +57,10 @@ public class UserService {
         } else {
             return new StateResponse(Response.STATE_FAIL);
         }
+    }
+
+    public Response getPhoneCode() {
+        return new StateResponse(Response.STATE_SUCCESS);
     }
 
     public Response userLogout(int uid, String token) {

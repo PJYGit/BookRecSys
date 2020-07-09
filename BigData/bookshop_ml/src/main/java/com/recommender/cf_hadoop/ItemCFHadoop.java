@@ -21,7 +21,7 @@ public class ItemCFHadoop {
         // .getFile();
         // String localFile = "D:\\GaoLei\\2019年工作\\大数据实验室\\00 项目案例研发\\实训项目案例列表\\Hadoop相关\\3 智能图书销售系统\\4 示例代码\\机器学习模块\\bookshop_ml\\src\\main\\resources\\data\\item.csv";
         String inPath = HDFS + "/user/hdfs/itemCF/input/";
-        String inFile = inPath + "bx_ratings.csv";
+        // String inFile = inPath + "bx_ratings.csv";
 //        String inPath = HDFS + "/user/hdfs/itemCF/dc";
 //        String inFile = inPath + "/part-r-00000";
         String outPath = HDFS + "/user/hdfs/itemCF/result/";
@@ -34,7 +34,7 @@ public class ItemCFHadoop {
         // hdfs.rmr(inPath);
         hdfs.rmr(outPath);
         // hdfs.mkdirs(inPath);
-        hdfs.mkdirs(outPath);
+        // hdfs.mkdirs(outPath);
         hdfs.mkdirs(tmpPath);
         // hdfs.copyFile(localFile, inPath);
         hdfs.ls(inPath);
@@ -42,8 +42,8 @@ public class ItemCFHadoop {
 
         StringBuilder sb = new StringBuilder();
         sb.append("--input ").append(inPath);
-        sb.append("--output ").append(outPath);
-        sb.append("--booleanData true ");
+        sb.append(" --output ").append(outPath);
+        sb.append(" --booleanData true ");
         sb.append("--numRecommendations 10 ");
         sb.append("--similarityClassname org.apache.mahout.math.hadoop.similarity.cooccurrence.measures.EuclideanDistanceSimilarity ");
         sb.append("--tempDir ").append(tmpPath);
@@ -61,9 +61,9 @@ public class ItemCFHadoop {
     public static JobConf config() {
         JobConf conf = new JobConf(ItemCFHadoop.class);
         conf.setJobName("ItemCFHadoop");
-        conf.addResource("classpath:/resources/core-site.xml");
-        conf.addResource("classpath:/resources/hdfs-site.xml");
-        conf.addResource("classpath:/resources/mapred-site.xml");
+        conf.addResource("/home/core-site.xml");
+        conf.addResource("/home/hdfs-site.xml");
+        conf.addResource("/home/mapred-site.xml");
         return conf;
     }
 }

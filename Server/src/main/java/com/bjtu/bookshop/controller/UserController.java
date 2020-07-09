@@ -38,6 +38,11 @@ public class UserController {
         return userService.userLogin(object.getString("urn"), object.getString("pw"));
     }
 
+    @RequestMapping(value = "/phone", method = {RequestMethod.POST})
+    public Response getPhoneCode(@RequestBody JSONObject object) {
+        return userService.getPhoneCode();
+    }
+
     @RequestMapping(value = "/logout", method = {RequestMethod.POST})
     public Response userLogout(@RequestBody JSONObject object) {
         return userService.userLogout(object.getIntValue("uid"), object.getString("token"));
