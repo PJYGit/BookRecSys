@@ -35,6 +35,8 @@ public class StoreController {
         return storeService.getBookInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("bid"));
     }
 
+    // TODO 店铺搜索
+
     @RequestMapping(value = "/manage/list", method = {RequestMethod.POST})
     public Response getStoreList(@RequestBody JSONObject object) {
         return storeService.getStoreList(object.getIntValue("uid"), object.getString("token"), object.getIntValue("page"));
@@ -42,11 +44,13 @@ public class StoreController {
 
     @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
     public Response getStoreManagerInfo(@RequestBody JSONObject object) {
+        // TODO 变量名字修改
         return storeService.getStoreManagerInfo(object.getIntValue("uid"), object.getString("token"), object.getInteger("uid"), object.getInteger("sid"));
     }
 
     @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
     public Response modifyStoreInfo(@RequestBody JSONObject object) {
+        // TODO 未完成
         return storeService.updateStoreInfo(object.getIntValue("uid"), object.getString("token"));
     }
 

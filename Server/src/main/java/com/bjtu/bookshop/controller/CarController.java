@@ -1,7 +1,10 @@
 package com.bjtu.bookshop.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,22 +26,22 @@ public class CarController {
     }
 
     @RequestMapping(value = "/getlist", method = {RequestMethod.POST})
-    public void getCarList() {
-
+    public Response getCarList(@RequestBody JSONObject object) {
+        return carService.getCarInfo(object.getIntValue("uid"), object.getString("token"));
     }
 
     @RequestMapping(value = "/addbook", method = {RequestMethod.POST})
-    public void addIntoCar() {
-
+    public Response addIntoCar(@RequestBody JSONObject object) {
+        return carService.addBookIntoCar(object.getIntValue("uid"), object.getString("token"), object);
     }
 
     @RequestMapping(value = "/setlist", method = {RequestMethod.POST})
-    public void updateCarInfo() {
-
+    public Response updateCarInfo(@RequestBody JSONObject object) {
+        return carService.updateCarInfo(object.getIntValue("uid"), object.getString("token"), object);
     }
 
     @RequestMapping(value = "/submit", method = {RequestMethod.POST})
-    public void submitCar() {
-
+    public Response submitCar(@RequestBody JSONObject object) {
+        return carService.submitCarInfo(object.getIntValue("uid"), object.getString("token"), object);
     }
 }

@@ -61,13 +61,13 @@ public class UserController {
 
     @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
     public Response getUserInfo(@RequestBody JSONObject object) {
-        return userService.getUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("targetUid"));
+        return userService.getUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("target"));
     }
 
     @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
     public Response modifyUserInfo(@RequestBody JSONObject object) {
         UserInfo info = object.getObject("data", UserInfo.class);
-        return userService.modifyUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("targetUid"), info);
+        return userService.modifyUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("target"), info);
     }
 
     @RequestMapping(value = "/manage/search", method = {RequestMethod.POST})

@@ -1,3 +1,5 @@
+
+
 # 2#店铺
 ## /shop/getinfo 取某商店信息
 
@@ -27,6 +29,51 @@ mark|商店书本均分|
 -|-|-
 uid [number]|用户id|用户id
 name|昵称|昵称
+
+返回示例
+
+```json
+{
+    "item": {
+        "bossInfo": {
+            "uid": 7,
+            "urn": "18876002015",
+            "nickname": "李高丞",
+            "regtime": 1594023395,
+            "head": "test",
+            "viprate": 1.0,
+            "baned": 0,
+            "money": "0",
+            "role": 2
+        },
+        "storeInfo": {
+            "sid": 1,
+            "name": "first",
+            "boss": 7,
+            "content": "test",
+            "code": 0,
+            "head": "test",
+            "mark": "0"
+        },
+        "managers": [
+            {
+                "uid": 7,
+                "urn": "18876002015",
+                "nickname": "李高丞",
+                "regtime": 1594023395,
+                "head": "test",
+                "viprate": 1.0,
+                "baned": 0,
+                "money": "0",
+                "role": 2
+            }
+        ]
+    },
+    "state": 0
+}
+```
+
+
 
 ---
 ## /shop/booklist 取某商店书本列表
@@ -62,6 +109,40 @@ sales|销量|销量
 remain|库存|库存
 price[number]|价格|价格
 
+返回示例
+
+```json
+{
+    "item": {
+        "storeInfo": {
+            "sid": 1,
+            "name": "first",
+            "boss": 7,
+            "content": "test",
+            "code": 0,
+            "head": "test",
+            "mark": "0"
+        },
+        "bookInfos": [
+            {
+                "bid": 1,
+                "name": "first",
+                "author": "ligaocheng",
+                "sid": 1,
+                "content": "test",
+                "pic": "0",
+                "sales": "0",
+                "remain": "100",
+                "price": 0.0
+            }
+        ]
+    },
+    "state": 0
+}
+```
+
+
+
 ---
 ## /shop/getbookinfo 取书信息
 
@@ -90,6 +171,35 @@ sales|销量|销量
 remain|库存|库存
 price[number]|价格|价格
 
+返回实例：
+
+```json
+{
+    "item": {
+        "bookInfo": {
+            "bid": 1,
+            "name": "first",
+            "author": "ligaocheng",
+            "sid": 1,
+            "content": "test",
+            "pic": "0",
+            "sales": "0",
+            "remain": "100",
+            "price": 0.0
+        },
+        "tags": [
+            {
+                "tid": 1,
+                "name": null
+            }
+        ]
+    },
+    "state": 0
+}
+```
+
+
+
 ---
 ## /shop/search 店铺搜索
 request:
@@ -114,6 +224,14 @@ sid|商店id|商店id
 name|商店名|商店名
 pic|商店头图url|商店头图url
 mark|商店评分|商店书本平均评分
+
+返回实例：
+
+```json
+
+```
+
+
 
 ---
 ## 2.sub#店铺管理
@@ -149,6 +267,14 @@ code|商店状态|1审核中2正常3封禁
 head|商店头像url|
 mark|商店书本均分|
 
+返回实例：
+
+```json
+
+```
+
+
+
 ---
 ## /shop/manage/getinfo 取某用户/某店信息
 
@@ -178,6 +304,14 @@ code|商店状态|1审核中2正常3封禁
 head|商店头像url
 mark|商店书本均分|
 
+返回实例：
+
+```json
+
+```
+
+
+
 ## /shop/manage/setinfo 修改某用户/某店信息
 
 键值|名称|描述
@@ -198,6 +332,14 @@ response:
 键值|名称|描述
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
+
+返回实例：
+
+```json
+
+```
+
+
 
 ---
 ## /shop/manage/addbook 添加书
@@ -222,6 +364,14 @@ response:
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
 
+返回实例：
+
+```json
+
+```
+
+
+
 ## /shop/manage/delbook 删除书
 
 request:
@@ -237,6 +387,14 @@ response:
 键值|名称|描述
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
+
+返回实例：
+
+```json
+
+```
+
+
 
 ## /shop/manage/setbookinfo 设置书信息
 
@@ -260,3 +418,10 @@ response:
 键值|名称|描述
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
+
+返回实例：
+
+```json
+
+```
+
