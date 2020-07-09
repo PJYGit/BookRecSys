@@ -52,6 +52,7 @@ public class UserService {
         return new LogoutResponse(0);
     }
 
+    /** 1.3 body **/
     public RegisterResponse registerUser(String urn, String uname, String psw, String code) {
         UserReg preReg = userMapper.getUserRegWithPhone(urn);
         if (preReg != null) return new RegisterResponse(){{setState(-10);}};
@@ -69,15 +70,18 @@ public class UserService {
         return new RegisterResponse(0,uid,token);
     }
 
+    /** 1.5 body **/
+    public InfoResponse getUserInfo(int uid){
+        UserInfo info = userMapper.getUserInfoWithUserID(uid);
+        List<InfoResponse.loc> listAddress = userMapper.getAddressById(uid);
+        List<InfoResponse.elm> listBoss = userMapper.getShopBossedById(uid);
+        List<InfoResponse.elm> listManage = userMapper.getShopManagedById(uid);
+        listManage.addAll(listBoss);
 
-
-
-    public Response getUserInfoWithID(int uid, String token) {
-        if (isTokenValid(uid, token)) {
-            UserInfo info;
-            info = userMapper.getUserInfoWithUserID(uid);
-            return new ItemResponse<>(info, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+        return new InfoResponse(0,uid,info.getUrn(),info.getNickname(),
+                info.getRole(),info.getHead(),info.getRegtime(),
+                info.getViprate() * 0.01, info.getMoney() * 0.01,
+                listAddress, listManage);
     }
 
     public Response updateUserInfo(int uid, String token, UserInfo info) {
@@ -91,7 +95,7 @@ public class UserService {
             if (info.getHead() == null) info.setHead(old.getHead());
             if (info.getViprate() == 0) info.setViprate(old.getViprate());
             if (info.getBaned() == 0) info.setBaned(old.getBaned());
-            if (info.getMoney() == null) info.setMoney(old.getMoney());
+            //if (info.getMoney() == 0) info.setMoney(old.getMoney());
 
             userMapper.updateUserInfo(info);
             return new StateResponse(Response.STATE_SUCCESS);
@@ -132,7 +136,7 @@ public class UserService {
             if (info.getHead() == null) info.setHead(old.getHead());
             if (info.getViprate() == 0) info.setViprate(old.getViprate());
             if (info.getBaned() == 0) info.setBaned(old.getBaned());
-            if (info.getMoney() == null) info.setMoney(old.getMoney());
+            //if (info.getMoney() == null) info.setMoney(old.getMoney());
 
             userMapper.updateUserInfo(info);
             return new StateResponse(Response.STATE_SUCCESS);
@@ -163,7 +167,7 @@ public class UserService {
             user.setRegtime(NumberUtil.getUnixTimestamp());
             //user.setViprate(object.getDoubleValue("vipRate"));
             user.setRole(object.getIntValue("role"));
-            user.setMoney(object.getString("money"));
+            //user.setMoney(object.getString("money"));
             user.setBaned(object.getIntValue("baned"));
             String urn = object.getString("urn");
             user.setUrn(urn);

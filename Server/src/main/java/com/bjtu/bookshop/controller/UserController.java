@@ -70,9 +70,15 @@ public class UserController {
         return new PhoneResponse(0);
     }
 
+    /**
+     * 1.5
+     * /user/getinfo 取本用户基本信息
+     */
     @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
-    public Response getUserInfo(@RequestBody JSONObject object) {
-        return userService.getUserInfoWithID(object.getIntValue("uid"), object.getString("token"));
+    public InfoResponse getUserInfo(@Valid InfoRequest req, BindingResult br) {
+        if(br.hasErrors()) return new InfoResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new InfoResponse(){{setState(-10);}};
+        return userService.getUserInfo(req.getUid());
     }
 
     @RequestMapping(value = "/setinfo", method = {RequestMethod.POST})

@@ -6,6 +6,7 @@ import com.bjtu.bookshop.bean.db.UserInfo;
 import com.bjtu.bookshop.bean.db.UserLogin;
 import com.bjtu.bookshop.bean.db.UserReg;
 
+import com.bjtu.bookshop.bean.response.UserResponses;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +14,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface UserMapper {
     /* user_info start */
-
-    @Select("select * from user_info where uid = #{uid}")
-    UserInfo getUserInfoWithUserID(int uid);
 
     @Select("select * from user_info where urn = #{urn}")
     UserInfo getUserInfoWithUrn(String urn);
@@ -88,5 +86,17 @@ public interface UserMapper {
             "VALUES(#{uid}, #{urn}, #{nickname}, #{regtime}, #{head}, #{viprate}, #{baned}, #{money}, #{role})")
     void createNewUserInfo(int uid, String urn, String nickname, long regtime, String head, double viprate, int baned, int money, int role);
 
+    @Select("select * from user_info where uid = #{uid}")
+    UserInfo getUserInfoWithUserID(int uid);
 
+    @Select("select title,content,name,phone,selected from user_address where uid = #{uid} order by plid")
+    List<UserResponses.InfoResponse.loc> getAddressById(int uid);
+
+    @Select("select sid,name as sname,1 as boss from store_info where boss = #{uid}")
+    List<UserResponses.InfoResponse.elm> getShopBossedById(int uid);
+
+    @Select("select m.sid,name as sname,0 as boss " +
+            "from store_manage as m RIGHT JOIN store_info as i on m.sid = i.sid " +
+            "where uid = #{uid}")
+    List<UserResponses.InfoResponse.elm> getShopManagedById(int uid);
 }

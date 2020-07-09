@@ -38,4 +38,11 @@ public class UserRequests {
         @NotNull String urn;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class InfoRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+    }
+
 }
