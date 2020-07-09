@@ -193,15 +193,20 @@ request:
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
-data[object]|数据|需要修改的数据信息
-```json
-{
-    "uid": 7,
-    "token": "a04baa4f1afd48345ee5a500933d82fe",
-    "data": {
-        "money": "100"
-    }
-}
+head|头像|头像
+nickname|昵称|昵称
+address[] [list\<elm\>]|地址|地址，elm见实例
+
+数组传递方法：
+``` js
+var fd = new FormData();
+
+fd.append('uid',18);
+fd.append('token','a5b64212bc603e50cd2b4cbe8a1fb5d6');
+fd.append('address',JSON.stringify({'title':'','content':'','name':'','phone':'','selected':1}));
+fd.append('address',JSON.stringify({'title':'','content':'','name':'','phone':'','selected':1}));
+fd.append('address',JSON.stringify({'title':'','content':'','name':'','phone':'','selected':1}));
+
 ```
 
 可选项为上述所有可修改项
