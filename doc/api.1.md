@@ -151,7 +151,7 @@ managed[] [list\<elm\>]|管理的店铺|管理的店铺列表
 -|-|-
 title|地址名|地址名
 content|地址内容|地址内容
-default|是否默认|是1不是0
+selected|是否默认|是1不是0
 
 其中 elm：
 键值|名称|描述
