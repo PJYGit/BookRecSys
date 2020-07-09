@@ -54,7 +54,7 @@
 
                         <div style="margin-top: 20px">
                             <el-button icon="el-icon-shopping-cart-2" style="background-color: #eb7a67;color: white;border: solid 1px #ef9585;font-size: 20px">加入购物车</el-button>
-                            <el-button icon="el-icon-star-off" style="color: #eb7a67;border: solid 1px #ef9585;font-size: 18px">收藏</el-button>
+                            <el-button style="color: #eb7a67;border: solid 1px #ef9585;font-size: 18px">立即购买</el-button>
                         </div>
                     </el-main>
                 </el-container>
