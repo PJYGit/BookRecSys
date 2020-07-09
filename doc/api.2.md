@@ -424,3 +424,27 @@ state [number]|返回码|0 为正常，-1 为失败
 
 ```
 
+---
+## /shop/manage/getuser 手机取用户
+
+request:
+
+键值|名称|描述
+-|-|-
+uid [number]|用户 id|系统内唯一标志符，用于后续操作
+token|验证串|和 uid 一起做身份验证
+phone|手机号|手机号
+
+response:
+
+键值|名称|描述
+-|-|-
+state [number]|返回码|0 为正常，-1 为失败
+uid|用户id|用户id
+nickname|昵称|昵称
+
+返回实例：
+
+```json
+
+```
