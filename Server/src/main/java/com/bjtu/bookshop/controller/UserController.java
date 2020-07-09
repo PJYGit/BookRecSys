@@ -45,7 +45,7 @@ public class UserController {
     @RequestMapping(value = "/logout", method = {RequestMethod.POST})
     public LogoutResponse userLogout(@Valid LogoutRequest req, BindingResult br) {
         if(br.hasErrors()) return new LogoutResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new LogoutResponse(){{FailWith(-10);}};
+        if(! userService.checkUserToken(req)) return new LogoutResponse(){{setState(-10);}};
         return userService.userLogout(req.getUid());
     }
 
@@ -60,7 +60,15 @@ public class UserController {
         return userService.registerUser(req.getUrn(), req.getUname(), req.getPsw(),req.getCode());
     }
 
-
+    /**
+     * 1.4
+     * /user/phone 发送手机验证码
+     */
+    @RequestMapping(value = "/phone", method = {RequestMethod.POST})
+    public PhoneResponse userPhone(@Valid PhoneRequest req, BindingResult br) {
+        if(br.hasErrors()) return new PhoneResponse(){{setState(-1);}};
+        return new PhoneResponse(0);
+    }
 
     @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
     public Response getUserInfo(@RequestBody JSONObject object) {

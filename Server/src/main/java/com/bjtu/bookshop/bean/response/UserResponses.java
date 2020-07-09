@@ -11,7 +11,7 @@ public class UserResponses {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class LoginResponse implements StateHolder {
+    public static class LoginResponse {
         int state;
         int uid;
         String token;
@@ -20,17 +20,24 @@ public class UserResponses {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class LogoutResponse implements StateHolder {
+    public static class LogoutResponse {
         int state;
     }
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class RegisterResponse implements StateHolder {
+    public static class RegisterResponse {
         int state;
         int uid;
         String token;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class PhoneResponse {
+        int state;
     }
 
 }

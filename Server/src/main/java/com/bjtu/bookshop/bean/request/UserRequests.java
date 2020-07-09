@@ -32,4 +32,10 @@ public class UserRequests {
         @NotNull String psw;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class PhoneRequest {
+        @NotNull String urn;
+    }
+
 }
