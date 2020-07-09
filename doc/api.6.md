@@ -73,6 +73,7 @@ request:
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 tid|类别|类别 id
+page|页码|页码，默认为1
 
 response:
 
@@ -80,6 +81,7 @@ response:
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
 list\<elm\>|书本列表|用户信息列表
+pagesize|总页数|总页数
 
 其中 elm:
 
