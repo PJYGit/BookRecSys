@@ -1,0 +1,9 @@
+### IntelliJ IDEA ###
+.idea/
+libs/
+target/
+out/
+
+# else
+.DS_Store
+._.DS_Store
