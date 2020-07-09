@@ -66,19 +66,33 @@
             doReg : function(){
                 let req = {
                     urn: this.regForm.username,
+                    code: this.regForm.code,
                     pw: this.regForm.password,
                 };
 
-                API.userLogin(req).then(
+                let failFunc = (function (that) {
+                    return function () {
+                        that.locks.regLock = false;
+                        that.$message.error("注册失败");
+                    }
+                })(this);
+
+                this.locks.regLock = true;
+                API.userRegister(req).then(
                     rsp => {
-                        console.log("suc");
+                        console.log(rsp);
+                        if(rsp.state == 0){
+                            this.locks.regLock = false;
+                            this.$message.success("注册成功");
+                            this.$emit('onRegSuccess',this.regForm.username);
+                        }else {
+                            failFunc();
+                        }
                     }
                     ,err => {
-                        console.log("err");
+                        failFunc();
                     }
                 )
-
-                console.log("LOGIN with " + uname + " , " + pwd);
             },
             doSentCode : function(){
                 let req = {

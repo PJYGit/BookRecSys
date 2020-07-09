@@ -29,6 +29,7 @@
 * /shop/manage/addbook 添加书
 * /shop/manage/delbook 删除书
 * /shop/manage/setbookinfo 设置书信息
+* /shop/manage/getuser 手机取用户
 
 # 3#购物车
 * /car/getlist 查看我的购物车
@@ -69,3 +70,4 @@
 + 店铺搜索（用户） 添加2.5
 + 单书详细信息（卧槽我居然没写这个？）添加7.1
 + 个人到管理店铺的桥梁 修改1.5
++ 手机号取uid 添加2.s.7
