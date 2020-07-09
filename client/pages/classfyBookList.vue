@@ -4,7 +4,7 @@
             <my-title></my-title>
         </template>
 
-        <el-row style="margin-top: 10px">
+        <el-row style="margin-top: 20px">
             <el-col :span="6">
                 <classfy-menu :active-index="activeClassfy" :is-main="1" @MenuMethod="changeClassfy"
                               style="width: 80%;margin-left: 15%"></classfy-menu>
