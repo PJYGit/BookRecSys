@@ -2,7 +2,7 @@
     <div style="width: 100%; height: 60px; box-shadow: 0px 4px 4px #bbbaaa">
         <img src="../../assets/image/title.png" style="height: 60px; margin-left: 90px" @click="toHome">
         <div style="float: right;line-height: 60px;text-align: center;font-weight: 500" v-if="hideMenu == null">
-            <span style="color: #EB7A67;cursor: pointer" @click="toLogin">登录/注册</span>
+            <span style="color: #EB7A67;cursor: pointer" @click="toLogin">{{nicknameShowing}}</span>
             <span style="margin-left: 40px;cursor: pointer" @click="toCart">购物车</span>
             <span style="margin-left: 40px;cursor: pointer" @click="toMyOrder">我的订单</span>
             <span style="margin-left: 40px;cursor: pointer" @click="toSelfCenter">个人中心</span>
@@ -13,24 +13,82 @@
 </template>
 
 <script>
+    import API from "../../api";
+
     export default {
         name: "myTitle",
         props: ['hideMenu'],
+        data()  {
+            return {
+                onLine: false,
+                nicknameShowing: "登录/注册",
+                info: null,
+            }
+        },
+        mounted() {
+            let ckuid = this.$cookie.get("uid");
+            let cktoken = this.$cookie.get("token");
+            if( ckuid == null || cktoken == null) return;
+
+            let req = {
+                uid: ckuid,
+                token: cktoken,
+            };
+
+            API.userGetInfo(JSON.stringify(req)).then(rsp => {
+                if(rsp.state == 0){
+                    this.onLine = true;
+                    this.info = rsp.item;
+                    let nickname = rsp.item.nickname || "无名氏";
+                    let urn = rsp.item.urn;
+                    this.nicknameShowing = nickname + "(" + urn + ")";
+                }else{
+                    this.$message.info("登录已失效");
+                }
+            });
+
+        },
         methods:{
             toLogin(){
-                //console.log("click1");
+                if(this.onLine){
+                    this.$confirm('要退出登录吗？')
+                        .then(_ => {
+                            this.$cookie.delete("uid");
+                            this.$cookie.delete("token");
+                            window.location.reload();
+                        })
+                        .catch(_ => {});
+                } else {
+                    this.$router.push("/login");
+                }
             },
             toCart(){
-                this.$router.push("/car");
+                if(this.onLine){
+                    this.$router.push("/car");
+                } else {
+                    this.$router.push("/login");
+                }
             },
             toMyOrder(){
-                //console.log("click3");
+                if(this.onLine){
+                    //this.$router.push("/car");
+                } else {
+                    this.$router.push("/login");
+                }
             },
             toSelfCenter(){
-                //console.log("click4");
+                if(this.onLine){
+                    //this.$router.push("/car");
+                } else {
+                    this.$router.push("/login");
+                }
             },
             toService(){
-                //console.log("click5");
+                if(this.onLine){
+                    //this.$router.push("/car");
+                } else {
+                    this.$router.push("/login");
+                }
             },
             toHome(){
                 this.$router.push("/");
