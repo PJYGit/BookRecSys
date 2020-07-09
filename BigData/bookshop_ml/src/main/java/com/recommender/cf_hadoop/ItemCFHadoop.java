@@ -34,7 +34,7 @@ public class ItemCFHadoop {
         // hdfs.rmr(inPath);
         hdfs.rmr(outPath);
         // hdfs.mkdirs(inPath);
-        hdfs.mkdirs(outPath);
+        // hdfs.mkdirs(outPath);
         hdfs.mkdirs(tmpPath);
         // hdfs.copyFile(localFile, inPath);
         hdfs.ls(inPath);
@@ -61,9 +61,9 @@ public class ItemCFHadoop {
     public static JobConf config() {
         JobConf conf = new JobConf(ItemCFHadoop.class);
         conf.setJobName("ItemCFHadoop");
-        conf.addResource("/home/hadoop/hadoop-3.1.3/etc/hadoop/core-site.xml");
-        conf.addResource("/home/hadoop/hadoop-3.1.3/etc/hadoop/hdfs-site.xml");
-        conf.addResource("/home/hadoop/hadoop-3.1.3/etc/hadoop/mapred-site.xml");
+        conf.addResource("/home/core-site.xml");
+        conf.addResource("/home/hdfs-site.xml");
+        conf.addResource("/home/mapred-site.xml");
         return conf;
     }
 }
