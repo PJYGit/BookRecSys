@@ -141,6 +141,7 @@
             return{
                 buyNum:1,
                 activeName:'first',
+                bookId:'',
                 bookItem: {
                     bid:1,
                     sid:1,
@@ -198,9 +199,16 @@
             }
         },
 
+        mounted(){
+            this.bookId = this.$route.query.bid;
+            console.log(this.bookId)
+        },
+
         methods:{
             toShop(){
-
+                let link = this.$router.resolve({ path: `/shopBookList`,
+                    query: { sid: this.bookItem.sid }});
+                window.open(link.href, '_blank');
             }
         },
 
