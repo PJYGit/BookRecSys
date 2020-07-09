@@ -2,6 +2,7 @@ package com.bjtu.bookshop.mapper;
 
 import java.util.List;
 
+import com.bjtu.bookshop.bean.db.UserAddress;
 import com.bjtu.bookshop.bean.db.UserInfo;
 import com.bjtu.bookshop.bean.db.UserLogin;
 import com.bjtu.bookshop.bean.db.UserReg;
@@ -90,13 +91,26 @@ public interface UserMapper {
     UserInfo getUserInfoWithUserID(int uid);
 
     @Select("select title,content,name,phone,selected from user_address where uid = #{uid} order by plid")
-    List<UserResponses.InfoResponse.loc> getAddressById(int uid);
+    List<UserResponses.GetInfoResponse.loc> getAddressById(int uid);
 
     @Select("select sid,name as sname,1 as boss from store_info where boss = #{uid}")
-    List<UserResponses.InfoResponse.elm> getShopBossedById(int uid);
+    List<UserResponses.GetInfoResponse.elm> getShopBossedById(int uid);
 
     @Select("select m.sid,name as sname,0 as boss " +
             "from store_manage as m RIGHT JOIN store_info as i on m.sid = i.sid " +
             "where uid = #{uid}")
-    List<UserResponses.InfoResponse.elm> getShopManagedById(int uid);
+    List<UserResponses.GetInfoResponse.elm> getShopManagedById(int uid);
+
+    @Update("update user_info set nickname = #{nickname} where uid = #{uid}")
+    void updateUserNickname(int uid, String nickname);
+
+    @Update("update user_info set head = #{head} where uid = #{uid}")
+    void updateUserHead(int uid, String head);
+
+    @Delete("delete from user_address where uid = #{uid}")
+    void cleanAddress(int uid);
+
+    @Insert("insert into user_address values " +
+            "(#{uid},#{plid},#{title},#{content},#{name},#{phone},#{selected})")
+    void insertAddress(UserAddress rcd);
 }

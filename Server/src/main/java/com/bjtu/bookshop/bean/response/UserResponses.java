@@ -45,7 +45,7 @@ public class UserResponses {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class InfoResponse {
+    public static class GetInfoResponse {
         int state;
         int uid;
         String urn;
@@ -78,6 +78,13 @@ public class UserResponses {
             int boss;
         }
 
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SetInfoResponse {
+        int state;
     }
 
 }

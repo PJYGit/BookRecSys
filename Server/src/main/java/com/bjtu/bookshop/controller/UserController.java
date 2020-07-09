@@ -2,10 +2,10 @@ package com.bjtu.bookshop.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bjtu.bookshop.bean.db.UserInfo;
+import com.bjtu.bookshop.bean.request.UserRequests;
 import com.bjtu.bookshop.bean.request.UserRequests.*;
 import com.bjtu.bookshop.bean.response.UserResponses.*;
 import com.bjtu.bookshop.response.Response;
-import com.bjtu.bookshop.response.StateResponse;
 import com.bjtu.bookshop.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,16 +75,28 @@ public class UserController {
      * /user/getinfo 取本用户基本信息
      */
     @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
-    public InfoResponse getUserInfo(@Valid InfoRequest req, BindingResult br) {
-        if(br.hasErrors()) return new InfoResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new InfoResponse(){{setState(-10);}};
+    public GetInfoResponse getUserInfo(@Valid GetInfoRequest req, BindingResult br) {
+        if(br.hasErrors()) return new GetInfoResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new GetInfoResponse(){{setState(-10);}};
         return userService.getUserInfo(req.getUid());
     }
 
+    /**
+     * 1.6
+     * /user/setinfo 设置用户基本信息
+     */
     @RequestMapping(value = "/setinfo", method = {RequestMethod.POST})
-    public Response updateUserInfo(@RequestBody JSONObject object) {
-        UserInfo info = object.getObject("data", UserInfo.class);
-        return userService.updateUserInfo(object.getIntValue("uid"), object.getString("token"), info);
+    public SetInfoResponse updateUserInfo(@Valid SetInfoRequest req, BindingResult br) {
+        if(br.hasErrors()) return new SetInfoResponse(){{setState(-1);}};
+        if(! req.trans()) return new SetInfoResponse(){{setState(-1);}};
+
+        for(int i=0;i<req.getAddress().size();i++){
+            System.out.println(req.getAddress().get(i));
+        }
+
+        //UserInfo info = object.getObject("data", UserInfo.class);
+        return userService.updateUserInfo(
+                req.getUid(),req.getNickname(),req.getHead(),req.getInnerAddress());
     }
 
     @RequestMapping(value = "/manage/list", method = {RequestMethod.POST})
