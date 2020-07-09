@@ -35,8 +35,8 @@
                 return function () {
                     console.log("Bad token, clean.");
                     //waiting for Gakki to redeploy.
-                    //ck.delete("uid");
-                    //ck.delete("token");
+                    ck.delete("uid");
+                    ck.delete("token");
                 }
             })(this.$cookie);
 

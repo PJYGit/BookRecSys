@@ -1,11 +1,11 @@
 <template>
     <div class="loginRegBoxBackHower">
         <el-menu default-active="0" mode="horizontal" @select="tryChangeBoard" style="height: 60px">
-            <el-menu-item index="0">登录</el-menu-item>
+            <el-menu-item index="0" id="loginBtn" >登录</el-menu-item>
             <el-menu-item index="1">注册</el-menu-item>
         </el-menu>
-        <LoginForm v-if="activeIndex == 0"></LoginForm>
-        <RegForm  v-if="activeIndex == 1"></RegForm>
+        <LoginForm v-show="activeIndex == 0" ref="loginForm" ></LoginForm>
+        <RegForm v-show="activeIndex == 1" @onRegSuccess="onRegSuccess"></RegForm>
     </div>
 </template>
 
@@ -24,6 +24,10 @@
         methods: {
             tryChangeBoard: function (id) {
                 this.activeIndex = id;
+            },
+            onRegSuccess : function (phone) {
+                this.$refs.loginForm.loginForm.username = phone;
+                document.getElementById("loginBtn").click();
             }
         }
     }
