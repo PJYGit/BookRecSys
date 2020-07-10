@@ -244,6 +244,7 @@ response:
 键值|名称|描述
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
+pagesize|有多少页|页数
 list\<elm\>|用户列表|用户信息列表
 
 其中 elm:
