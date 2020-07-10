@@ -17,18 +17,12 @@ response:
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
 name|商店名|
-boss [user]|店主|店主
-manager[] [list\<user\>]|管理员|管理员
+bossid|店主|店主
+bossname|店主名|店主名
 content|商店简介|
 code|商店状态|1审核中2正常3封禁
 head|商店头像url
 mark|商店书本均分|
-
-其中 user：
-键值|名称|描述
--|-|-
-uid [number]|用户id|用户id
-name|昵称|昵称
 
 返回示例
 
@@ -261,7 +255,6 @@ sid|商店id|商店id
 state [number]|返回码|0 为正常，-1 为失败
 name|商店名|
 boss [user]|店主|店主（user定义见前文）
-manager[] [list\<user\>]|管理员|管理员
 content|商店简介|
 code|商店状态|1审核中2正常3封禁
 head|商店头像url|
