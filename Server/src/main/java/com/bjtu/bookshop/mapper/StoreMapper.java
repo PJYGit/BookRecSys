@@ -5,6 +5,7 @@ import java.util.List;
 import com.bjtu.bookshop.bean.db.StoreInfo;
 import com.bjtu.bookshop.bean.db.StoreManage;
 
+import com.bjtu.bookshop.bean.middle.SimpleUser;
 import com.bjtu.bookshop.bean.response.ShopResponses.*;
 import com.bjtu.bookshop.bean.response.UserResponses;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,18 +16,13 @@ import org.springframework.stereotype.Component;
 @Component
 public interface StoreMapper {
 
-    @Select("select * from store_info limit #{start}, #{end}")
-    List<StoreInfo> getStoreListWithPage(int start, int end);
-
-    //////////////////////
-
     @Select("select * from store_info where sid = #{sid}")
     StoreInfo getStoreInfoWithSID(int sid);
 
     @Select("select s.uid,nickname as name from " +
             "store_manage as s left join user_info as u " +
             "on s.uid = u.uid  where sid = #{sid}")
-    List<GetInfoResponse.uel> getStoreManagerWithSID(int sid);
+    List<SimpleUser> getStoreManagerWithSID(int sid);
 
     @Select("select sid,name,head as pic,mark from store_info where name LIKE CONCAT('%',#{name},'%')")
     List<SearchResponse.elm> searchStoreInfo(String name);
@@ -41,4 +37,10 @@ public interface StoreMapper {
     default List<ManageListResponse.elm> getShopList(int page){
         return getShopList(( page - 1 ) * 20,true);
     }
+
+    @Select("select count(*) from store_manage where sid = ${sid} and uid = ${uid}")
+    int checkManager(Integer sid, int uid);
+
+    @Select("select * from store_info where boss = #{uid}")
+    StoreInfo getStoreInfoWithBoss(int uid);
 }

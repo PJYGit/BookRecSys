@@ -53,4 +53,12 @@ public class ShopRequests {
         Integer page;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageGetInfoRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int sid;
+    }
+
 }

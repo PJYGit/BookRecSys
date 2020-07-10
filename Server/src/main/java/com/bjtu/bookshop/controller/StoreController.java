@@ -84,9 +84,16 @@ public class StoreController {
         return storeService.getStoreList( req.getPage() == null ? 1 : req.getPage());
     }
 
+    /**
+     * 2.s.2
+     * /shop/manage/getinfo 取某用户/某店信息
+     */
     @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
-    public Response getStoreManagerInfo(@RequestBody JSONObject object) {
-        return storeService.getStoreManagerInfo(object.getIntValue("uid"), object.getString("token"), object.getInteger("sid"));
+    public ManageGetInfoResponse getStoreManagerInfo(@Valid ManageGetInfoRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageGetInfoResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageGetInfoResponse(){{setState(-10);}};
+        boolean isSuper = userService.checkUserRole(req.getUid(),1);
+        return storeService.getStoreManagerInfo(req.getUid(),req.getSid(),isSuper);
     }
 
     @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})

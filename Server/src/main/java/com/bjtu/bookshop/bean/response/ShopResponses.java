@@ -1,5 +1,6 @@
 package com.bjtu.bookshop.bean.response;
 
+import com.bjtu.bookshop.bean.middle.SimpleUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,21 +18,12 @@ public class ShopResponses {
     public static class GetInfoResponse {
         int state;
         String name;
-        uel boss;
-        List<uel> manager;
+        SimpleUser boss;
+        List<SimpleUser> manager;
         String content;
         int code;
         String head;
         double mark;
-
-        @Data
-        @AllArgsConstructor
-        @NoArgsConstructor
-        public static class uel{
-            int uid;
-            String name;
-        }
-
     }
 
     @Data
@@ -146,6 +138,22 @@ public class ShopResponses {
             String head;
             double mark;
         }
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageGetInfoResponse {
+        int state;
+        int uid;
+        int sid;
+        String name;
+        SimpleUser boss;
+        List<SimpleUser> manager;
+        String content;
+        int code;
+        String head;
+        double mark;
     }
 
 }

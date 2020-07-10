@@ -11,6 +11,7 @@ import com.bjtu.bookshop.bean.db.StoreInfo;
 import com.bjtu.bookshop.bean.db.StoreManage;
 import com.bjtu.bookshop.bean.db.UserInfo;
 import com.bjtu.bookshop.bean.db.UserLogin;
+import com.bjtu.bookshop.bean.middle.SimpleUser;
 import com.bjtu.bookshop.bean.response.ShopResponses.*;
 import com.bjtu.bookshop.bean.response.UserResponses;
 import com.bjtu.bookshop.mapper.BookMapper;
@@ -45,8 +46,8 @@ public class StoreService {
         StoreInfo info = storeMapper.getStoreInfoWithSID(sid);
         if(info == null) return new GetInfoResponse(){{setState(-11);}};
         UserInfo bossInfo = userMapper.getUserInfoWithUserID(info.getBoss());
-        GetInfoResponse.uel storeBoss = new GetInfoResponse.uel(bossInfo.getUid(),bossInfo.getNickname());
-        List<GetInfoResponse.uel> storeManages = storeMapper.getStoreManagerWithSID(sid);
+        SimpleUser storeBoss = new SimpleUser(bossInfo.getUid(),bossInfo.getNickname());
+        List<SimpleUser> storeManages = storeMapper.getStoreManagerWithSID(sid);
         return new GetInfoResponse(0,info.getName(),storeBoss,storeManages,info.getContent(),info.getCode(),info.getHead(),info.getMark());
     }
 
@@ -90,26 +91,28 @@ public class StoreService {
         return new ManageListResponse(0,pageCnt,list);
     }
 
-    public Response getStoreManagerInfo(int uid, String token, Integer sid) {
-        /*
-        if (isTokenValid(uid, token)) {
-            JSONObject data = new JSONObject();
-            StoreInfo storeInfo = storeMapper.getStoreInfoWithSID(sid);
-            UserInfo bossInfo = userMapper.getUserInfoWithUserID(storeInfo.getBoss());
-            data.put("boss", bossInfo);
+    public ManageGetInfoResponse getStoreManagerInfo(int uid, Integer sid, boolean isSuper) {
 
-            List<StoreManage> list = storeMapper.getStoreManagerWithSID(sid);
-            List<UserInfo> managerInfo = new LinkedList<>();
-            for (StoreManage manage : list) {
-                UserInfo manager = userMapper.getUserInfoWithUserID(manage.getUid());
-                managerInfo.add(manager);
-            }
-            data.put("manager", managerInfo);
-            return new ItemResponse<>(data, Response.STATE_FAIL);
-        } else return new StateResponse(Response.STATE_FAIL);
+        StoreInfo info = null;
 
-         */
-        return null;
+        if(sid != null){
+            info = storeMapper.getStoreInfoWithSID(sid);
+            boolean isBoss = info.getBoss() == uid;
+            boolean isManager = storeMapper.checkManager(sid, uid) > 0;
+            if(! (isBoss || isManager || isSuper) ) return new ManageGetInfoResponse(){{setState(-12);}};
+        }else{
+            info = storeMapper.getStoreInfoWithBoss(uid);
+        }
+
+        if(info == null) return new ManageGetInfoResponse(){{setState(-12);}};
+
+        UserInfo bossInfo = userMapper.getUserInfoWithUserID(info.getBoss());
+        SimpleUser boss = new SimpleUser(bossInfo.getUid(),bossInfo.getNickname());
+        List<SimpleUser> manageList = storeMapper.getStoreManagerWithSID(info.getSid());
+
+        return new ManageGetInfoResponse(0,info.getBoss(),info.getSid(),info.getName(),
+                boss,manageList,info.getContent(),info.getCode(),
+                info.getHead(),info.getMark());
     }
 
     public Response updateStoreInfo(int uid, String token) {
