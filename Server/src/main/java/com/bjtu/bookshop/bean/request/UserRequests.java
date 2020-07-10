@@ -77,7 +77,9 @@ public class UserRequests {
             try{
                 innerAddress = new ArrayList<loc>();
                 for(String s : address){
+                    if("".equals(s)) continue;
                     loc objs = JSON.parseObject(s, loc.class);
+                    if(objs == null) return false;
                     innerAddress.add(objs);
                 }
             }catch (Exception e){

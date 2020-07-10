@@ -169,10 +169,12 @@
                     data.append('uid',this.uid);
                     data.append('token',this.token);
 
-                    this.addressList.forEach(item=>{
+                    this.addressList.forEach(item => {
                         data.append('address',JSON.stringify({'title':item.title,'content':item.content,
                             'name':item.name,'phone':item.phone,'selected':item.selected}));
                     });
+                    data.append('address',"");
+
                     API.changeMsg(data).then(res=>{
                         if (res.state) {
                             alert("修改失败");
@@ -195,10 +197,11 @@
                 data.append('uid',this.uid);
                 data.append('token',this.token);
 
-                this.addressList.forEach(item=>{
+                this.addressList.forEach(item => {
                     data.append('address',JSON.stringify({'title':item.title,'content':item.content,
                         'name':item.name,'phone':item.phone,'selected':item.selected}));
                 });
+                data.append('address',"");
 
                 console.log(data);
                 API.changeMsg(data).then(res=>{
@@ -229,10 +232,11 @@
                     data.append('uid',this.uid);
                     data.append('token',this.token);
 
-                    this.addressList.forEach(item=>{
+                    this.addressList.forEach(item => {
                         data.append('address',JSON.stringify({'title':item.title,'content':item.content,
                             'name':item.name,'phone':item.phone,'selected':item.selected}));
-                    });
+                    })
+                    data.append('address',"");
 
                     API.changeMsg(data).then(res=>{
                         if (res.state) {
