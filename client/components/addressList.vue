@@ -21,7 +21,7 @@
                 <div class="tableTitle">
                     联系方式
                 </div>
-                <div class="tableTitle" style="width: 80px">
+                <div class="tableTitle" style="width: 120px">
                 </div>
                 <div class="tableTitle" style="width: 80px">
                 </div>
@@ -51,20 +51,20 @@
                     {{item.phone}}
                 </div>
                 <div class="tableCell">
-                    <el-tag type="success" v-if="item.selected===1">默认地址</el-tag>
+                    <el-tag type="danger" v-if="item.selected===1">默认地址</el-tag>
                 </div>
                 <div class="tableCell">
-                    <el-button type="text" @click="changeAddr(index,item)">修改</el-button>
+                    <el-button style="font-size: 16px;color: #EB7A67" type="text" @click="changeAddr(index,item)">修改</el-button>
                 </div>
                 <div class="tableCell" v-if="isShopping===0">
-                    <el-button type="text" @click="delAddr(index,item)">删除</el-button>
+                    <el-button style="font-size: 16px;color: #EB7A67" type="text" @click="delAddr(index,item)">删除</el-button>
                 </div>
 
             </div>
         </div>
 
         <el-dialog title="修改收货地址" :visible.sync="changeAddress">
-            <el-form :model="updateAddress">
+            <el-form :model="updateAddress" label-width="100px">
                 <el-form-item label="地址名">
                     <el-input v-model="updateAddress.title" autocomplete="off"></el-input>
                 </el-form-item>
@@ -78,7 +78,7 @@
                     <el-input v-model="updateAddress.phone" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="">
-
+                    <el-checkbox v-model="check" @change="chooseDefaultAddr">设为默认</el-checkbox>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -101,8 +101,6 @@
                 <el-form-item label="联系方式">
                     <el-input v-model="newAddress.phone" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="">
-                </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="changeAddress = false">取 消</el-button>
@@ -116,9 +114,9 @@
                 width="30%">
             <span>确定删除地址吗？</span>
             <span slot="footer" class="dialog-footer">
-    <el-button @click="deleteAddress = false">取 消</el-button>
-    <el-button type="primary" @click="sureDelete">确 定</el-button>
-  </span>
+                <el-button @click="deleteAddress = false">取 消</el-button>
+                <el-button type="primary" @click="sureDelete">确 定</el-button>
+            </span>
         </el-dialog>
     </div>
 </template>
@@ -140,12 +138,13 @@
 
         data(){
             return{
+                check:false,
                 addressId:'1',
                 changeAddress:false,
                 addAddress:false,
                 deleteAddress:false,
-                chooseId:1,
-                defafultAddress:0,
+                chooseId:-1,
+                defaultAddress:0,
                 newAddress:{
                     selected:0,
                 },
@@ -156,12 +155,17 @@
         },
 
         methods:{
+            chooseDefaultAddr(){
+                this.defaultAddress=this.chooseId;
+            },
+
             changeAddr(index,item){
                 this.updateAddress=item;
                 this.chooseId=index;
                 this.changeAddress=true;
             },
             updateAddr(){
+                console.log(this.defaultAddress);
                 if(this.chooseId!==-1){
                     this.addressList[this.chooseId]=this.updateAddress;
 
@@ -169,10 +173,16 @@
                     data.append('uid',this.uid);
                     data.append('token',this.token);
 
-                    this.addressList.forEach(item=>{
-                        data.append('address',JSON.stringify({'title':item.title,'content':item.content,
-                            'name':item.name,'phone':item.phone,'selected':item.selected}));
-                    });
+                    for(let i=0;i<this.addressList.length;i++){
+                        if(i===this.defaultAddress){
+                            this.addressList[i].selected=1;
+                        }else{
+                            this.addressList[i].selected=0;
+                        }
+                        data.append('address',JSON.stringify({'title':this.addressList[i].title,'content':this.addressList[i].content,
+                            'name':this.addressList[i].name,'phone':this.addressList[i].phone,'selected':this.addressList[i].selected}));
+                    }
+
                     API.changeMsg(data).then(res=>{
                         if (res.state) {
                             alert("修改失败");
@@ -184,6 +194,7 @@
                     }).catch(msg => {
                         alert(msg)
                     });
+                    this.check=false;
                     this.changeAddress=false;
                 }
             },
@@ -256,7 +267,7 @@
     .tableTitle{
         display: table-cell;
         text-align: center;
-        font-size: 15px;
+        font-size: 16px;
         padding: 5px;
         color: gray;
     }
@@ -264,7 +275,7 @@
     .tableCell{
         display: table-cell;
         text-align: center;
-        font-size: 15px;
+        font-size: 16px;
         padding: 5px;
     }
 
