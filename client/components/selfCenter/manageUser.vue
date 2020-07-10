@@ -75,7 +75,7 @@
                     <el-button v-if="item.baned!==0" style="font-size: 16px;" type="text" @click="lockUser(item)">解封</el-button>
                 </div>
                 <div class="tableCell">
-                    <el-button style="font-size: 16px;" type="text" @click="delAddr(index,item)">修改</el-button>
+                    <el-button style="font-size: 16px;" type="text" @click="changeUser(item)">修改</el-button>
                 </div>
             </div>
 
@@ -153,6 +153,10 @@
                 }).catch(msg => {
                     alert(msg)
                 })
+            },
+
+            changeUser(item){
+
             }
 
         }

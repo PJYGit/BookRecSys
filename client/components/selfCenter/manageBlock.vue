@@ -16,7 +16,6 @@
 
 <script>
     import ManageUser from "./manageUser";
-    import ShopList from "../shop/shopList";
     import ManageShop from "./manageShop";
     export default {
         name: "manageBlock",
