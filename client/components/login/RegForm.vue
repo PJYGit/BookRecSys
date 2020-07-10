@@ -67,7 +67,7 @@
                 let req = {
                     urn: this.regForm.username,
                     code: this.regForm.code,
-                    pw: this.regForm.password,
+                    psw: this.regForm.password,
                 };
 
                 let failFunc = (function (that) {
