@@ -95,4 +95,47 @@ public class UserRequests {
         Integer page;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageSearchRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull String phone;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class ManageGetRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int target;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class ManageSetRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int target;
+        String nickname;
+        Double vipRate;
+        Integer baned;
+        Integer role;
+        Double money;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class ManageAddRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull String urn;
+        @NotNull String password;
+        @NotNull String nickname;
+        @NotNull Double vipRate;
+        @NotNull Integer role;
+        @NotNull Integer baned;
+        @NotNull Double money;
+    }
+
 }

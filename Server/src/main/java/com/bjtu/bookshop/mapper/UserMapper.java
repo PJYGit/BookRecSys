@@ -25,9 +25,7 @@ public interface UserMapper {
     @Insert("INSERT INTO user_info(urn, nickname, regtime, viprate, head, baned, money, role) " +
             "VALUES(#{urn}, #{nickname}, #{regtime}, #{viprate}, #{head}, #{baned}, #{money}, #{role})")
     void insertUserIntoUserInfo(UserInfo info);
-    
-    @Update("UPDATE user_info SET urn=#{urn}, nickname=#{nickname}, head=#{head}, viprate=#{viprate}, baned=#{baned}, money=#{money} WHERE uid = #{uid}")
-    void updateUserInfo(UserInfo info);
+
 
     /* user_info end */
 
@@ -36,9 +34,6 @@ public interface UserMapper {
     @Insert("INSERT INTO user_info(urn, nickname, regtime, head, viprate, baned, money) " +
             "VALUES(#{urn}, #{nickname}, #{regtime}, #{head}, #{viprate}, #{baned}, #{money})")
     void insertNewUserIntoUserInfo(String urn, String nickname, long regtime, String head, double viprate, int baned, String money);
-
-    @Insert("INSERT INTO user_reg(uid, urn, pwd, salt) VALUES(#{uid}, #{urn}, #{pwd}, #{salt})")
-    void insertNewUserRegIntoUserReg(int uid, String urn, String pwd, String salt);
 
     /* user_reg end */
 
@@ -78,7 +73,7 @@ public interface UserMapper {
 
     @Insert("INSERT INTO user_info " +
             "VALUES(#{uid}, #{urn}, #{nickname}, #{regtime}, #{head}, #{viprate}, #{baned}, #{money}, #{role})")
-    void createNewUserInfo(int uid, String urn, String nickname, long regtime, String head, double viprate, int baned, int money, int role);
+    void createNewUserInfo(int uid, String urn, String nickname, long regtime, String head, int viprate, int baned, int money, int role);
 
     @Select("select * from user_info where uid = #{uid}")
     UserInfo getUserInfoWithUserID(int uid);
@@ -120,4 +115,14 @@ public interface UserMapper {
     @Select("select count(*) from user_info")
     int getUserListCount();
 
+    @Select("select i.uid,token,urn,nickname,regtime,viprate*0.01 as vipRate,baned,role,money*0.01 as money " +
+            "from user_info as i left join user_login as l on i.uid = l.uid " +
+            "where urn like concat('%',#{phone},'%')")
+    List<ManageSearchResponse.elm> getManageUserSearch(String phone);
+
+    @Update("UPDATE user_info " +
+            "SET urn=#{urn}, nickname=#{nickname}, head=#{head}, viprate=#{viprate}, " +
+            "baned=#{baned}, money=#{money}, role=#{role} " +
+            "WHERE uid = #{uid}")
+    void updateUserInfo(UserInfo info);
 }
