@@ -126,81 +126,56 @@ public class UserService {
         return new ManageListResponse(0,pageCnt,list);
     }
 
-    public Response getUserInfo(int uid, String token, int targetUID) {
-        if (isTokenValid(uid, token)) {
-            int role = userMapper.getUserInfoWithUserID(uid).getRole();
-            if (role == 0) return new StateResponse(Response.STATE_FAIL);
-
-            UserInfo info = userMapper.getUserInfoWithUserID(targetUID);
-            return new ItemResponse<>(info, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+    /** 1.s.2 body **/
+    public ManageSearchResponse searchUserWithPhone(String phone) {
+        List<ManageSearchResponse.elm> list = userMapper.getManageUserSearch(phone);
+        return new ManageSearchResponse(0,list);
     }
 
-    public Response modifyUserInfo(int uid, String token, int targetUID, UserInfo info) {
-        if (isTokenValid(uid, token)) {
-
-            int role = userMapper.getUserInfoWithUserID(uid).getRole();
-            if (role == 0) return new StateResponse(Response.STATE_FAIL);
-
-            UserInfo old = userMapper.getUserInfoWithUserID(targetUID);
-
-            if (info.getUid() == 0) info.setUid(old.getUid());
-            if (info.getUrn() == null) info.setUrn(old.getUrn());
-            if (info.getNickname() == null) info.setNickname(old.getNickname());
-            if (info.getRegtime() == 0) info.setRegtime(old.getRegtime());
-            if (info.getHead() == null) info.setHead(old.getHead());
-            if (info.getViprate() == 0) info.setViprate(old.getViprate());
-            if (info.getBaned() == 0) info.setBaned(old.getBaned());
-            //if (info.getMoney() == null) info.setMoney(old.getMoney());
-
-            userMapper.updateUserInfo(info);
-            return new StateResponse(Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+    /** 1.s.3 body **/
+    public ManageGetResponse getManagedUserInfo(int targetUID) {
+        UserInfo info = userMapper.getUserInfoWithUserID(targetUID);
+        UserLogin loginInfo = userMapper.getUserLoginInfoWithUID(targetUID);
+        if(info == null || loginInfo == null) return new ManageGetResponse(){{setState(-11);}};
+        return new ManageGetResponse(0,targetUID,info.getUrn(),loginInfo.getToken(),
+                info.getNickname(), info.getRegtime(),info.getViprate()*0.01,
+                info.getBaned(), info.getRole(),info.getMoney()*0.01);
     }
 
-    public Response searchUserWithPhone(int uid, String token, String phone) {
-        if (isTokenValid(uid, token)) {
-            int role = userMapper.getUserInfoWithUserID(uid).getRole();
-            if (role == 0) return new StateResponse(Response.STATE_FAIL);
+    /** 1.s.4 body **/
+    public ManageSetResponse modifyUserInfo(int mineUid, int uid, String nickname, Double vipRate,
+                                            Integer baned, Double money, Integer role) {
+        UserInfo userInfo = userMapper.getUserInfoWithUserID(uid);
+        if(userInfo == null) return new ManageSetResponse(){{setState(-11);}};
 
-            List<UserInfo> userInfos = userMapper.getUserInfoWithPhonePattern(phone);
+        if(nickname != null) userInfo.setNickname(nickname);
+        if(vipRate != null) userInfo.setViprate((int) Math.round(vipRate * 100));
+        if(baned != null && (baned == 0 || baned == 1)) userInfo.setBaned(baned);
+        if(money != null && money >= 0 ) userInfo.setMoney((int) Math.round(money * 100));
+        if(role != null &&(role >= 0 && role <=1)){
+            if(userInfo.getRole() == 2 || mineUid == uid){
+                return new ManageSetResponse(){{setState(-12);}};
+            }
+            userInfo.setRole(role);
+        }
 
-            return new ListResponse<>(userInfos, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+        userMapper.updateUserInfo(userInfo);
+        return new ManageSetResponse(0);
     }
 
-    public Response addUser(JSONObject object) {
-        int uid = object.getIntValue("uid");
-        String token = object.getString("token");
-        if (isTokenValid(uid, token)) {
-            UserInfo role = userMapper.getUserInfoWithUserID(uid);
-            if (role.getRole() == 0) return new StateResponse(Response.STATE_FAIL);
+    /** 1.s.5 body **/
+    public ManageAddResponse addUser(String urn, String password, String nickname,
+                                     Double vipRate, Integer role, Integer baned, Double money) {
+        UserReg preReg = userMapper.getUserRegWithPhone(urn);
+        if (preReg != null) return new ManageAddResponse(){{setState(-10);}};
 
-            UserInfo user = new UserInfo();
-            String psw = object.getString("password");
-            user.setNickname(object.getString("nickname"));
-            user.setRegtime(NumberUtil.getUnixTimestamp());
-            //user.setViprate(object.getDoubleValue("vipRate"));
-            user.setRole(object.getIntValue("role"));
-            //user.setMoney(object.getString("money"));
-            user.setBaned(object.getIntValue("baned"));
-            String urn = object.getString("urn");
-            user.setUrn(urn);
-
-            userMapper.insertUserIntoUserInfo(user);
-            UserInfo info = userMapper.getUserInfoWithUrn(urn);
-            String salt = StringUtil.MD5(psw);
-            userMapper.insertNewUserRegIntoUserReg(info.getUid(), urn, psw, salt);
-
-            String uToken = StringUtil.getRandString(psw + salt);
-            userMapper.insertNewUserLoginIntoUserLogin(info.getUid(), uToken);
-
-            return new ItemResponse<>(info.getUid(), Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+        String salt = StringUtil.getRandString();
+        int uid = userMapper.createNewUser(urn,password,salt);
+        long regtime = NumberUtil.getUnixTimestamp();
+        userMapper.createNewUserInfo(uid,urn,nickname,regtime,"",
+                (int)Math.round(vipRate * 100),baned,
+                (int)Math.round(money * 100),role);
+        return new ManageAddResponse(0,uid);
     }
 
-    private boolean isTokenValid(int uid, String token) {
-        UserLogin login = userMapper.getUserLoginInfoWithUID(uid);
-        return token.equals(login.getToken());
-    }
 }

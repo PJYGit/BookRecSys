@@ -5,7 +5,7 @@
         </template>
 
         <el-button @click="removeCarInfo" type="danger" size="small" style="position: relative; margin: 20px; left: 75%;">删除勾选订单</el-button>
-        <el-button @click="createAllOrder" type="primary" size="small" style="position: relative; margin: 20px; left: 80%;">结算所有勾选物品</el-button>
+        <el-button @click="createAllOrder" type="primary" size="small" style="position: relative; margin: 20px; left: 76%;right: 10%">结算所有勾选物品</el-button>
         <div v-for="(item, index) in carList" :key="item.bid">
             <div class="car-item">
                 <el-card shadow="hover">
@@ -64,11 +64,11 @@
                 ],
                 submitCarList: [],
                 checkCarList: [],
-                modifyCarList: []
+                modifyCarList: [],
             }
         },
         mounted() {
-            // this.getMyCarList()
+            this.getMyCarList()
             this.initCheckCarList()
         },
         methods: {
@@ -127,25 +127,28 @@
             },
 
             createOrder: function (index) {
-                let buy = []
-                buy.push(this.carList[index])
-                let data = {
-                    uid: this.$cookie.get("uid"),
-                    token: this.$cookie.get("token"),
-                    buy: buy
+                if (this.submitCarList.length === 0) this.$message.info('未勾选订单')
+                else {
+                    let buy = []
+                    buy.push(this.carList[index])
+                    let data = {
+                        uid: this.$cookie.get("uid"),
+                        token: this.$cookie.get("token"),
+                        buy: buy
+                    }
+                    API.submitCarOrder(data).then(res => {
+                        if (res.state === 0)
+                            this.$message.success('创建订单成功');
+                        else
+                            this.$message.error('创建订单失败');
+                    }).catch(res => {
+                        console.log(res)
+                    })
                 }
-                API.submitCarOrder(data).then(res => {
-                    if (res.state === 0)
-                        this.$message.success('创建订单成功');
-                    else
-                        this.$message.error('创建订单失败');
-                }).catch(res => {
-                    console.log(res)
-                })
             },
 
             createAllOrder: function () {
-                if (this.submitCarList === null) this.$message.info('未勾选订单')
+                if (this.submitCarList.length === 0) this.$message.info('未勾选订单')
                 else {
                     let data = {
                         uid: this.$cookie.get("uid"),
@@ -164,7 +167,7 @@
             },
 
             removeCarInfo: function () {
-                if (this.submitCarList === null) this.$message.info('未勾选订单')
+                if (this.submitCarList.length === 0) this.$message.info('未勾选订单')
                 else {
                     let data = {
                         uid: this.$cookie.get("uid"),

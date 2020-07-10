@@ -11,6 +11,7 @@ import com.bjtu.bookshop.bean.db.StoreInfo;
 import com.bjtu.bookshop.bean.db.StoreManage;
 import com.bjtu.bookshop.bean.db.UserInfo;
 import com.bjtu.bookshop.bean.db.UserLogin;
+import com.bjtu.bookshop.bean.response.ShopResponses.*;
 import com.bjtu.bookshop.mapper.BookMapper;
 import com.bjtu.bookshop.mapper.StoreMapper;
 import com.bjtu.bookshop.mapper.UserMapper;
@@ -25,6 +26,7 @@ import lombok.Data;
 
 @Service
 public class StoreService {
+
     private final StoreMapper storeMapper;
     private final UserMapper userMapper;
     private final BookMapper bookMapper;
@@ -36,27 +38,17 @@ public class StoreService {
         this.bookMapper = bookMapper;
     }
 
-    public Response getStoreInfo(int uid, String token, int sid) {
-        if (isTokenValid(uid, token)) {
-            StoreInfo info = storeMapper.getStoreInfoWithSID(sid);
-            UserInfo bossInfo = userMapper.getUserInfoWithUserID(info.getBoss());
-            List<StoreManage> storeManages = storeMapper.getStoreManagerWithSID(sid);
-            List<UserInfo> managers = new LinkedList<>();
-
-            for (StoreManage manager : storeManages) {
-                UserInfo item = userMapper.getUserInfoWithUserID(manager.getUid());
-                managers.add(item);
-            }
-
-            JSONObject data = new JSONObject();
-            data.put("storeInfo", info);
-            data.put("bossInfo", bossInfo);
-            data.put("managers", managers);
-            return new ItemResponse<>(data, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+    public GetInfoResponse getStoreInfo(int sid) {
+        StoreInfo info = storeMapper.getStoreInfoWithSID(sid);
+        if(info == null) return new GetInfoResponse(){{setState(-11);}};
+        UserInfo bossInfo = userMapper.getUserInfoWithUserID(info.getBoss());
+        GetInfoResponse.uel storeBoss = new GetInfoResponse.uel(bossInfo.getUid(),bossInfo.getNickname());
+        List<GetInfoResponse.uel> storeManages = storeMapper.getStoreManagerWithSID(sid);
+        return new GetInfoResponse(0,info.getName(),storeBoss,storeManages,info.getContent(),info.getCode(),info.getHead(),info.getMark());
     }
 
     public Response getBookList(int uid, String token, int sid) {
+        /*
         if (isTokenValid(uid, token)) {
             StoreInfo storeInfo = storeMapper.getStoreInfoWithSID(sid);
             if (storeInfo == null) return new StateResponse(Response.STATE_FAIL);
@@ -68,6 +60,8 @@ public class StoreService {
             return new ItemResponse<>(data, Response.STATE_SUCCESS);
 
         } else return new StateResponse(Response.STATE_FAIL);
+        */
+        return null;
     }
 
     public Response getBookInfo(int uid, String token, int bid) {
@@ -90,6 +84,7 @@ public class StoreService {
     }
 
     public Response getStoreList(int uid, String token, int page) {
+        /*
         if (isTokenValid(uid, token)) {
             if (page <= 0) page = 1;
             List<StoreInfo> storeInfos = storeMapper.getStoreListWithPage((page - 1) * 20, page * 20);
@@ -117,9 +112,12 @@ public class StoreService {
 
             return new ItemResponse<>(list, Response.STATE_SUCCESS);
         } else return new StateResponse(Response.STATE_FAIL);
+        */
+        return null;
     }
 
     public Response getStoreManagerInfo(int uid, String token, Integer sid) {
+        /*
         if (isTokenValid(uid, token)) {
             JSONObject data = new JSONObject();
             StoreInfo storeInfo = storeMapper.getStoreInfoWithSID(sid);
@@ -135,6 +133,9 @@ public class StoreService {
             data.put("manager", managerInfo);
             return new ItemResponse<>(data, Response.STATE_FAIL);
         } else return new StateResponse(Response.STATE_FAIL);
+
+         */
+        return null;
     }
 
     public Response updateStoreInfo(int uid, String token) {
@@ -196,7 +197,6 @@ public class StoreService {
     }
 
     private boolean isTokenValid(int uid, String token) {
-        UserLogin login = userMapper.getUserLoginInfoWithUID(uid);
-        return token.equals(login.getToken());
+        return false;
     }
 }

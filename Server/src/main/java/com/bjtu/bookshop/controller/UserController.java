@@ -106,24 +106,53 @@ public class UserController {
         return userService.getUserList(req.getPage() == null ? 0 : req.getPage());
     }
 
-    @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
-    public Response getUserInfoM(@RequestBody JSONObject object) {
-        return userService.getUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("target"));
-    }
-
-    @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
-    public Response modifyUserInfo(@RequestBody JSONObject object) {
-        UserInfo info = object.getObject("data", UserInfo.class);
-        return userService.modifyUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("target"), info);
-    }
-
+    /**
+     * 1.s.2
+     * /user/manage/search 搜索用户
+     */
     @RequestMapping(value = "/manage/search", method = {RequestMethod.POST})
-    public Response searchUser(@RequestBody JSONObject object) {
-        return userService.searchUserWithPhone(object.getIntValue("uid"), object.getString("token"), object.getString("phone"));
+    public ManageSearchResponse searchUser(@Valid ManageSearchRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageSearchResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageSearchResponse(){{setState(-10);}};
+        if(! userService.checkUserRole(req.getUid(),1)) return new ManageSearchResponse(){{setState(-10);}};
+        return userService.searchUserWithPhone(req.getPhone());
     }
 
+    /**
+     * 1.s.3
+     * /user/manage/getinfo 取某用户信息
+     */
+    @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
+    public ManageGetResponse getUserInfoM(@Valid ManageGetRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageGetResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageGetResponse(){{setState(-10);}};
+        if(! userService.checkUserRole(req.getUid(),1)) return new ManageGetResponse(){{setState(-10);}};
+        return userService.getManagedUserInfo(req.getTarget());
+    }
+
+    /**
+     * 1.s.4
+     * /user/manage/setinfo 修改某用户信息
+     */
+    @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
+    public ManageSetResponse modifyUserInfo(@Valid ManageSetRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageSetResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageSetResponse(){{setState(-10);}};
+        if(! userService.checkUserRole(req.getUid(),1)) return new ManageSetResponse(){{setState(-10);}};
+        return userService.modifyUserInfo(req.getUid(), req.getTarget(),req.getNickname(),req.getVipRate(),
+                req.getBaned(),req.getMoney(),req.getRole());
+    }
+
+    /**
+     * 1.s.5
+     * /user/manage/adduser 添加新用户
+     */
     @RequestMapping(value = "/manage/adduser", method = {RequestMethod.POST})
-    public Response addUser(@RequestBody JSONObject object) {
-        return userService.addUser(object);
+    public ManageAddResponse addUser(@Valid ManageAddRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageAddResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageAddResponse(){{setState(-10);}};
+        if(! userService.checkUserRole(req.getUid(),1)) return new ManageAddResponse(){{setState(-10);}};
+        return userService.addUser(req.getUrn(), req.getPassword(), req.getNickname(),
+                req.getVipRate(), req.getRole(), req.getBaned(),req.getMoney());
     }
 }

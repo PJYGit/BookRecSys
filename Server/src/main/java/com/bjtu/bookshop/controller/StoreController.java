@@ -1,28 +1,40 @@
 package com.bjtu.bookshop.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bjtu.bookshop.bean.request.ShopRequests.*;
+import com.bjtu.bookshop.bean.response.ShopResponses.*;
+import com.bjtu.bookshop.bean.response.UserResponses;
 import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.service.StoreService;
 
+import com.bjtu.bookshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/shop")
 public class StoreController {
+
     private final StoreService storeService;
+    private final UserService userService;
 
     @Autowired
-    public StoreController(StoreService storeService) {
+    public StoreController(StoreService storeService, UserService userService) {
         this.storeService = storeService;
+        this.userService = userService;
     }
 
     @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
-    public Response getShopInfo(@RequestBody JSONObject object) {
-        return storeService.getStoreInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"));
+    public GetInfoResponse getShopInfo(@Valid GetInfoRequest req, BindingResult br) {
+        if(br.hasErrors()) return new GetInfoResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new GetInfoResponse(){{setState(-10);}};
+        return storeService.getStoreInfo(req.getSid());
     }
 
     @RequestMapping(value = "/booklist", method = {RequestMethod.POST})
