@@ -6,11 +6,11 @@
         <div style="font-size: 34px;color: #EB7A67;margin-left: 16%;margin-top: 30px;font-weight: 600">个人中心</div>
         <el-tabs :tab-position="'left'" v-model="activeName" style="min-height: 600px;margin-top: 40px;margin-left: 8%">
             <el-tab-pane label="修改信息" name="1">
-
+                <user-info :user-info="userInfo" style="margin-left: 5%;width: 40%"></user-info>
             </el-tab-pane>
-            <el-tab-pane label="修改密码" name="2">
+            <!--<el-tab-pane label="修改密码" name="2">
 
-            </el-tab-pane>
+            </el-tab-pane>-->
             <el-tab-pane label="地址管理" name="3">
                 <address-list :address-list="userInfo.address" style="margin-left: 5%;width: 80%"></address-list>
             </el-tab-pane>
@@ -32,9 +32,10 @@
     import AddressList from "../components/addressList";
     import API from "../api";
     import Cookies from 'js-cookie';
+    import UserInfo from "../components/selfCenter/userInfo";
     export default {
         name: "personalCenter",
-        components: {AddressList, ShopList, MyTitle, FlowBoard},
+        components: {UserInfo, AddressList, ShopList, MyTitle, FlowBoard},
         data(){
             return{
                 activeName:'3',
@@ -49,17 +50,18 @@
         },
         methods:{
             getMsg(){
-                let data={
-                    uid:this.uid,
-                    token:this.token,
-                };
+
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
 
                 API.userGetInfo(data).then(res=>{
                     if (res.state) {
                         alert("获取个人信息失败");
-                        //return;
+                        return;
                     }
-                    this.userInfo = res.item;
+                    this.userInfo = res;
+                    //this.userInfo.head="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg";
                     //this.userInfo.address=[];
                     console.log(this.userInfo);
                 }).catch(msg => {

@@ -102,7 +102,6 @@
                     <el-input v-model="newAddress.phone" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="">
-
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -145,10 +144,14 @@
                 changeAddress:false,
                 addAddress:false,
                 deleteAddress:false,
-                chooseId:0,
+                chooseId:1,
                 defafultAddress:0,
-                newAddress:{},
+                newAddress:{
+                    selected:0,
+                },
                 updateAddress:{},
+                token:Cookies.get("token"),
+                uid:Cookies.get("uid"),
             }
         },
 
@@ -159,58 +162,91 @@
                 this.changeAddress=true;
             },
             updateAddr(){
-                this.addressList[this.chooseId]=this.updateAddress;
+                if(this.chooseId!==-1){
+                    this.addressList[this.chooseId]=this.updateAddress;
+
+                    let data = new FormData();
+                    data.append('uid',this.uid);
+                    data.append('token',this.token);
+
+                    this.addressList.forEach(item=>{
+                        data.append('address',JSON.stringify({'title':item.title,'content':item.content,
+                            'name':item.name,'phone':item.phone,'selected':item.selected}));
+                    });
+                    API.changeMsg(data).then(res=>{
+                        if (res.state) {
+                            alert("修改失败");
+                            this.chooseId=-1;
+                            return;
+                        }
+                        this.chooseId=-1;
+                        alert("修改成功");
+                    }).catch(msg => {
+                        alert(msg)
+                    });
+                    this.changeAddress=false;
+                }
+            },
+
+            addAddr(){
+                this.addressList.push(this.newAddress);
+
                 let data = new FormData();
-                data.append('uid',Cookies.get('uid'));
-                data.append('token',Cookies.get('token'));
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+
                 this.addressList.forEach(item=>{
                     data.append('address',JSON.stringify({'title':item.title,'content':item.content,
                         'name':item.name,'phone':item.phone,'selected':item.selected}));
                 });
+
+                console.log(data);
                 API.changeMsg(data).then(res=>{
                     if (res.state) {
-                        alert("修改失败");
+                        alert("添加失败");
+                        this.addAddress=false;
                         return;
                     }
-                    alert("修改成功");
+                    this.newAddress={};
+                    this.addAddress=false;
+                    alert("添加成功");
                 }).catch(msg => {
                     alert(msg)
                 });
-                this.changeAddress=false;
             },
 
-            addAddr(){
-                console.log(this.newAddress);
-                this.addressList.push(this.newAddress);
-                this.addAddress=false;
-                this.newAddress={};
-            },
-
-            delAddr(index,item){
-                this.chooseId=item.index;
+            delAddr(index){
+                this.chooseId=index;
                 this.deleteAddress=true;
             },
 
             sureDelete(){
-                console.log(this.chooseId);
-                this.addressList.splice(this.chooseId,1);
-                let data = new FormData();
-                data.append('uid',Cookies.get('uid'));
-                data.append('token',Cookies.get('token'));
-                this.addressList.forEach(item=>{
-                    data.append('address',JSON.stringify({'title':item.title,'content':item.content,
-                        'name':item.name,'phone':item.phone,'selected':item.selected}));
-                });
-                API.changeMsg(data).then(res=>{
-                    if (res.state) {
-                        alert("删除失败");
-                        return;
-                    }
-                    alert("删除成功");
-                }).catch(msg => {
-                    alert(msg)
-                });
-                this.deleteAddress=false;
+                if(this.chooseId!==-1){
+
+                    this.addressList.splice(this.chooseId,1);
+
+                    let data = new FormData();
+                    data.append('uid',this.uid);
+                    data.append('token',this.token);
+
+                    this.addressList.forEach(item=>{
+                        data.append('address',JSON.stringify({'title':item.title,'content':item.content,
+                            'name':item.name,'phone':item.phone,'selected':item.selected}));
+                    });
+
+                    API.changeMsg(data).then(res=>{
+                        if (res.state) {
+                            alert("删除失败");
+                            return;
+                        }
+                        alert("删除成功");
+                    }).catch(msg => {
+                        alert(msg)
+                    });
+                    this.deleteAddress=false;
+                    this.chooseId=-1;
+                }
+
             },
         }
     }
