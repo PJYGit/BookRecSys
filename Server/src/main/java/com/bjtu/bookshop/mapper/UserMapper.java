@@ -35,9 +35,6 @@ public interface UserMapper {
             "VALUES(#{urn}, #{nickname}, #{regtime}, #{head}, #{viprate}, #{baned}, #{money})")
     void insertNewUserIntoUserInfo(String urn, String nickname, long regtime, String head, double viprate, int baned, String money);
 
-    @Insert("INSERT INTO user_reg(uid, urn, pwd, salt) VALUES(#{uid}, #{urn}, #{pwd}, #{salt})")
-    void insertNewUserRegIntoUserReg(int uid, String urn, String pwd, String salt);
-
     /* user_reg end */
 
     /* user_login start */
@@ -76,7 +73,7 @@ public interface UserMapper {
 
     @Insert("INSERT INTO user_info " +
             "VALUES(#{uid}, #{urn}, #{nickname}, #{regtime}, #{head}, #{viprate}, #{baned}, #{money}, #{role})")
-    void createNewUserInfo(int uid, String urn, String nickname, long regtime, String head, double viprate, int baned, int money, int role);
+    void createNewUserInfo(int uid, String urn, String nickname, long regtime, String head, int viprate, int baned, int money, int role);
 
     @Select("select * from user_info where uid = #{uid}")
     UserInfo getUserInfoWithUserID(int uid);

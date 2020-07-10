@@ -159,4 +159,12 @@ public class UserResponses {
         int state;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageAddResponse {
+        int state;
+        int uid;
+    }
+
 }

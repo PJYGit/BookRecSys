@@ -124,4 +124,18 @@ public class UserRequests {
         Double money;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageAddRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull String urn;
+        @NotNull String password;
+        @NotNull String nickname;
+        @NotNull Double vipRate;
+        @NotNull Integer role;
+        @NotNull Integer baned;
+        @NotNull Double money;
+    }
+
 }

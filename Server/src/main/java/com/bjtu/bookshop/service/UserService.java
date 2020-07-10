@@ -163,40 +163,19 @@ public class UserService {
         return new ManageSetResponse(0);
     }
 
+    /** 1.s.5 body **/
+    public ManageAddResponse addUser(String urn, String password, String nickname,
+                                     Double vipRate, Integer role, Integer baned, Double money) {
+        UserReg preReg = userMapper.getUserRegWithPhone(urn);
+        if (preReg != null) return new ManageAddResponse(){{setState(-10);}};
 
-
-    public Response addUser(JSONObject object) {
-        int uid = object.getIntValue("uid");
-        String token = object.getString("token");
-        if (isTokenValid(uid, token)) {
-            UserInfo role = userMapper.getUserInfoWithUserID(uid);
-            if (role.getRole() == 0) return new StateResponse(Response.STATE_FAIL);
-
-            UserInfo user = new UserInfo();
-            String psw = object.getString("password");
-            user.setNickname(object.getString("nickname"));
-            user.setRegtime(NumberUtil.getUnixTimestamp());
-            //user.setViprate(object.getDoubleValue("vipRate"));
-            user.setRole(object.getIntValue("role"));
-            //user.setMoney(object.getString("money"));
-            user.setBaned(object.getIntValue("baned"));
-            String urn = object.getString("urn");
-            user.setUrn(urn);
-
-            userMapper.insertUserIntoUserInfo(user);
-            UserInfo info = userMapper.getUserInfoWithUrn(urn);
-            String salt = StringUtil.MD5(psw);
-            userMapper.insertNewUserRegIntoUserReg(info.getUid(), urn, psw, salt);
-
-            String uToken = StringUtil.getRandString(psw + salt);
-            userMapper.insertNewUserLoginIntoUserLogin(info.getUid(), uToken);
-
-            return new ItemResponse<>(info.getUid(), Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+        String salt = StringUtil.getRandString();
+        int uid = userMapper.createNewUser(urn,password,salt);
+        long regtime = NumberUtil.getUnixTimestamp();
+        userMapper.createNewUserInfo(uid,urn,nickname,regtime,"",
+                (int)Math.round(vipRate * 100),baned,
+                (int)Math.round(money * 100),role);
+        return new ManageAddResponse(0,uid);
     }
 
-    private boolean isTokenValid(int uid, String token) {
-        UserLogin login = userMapper.getUserLoginInfoWithUID(uid);
-        return token.equals(login.getToken());
-    }
 }

@@ -143,8 +143,16 @@ public class UserController {
                 req.getBaned(),req.getMoney(),req.getRole());
     }
 
+    /**
+     * 1.s.5
+     * /user/manage/adduser 添加新用户
+     */
     @RequestMapping(value = "/manage/adduser", method = {RequestMethod.POST})
-    public Response addUser(@RequestBody JSONObject object) {
-        return userService.addUser(object);
+    public ManageAddResponse addUser(@Valid ManageAddRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageAddResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageAddResponse(){{setState(-10);}};
+        if(! userService.checkUserRole(req.getUid(),1)) return new ManageAddResponse(){{setState(-10);}};
+        return userService.addUser(req.getUrn(), req.getPassword(), req.getNickname(),
+                req.getVipRate(), req.getRole(), req.getBaned(),req.getMoney());
     }
 }
