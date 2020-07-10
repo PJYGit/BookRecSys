@@ -258,7 +258,6 @@ shops[] [list\<elm\>]|商店列表|商店列表
 键值|名称|描述
 -|-|-
 sid|商店id|商店id
-state [number]|返回码|0 为正常，-1 为失败
 name|商店名|
 bossid|店主|店主
 bossname|店主名|店主名
