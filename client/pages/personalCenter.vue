@@ -37,7 +37,7 @@
         components: {UserInfo, AddressList, ShopList, MyTitle, FlowBoard},
         data(){
             return{
-                activeName:'3',
+                activeName:'1',
                 token:Cookies.get("token"),
                 uid:Cookies.get("uid"),
                 userInfo:{},
