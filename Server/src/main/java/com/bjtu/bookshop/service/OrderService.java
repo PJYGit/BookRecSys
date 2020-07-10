@@ -1,7 +1,6 @@
 package com.bjtu.bookshop.service;
 
 import com.bjtu.bookshop.bean.db.OrderInfo;
-import com.bjtu.bookshop.bean.db.UserLogin;
 import com.bjtu.bookshop.mapper.OrderMapper;
 import com.bjtu.bookshop.mapper.UserMapper;
 import com.bjtu.bookshop.response.ItemResponse;
