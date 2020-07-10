@@ -69,11 +69,9 @@ public class StoreService {
                 bookInfo.getRemain(),bookInfo.getPrice());
     }
 
-    public Response searchStore(int uid, String token, String word) {
-        if (isTokenValid(uid, token)) {
-            List<StoreInfo> list = storeMapper.searchStoreInfo(word);
-            return new ItemResponse<>(list, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+    public SearchResponse searchStore(String word) {
+        List<SearchResponse.elm> list = storeMapper.searchStoreInfo(word);
+        return new SearchResponse(0,list);
     }
 
     public Response getStoreList(int uid, String token, int page) {

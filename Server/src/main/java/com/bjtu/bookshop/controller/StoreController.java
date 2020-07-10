@@ -61,9 +61,15 @@ public class StoreController {
         return storeService.getBookInfo(req.getBid());
     }
 
+    /**
+     * 2.4
+     * /shop/search 店铺搜索
+     */
     @RequestMapping(value = "/search", method = {RequestMethod.POST})
-    public Response searchShop(@RequestBody JSONObject object) {
-        return storeService.searchStore(object.getIntValue("uid"), object.getString("token"), object.getString("word"));
+    public SearchResponse searchShop(@Valid SearchRequest req, BindingResult br) {
+        if(br.hasErrors()) return new SearchResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new SearchResponse(){{setState(-10);}};
+        return storeService.searchStore(req.getWord());
     }
 
     @RequestMapping(value = "/manage/list", method = {RequestMethod.POST})

@@ -37,4 +37,13 @@ public class ShopRequests {
         //@NotNull int sid;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class SearchRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull String word;
+    }
+
+
 }

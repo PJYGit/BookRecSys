@@ -106,4 +106,22 @@ public class ShopResponses {
 
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SearchResponse {
+        int state;
+        List<elm> shops;
+
+        @Data
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class elm{
+            int sid;
+            String name;
+            String pic;
+            double mark;
+        }
+    }
+
 }
