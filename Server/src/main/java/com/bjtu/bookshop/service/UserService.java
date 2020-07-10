@@ -3,16 +3,19 @@ package com.bjtu.bookshop.service;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bjtu.bookshop.bean.db.UserAddress;
 import com.bjtu.bookshop.bean.db.UserInfo;
 import com.bjtu.bookshop.bean.db.UserLogin;
 import com.bjtu.bookshop.bean.db.UserReg;
 import com.bjtu.bookshop.bean.request.CommonRequests.*;
+import com.bjtu.bookshop.bean.request.UserRequests.*;
 import com.bjtu.bookshop.bean.response.UserResponses.*;
 import com.bjtu.bookshop.mapper.UserMapper;
 import com.bjtu.bookshop.response.ItemResponse;
 import com.bjtu.bookshop.response.ListResponse;
 import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.response.StateResponse;
+import com.bjtu.bookshop.util.CacheUtil.*;
 import com.bjtu.bookshop.util.NumberUtil;
 import com.bjtu.bookshop.util.StringUtil;
 
@@ -32,6 +35,12 @@ public class UserService {
     public boolean checkUserToken(UserAuthorization uinfo){
         UserLogin loginInfo = userMapper.getUserLoginInfoWithUID(uinfo.getUid());
         return (loginInfo != null) && (uinfo.getToken().equals(loginInfo.getToken()));
+    }
+
+    public boolean checkUserRole(int uid, int level){
+        UserInfo info = userMapper.getUserInfoWithUID(uid);
+        assert (info != null);
+        return level >= info.getRole();
     }
 
     /** 1.1 body **/
@@ -71,44 +80,50 @@ public class UserService {
     }
 
     /** 1.5 body **/
-    public InfoResponse getUserInfo(int uid){
+    public GetInfoResponse getUserInfo(int uid){
         UserInfo info = userMapper.getUserInfoWithUserID(uid);
-        List<InfoResponse.loc> listAddress = userMapper.getAddressById(uid);
-        List<InfoResponse.elm> listBoss = userMapper.getShopBossedById(uid);
-        List<InfoResponse.elm> listManage = userMapper.getShopManagedById(uid);
+        List<GetInfoResponse.loc> listAddress = userMapper.getAddressById(uid);
+        List<GetInfoResponse.elm> listBoss = userMapper.getShopBossedById(uid);
+        List<GetInfoResponse.elm> listManage = userMapper.getShopManagedById(uid);
         listManage.addAll(listBoss);
 
-        return new InfoResponse(0,uid,info.getUrn(),info.getNickname(),
+        return new GetInfoResponse(0,uid,info.getUrn(),info.getNickname(),
                 info.getRole(),info.getHead(),info.getRegtime(),
                 info.getViprate() * 0.01, info.getMoney() * 0.01,
                 listAddress, listManage);
     }
 
-    public Response updateUserInfo(int uid, String token, UserInfo info) {
-        if (isTokenValid(uid, token)) {
-            UserInfo old = userMapper.getUserInfoWithUserID(uid);
+    /** 1.6 body **/
+    public SetInfoResponse updateUserInfo(
+            int uid, String nickname, String head, List<SetInfoRequest.loc> address) {
 
-            if (info.getUid() == 0) info.setUid(old.getUid());
-            if (info.getUrn() == null) info.setUrn(old.getUrn());
-            if (info.getNickname() == null) info.setNickname(old.getNickname());
-            if (info.getRegtime() == 0) info.setRegtime(old.getRegtime());
-            if (info.getHead() == null) info.setHead(old.getHead());
-            if (info.getViprate() == 0) info.setViprate(old.getViprate());
-            if (info.getBaned() == 0) info.setBaned(old.getBaned());
-            //if (info.getMoney() == 0) info.setMoney(old.getMoney());
+        if(nickname != null) userMapper.updateUserNickname(uid, nickname);
+        if(head != null) userMapper.updateUserHead(uid, head);
+        if(address != null) {
+            userMapper.cleanAddress(uid);
+            for(int i=0;i<address.size();i++){
+                SetInfoRequest.loc elm = address.get(i);
+                UserAddress rcd = new UserAddress(uid,i,elm.getTitle(),elm.getContent(),
+                        elm.getName(),elm.getPhone(),elm.getSelected());
+                userMapper.insertAddress(rcd);
+            }
+        }
+        System.out.println(address);
 
-            userMapper.updateUserInfo(info);
-            return new StateResponse(Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+        return new SetInfoResponse(0);
     }
 
-    public Response getUserList(int uid, String token, int page) {
-        if (isTokenValid(uid, token)) {
-            List<UserInfo> userInfos;
-            if (page <= 0) page = 1;
-            userInfos = userMapper.getUserList((page - 1) * 20, page * 20);
-            return new ListResponse<>(userInfos, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+
+    static TimeCache<Integer> ManageListResponseListCache = new TimeCache<Integer>();
+    /** 1.s.1 body **/
+    public ManageListResponse getUserList(int page) {
+        if(!ManageListResponseListCache.available()){
+            ManageListResponseListCache.update((userMapper.getUserListCount() + 19) / 20);
+        }
+        int pageCnt = ManageListResponseListCache.get();
+        page = Math.max(1, page);
+        List<ManageListResponse.elm> list = userMapper.getManageUserList(page);
+        return new ManageListResponse(0,pageCnt,list);
     }
 
     public Response getUserInfo(int uid, String token, int targetUID) {

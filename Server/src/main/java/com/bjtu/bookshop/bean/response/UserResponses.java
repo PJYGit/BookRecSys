@@ -45,7 +45,7 @@ public class UserResponses {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class InfoResponse {
+    public static class GetInfoResponse {
         int state;
         int uid;
         String urn;
@@ -79,5 +79,37 @@ public class UserResponses {
         }
 
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SetInfoResponse {
+        int state;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageListResponse {
+        int state;
+        int pagesize;
+        List<elm> list;
+
+        @Data
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class elm {
+            int uid;
+            String token;
+            String nickname;
+            long regtime;
+            double vipRate;
+            int baned;
+            int role;
+            double money;
+        }
+
+    }
+
 
 }
