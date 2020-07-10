@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <div :class="{'grayLine': (index % 2 === 0)}" style="display: table-row" v-for="(item,index) in addressList" :key="item.aid">
+            <div :class="{'grayLine': (index % 2 === 0)}" style="display: table-row" v-for="(item,index) in addressList" :key="item.index">
                 <div v-if="isShopping===1" class="tableCell">
                     <el-radio v-model="addressId" :label="item.aid">
                         {{''}}
@@ -88,7 +88,7 @@
         </el-dialog>
 
         <el-dialog title="新增收货地址" :visible.sync="addAddress">
-            <el-form :model="newAddress">
+            <el-form :model="newAddress" label-width="100px">
                 <el-form-item label="地址名">
                     <el-input v-model="newAddress.title" autocomplete="off"></el-input>
                 </el-form-item>
@@ -267,23 +267,6 @@
 </script>
 
 <style scoped>
-    .tableTitle{
-        display: table-cell;
-        text-align: center;
-        font-size: 15px;
-        padding: 5px;
-        color: gray;
-    }
-
-    .tableCell{
-        display: table-cell;
-        text-align: center;
-        font-size: 16px;
-        padding: 5px;
-    }
-
-    .grayLine{
-        background-color: #f5f5f5;
-    }
+    @import "../assets/tableStyle.css";
 
 </style>

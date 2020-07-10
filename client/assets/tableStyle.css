@@ -1,0 +1,18 @@
+.tableTitle{
+    display: table-cell;
+    text-align: center;
+    font-size: 16px;
+    padding: 5px;
+    color: gray;
+}
+
+.tableCell{
+    display: table-cell;
+    text-align: center;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.grayLine{
+    background-color: #f5f5f5;
+}
