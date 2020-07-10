@@ -14,48 +14,10 @@ import org.springframework.stereotype.Component;
 @Mapper
 @Component
 public interface UserMapper {
-    /* user_info start */
 
-    @Select("select * from user_info where urn = #{urn}")
-    UserInfo getUserInfoWithUrn(String urn);
-
-    @Select("SELECT * FROM user_info WHERE urn LIKE CONCAT('%',#{urn},'%')")
-    List<UserInfo> getUserInfoWithPhonePattern(String urn);
-
-    @Insert("INSERT INTO user_info(urn, nickname, regtime, viprate, head, baned, money, role) " +
-            "VALUES(#{urn}, #{nickname}, #{regtime}, #{viprate}, #{head}, #{baned}, #{money}, #{role})")
-    void insertUserIntoUserInfo(UserInfo info);
-
-
-    /* user_info end */
-
-    /* user_reg start */
-
-    @Insert("INSERT INTO user_info(urn, nickname, regtime, head, viprate, baned, money) " +
-            "VALUES(#{urn}, #{nickname}, #{regtime}, #{head}, #{viprate}, #{baned}, #{money})")
-    void insertNewUserIntoUserInfo(String urn, String nickname, long regtime, String head, double viprate, int baned, String money);
-
-    /* user_reg end */
-
-    /* user_login start */
-
-    @Select("SELECT * FROM user_login WHERE uid = #{uid}")
-    UserLogin getUserLoginInfoWithUID(int uid);
-
-    @Insert("INSERT INTO user_login(uid, token) VALUES(#{uid}, #{token})")
-    void insertNewUserLoginIntoUserLogin(int uid, String token);
-
-    /* user_login end */
-
-    ///////////////////////////////////////////////////////////////////////////////////
-    //WJ_BEGIN
-    ///////////////////////////////////////////////////////////////////////////////////
-
-    //手机号取注册信息
     @Select("select * from user_reg where urn = #{phone}")
     UserReg getUserRegWithPhone(String phone);
 
-    //uid token 更新token
     @Insert("insert into user_login " +
             "values (#{uid},#{token}) " +
             "ON DUPLICATE KEY UPDATE token = #{token}")
@@ -125,4 +87,7 @@ public interface UserMapper {
             "baned=#{baned}, money=#{money}, role=#{role} " +
             "WHERE uid = #{uid}")
     void updateUserInfo(UserInfo info);
+
+    @Select("SELECT * FROM user_login WHERE uid = #{uid}")
+    UserLogin getUserLoginInfoWithUID(int uid);
 }

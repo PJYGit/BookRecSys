@@ -107,7 +107,6 @@ public class CarService {
     }
 
     private boolean isTokenValid(int uid, String token) {
-        UserLogin login = userMapper.getUserLoginInfoWithUID(uid);
-        return token.equals(login.getToken());
+        return false;
     }
 }
