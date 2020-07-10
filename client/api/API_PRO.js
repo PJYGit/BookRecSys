@@ -10,4 +10,9 @@ export default {
     userGetInfo: {url: 'user/getinfo'},
     userGetPhoneCode: {url: 'user/phone'},
 
+    // 购物车模块接口
+    getCarList: {url: '/car/getinfo'},
+    modifyCarBookCnt: {url: '/car/addbook'},
+    editCarOrder: {url: '/car/setlist'},
+    submitCarOrder: {url: '/car/submit'}
 }
