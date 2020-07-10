@@ -1,8 +1,8 @@
 package com.bjtu.bookshop.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bjtu.bookshop.bean.request.ShopRequests.GetInfoRequest;
-import com.bjtu.bookshop.bean.response.ShopResponses.GetInfoResponse;
+import com.bjtu.bookshop.bean.request.ShopRequests.*;
+import com.bjtu.bookshop.bean.response.ShopResponses.*;
 import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.service.StoreService;
 import com.bjtu.bookshop.service.UserService;
@@ -28,6 +28,10 @@ public class StoreController {
         this.userService = userService;
     }
 
+    /**
+     * 2.1
+     * /user/manage/list 取用户列表
+     */
     @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
     public GetInfoResponse getShopInfo(@Valid GetInfoRequest req, BindingResult br) {
         if(br.hasErrors()) return new GetInfoResponse(){{setState(-1);}};
@@ -35,9 +39,15 @@ public class StoreController {
         return storeService.getStoreInfo(req.getSid());
     }
 
+    /**
+     * 2.2
+     * /shop/booklist 取某商店书本列表
+     */
     @RequestMapping(value = "/booklist", method = {RequestMethod.POST})
-    public Response getShopBookList(@RequestBody JSONObject object) {
-        return storeService.getBookList(object.getIntValue("uid"), object.getString("token"), object.getIntValue("sid"));
+    public BookListResponse getShopBookList(@Valid BookListRequest req, BindingResult br) {
+        if(br.hasErrors()) return new BookListResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new BookListResponse(){{setState(-10);}};
+        return storeService.getBookList(req.getSid());
     }
 
     @RequestMapping(value = "/getbookinfo", method = {RequestMethod.POST})

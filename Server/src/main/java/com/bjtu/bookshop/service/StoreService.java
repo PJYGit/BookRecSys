@@ -38,6 +38,7 @@ public class StoreService {
         this.bookMapper = bookMapper;
     }
 
+    /** 2.1 body **/
     public GetInfoResponse getStoreInfo(int sid) {
         StoreInfo info = storeMapper.getStoreInfoWithSID(sid);
         if(info == null) return new GetInfoResponse(){{setState(-11);}};
@@ -47,22 +48,16 @@ public class StoreService {
         return new GetInfoResponse(0,info.getName(),storeBoss,storeManages,info.getContent(),info.getCode(),info.getHead(),info.getMark());
     }
 
-    public Response getBookList(int uid, String token, int sid) {
-        /*
-        if (isTokenValid(uid, token)) {
-            StoreInfo storeInfo = storeMapper.getStoreInfoWithSID(sid);
-            if (storeInfo == null) return new StateResponse(Response.STATE_FAIL);
-
-            List<BookInfo> bookInfos = bookMapper.getBookInfoWithSID(sid);
-            JSONObject data = new JSONObject();
-            data.put("storeInfo", storeInfo);
-            data.put("bookInfos", bookInfos);
-            return new ItemResponse<>(data, Response.STATE_SUCCESS);
-
-        } else return new StateResponse(Response.STATE_FAIL);
-        */
-        return null;
+    /** 2.2 body **/
+    public BookListResponse getBookList (int sid) {
+        List<BookListResponse.book> bookInfos = bookMapper.getBookListBySid(sid);
+        if(bookInfos == null) return new BookListResponse(){{setState(-11);}};
+        for( BookListResponse.book elm : bookInfos){
+            elm.trans();
+        }
+        return new BookListResponse(0, bookInfos);
     }
+
 
     public Response getBookInfo(int uid, String token, int bid) {
         if (isTokenValid(uid, token)) {

@@ -40,7 +40,7 @@ public class UserService {
     public boolean checkUserRole(int uid, int level){
         UserInfo info = userMapper.getUserInfoWithUID(uid);
         assert (info != null);
-        return level >= info.getRole();
+        return level <= info.getRole();
     }
 
     /** 1.1 body **/
