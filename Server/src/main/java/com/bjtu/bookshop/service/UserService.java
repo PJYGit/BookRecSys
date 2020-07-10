@@ -126,6 +126,12 @@ public class UserService {
         return new ManageListResponse(0,pageCnt,list);
     }
 
+    /** 1.s.2 body **/
+    public ManageSearchResponse searchUserWithPhone(String phone) {
+        List<ManageSearchResponse.elm> list = userMapper.getManageUserSearch(phone);
+        return new ManageSearchResponse(0,list);
+    }
+
     public Response getUserInfo(int uid, String token, int targetUID) {
         if (isTokenValid(uid, token)) {
             int role = userMapper.getUserInfoWithUserID(uid).getRole();
@@ -158,16 +164,7 @@ public class UserService {
         } else return new StateResponse(Response.STATE_FAIL);
     }
 
-    public Response searchUserWithPhone(int uid, String token, String phone) {
-        if (isTokenValid(uid, token)) {
-            int role = userMapper.getUserInfoWithUserID(uid).getRole();
-            if (role == 0) return new StateResponse(Response.STATE_FAIL);
 
-            List<UserInfo> userInfos = userMapper.getUserInfoWithPhonePattern(phone);
-
-            return new ListResponse<>(userInfos, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
-    }
 
     public Response addUser(JSONObject object) {
         int uid = object.getIntValue("uid");

@@ -95,4 +95,12 @@ public class UserRequests {
         Integer page;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageSearchRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull String phone;
+    }
+
 }

@@ -100,6 +100,7 @@ public class UserResponses {
         @NoArgsConstructor
         public static class elm {
             int uid;
+            String urn;
             String token;
             String nickname;
             long regtime;
@@ -111,5 +112,28 @@ public class UserResponses {
 
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageSearchResponse {
+        int state;
+        List<elm> list;
+
+        @Data
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class elm {
+            int uid;
+            String urn;
+            String token;
+            String nickname;
+            long regtime;
+            double vipRate;
+            int baned;
+            int role;
+            double money;
+        }
+
+    }
 
 }

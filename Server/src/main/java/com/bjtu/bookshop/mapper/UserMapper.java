@@ -120,4 +120,8 @@ public interface UserMapper {
     @Select("select count(*) from user_info")
     int getUserListCount();
 
+    @Select("select i.uid,token,urn,nickname,regtime,viprate*0.01 as vipRate,baned,role,money*0.01 as money " +
+            "from user_info as i left join user_login as l on i.uid = l.uid " +
+            "where urn like concat('%',#{phone},'%')")
+    List<ManageSearchResponse.elm> getManageUserSearch(String phone);
 }

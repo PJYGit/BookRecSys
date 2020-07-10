@@ -106,6 +106,18 @@ public class UserController {
         return userService.getUserList(req.getPage() == null ? 0 : req.getPage());
     }
 
+    /**
+     * 1.s.2
+     * /user/manage/search 搜索用户
+     */
+    @RequestMapping(value = "/manage/search", method = {RequestMethod.POST})
+    public ManageSearchResponse searchUser(@Valid ManageSearchRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageSearchResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageSearchResponse(){{setState(-10);}};
+        if(! userService.checkUserRole(req.getUid(),1)) return new ManageSearchResponse(){{setState(-10);}};
+        return userService.searchUserWithPhone(req.getPhone());
+    }
+
     @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
     public Response getUserInfoM(@RequestBody JSONObject object) {
         return userService.getUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("target"));
@@ -115,11 +127,6 @@ public class UserController {
     public Response modifyUserInfo(@RequestBody JSONObject object) {
         UserInfo info = object.getObject("data", UserInfo.class);
         return userService.modifyUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("target"), info);
-    }
-
-    @RequestMapping(value = "/manage/search", method = {RequestMethod.POST})
-    public Response searchUser(@RequestBody JSONObject object) {
-        return userService.searchUserWithPhone(object.getIntValue("uid"), object.getString("token"), object.getString("phone"));
     }
 
     @RequestMapping(value = "/manage/adduser", method = {RequestMethod.POST})
