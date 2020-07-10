@@ -25,9 +25,7 @@ public interface UserMapper {
     @Insert("INSERT INTO user_info(urn, nickname, regtime, viprate, head, baned, money, role) " +
             "VALUES(#{urn}, #{nickname}, #{regtime}, #{viprate}, #{head}, #{baned}, #{money}, #{role})")
     void insertUserIntoUserInfo(UserInfo info);
-    
-    @Update("UPDATE user_info SET urn=#{urn}, nickname=#{nickname}, head=#{head}, viprate=#{viprate}, baned=#{baned}, money=#{money} WHERE uid = #{uid}")
-    void updateUserInfo(UserInfo info);
+
 
     /* user_info end */
 
@@ -124,4 +122,10 @@ public interface UserMapper {
             "from user_info as i left join user_login as l on i.uid = l.uid " +
             "where urn like concat('%',#{phone},'%')")
     List<ManageSearchResponse.elm> getManageUserSearch(String phone);
+
+    @Update("UPDATE user_info " +
+            "SET urn=#{urn}, nickname=#{nickname}, head=#{head}, viprate=#{viprate}, " +
+            "baned=#{baned}, money=#{money}, role=#{role} " +
+            "WHERE uid = #{uid}")
+    void updateUserInfo(UserInfo info);
 }

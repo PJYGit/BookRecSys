@@ -111,4 +111,17 @@ public class UserRequests {
         @NotNull int target;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageSetRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int target;
+        String nickname;
+        Double vipRate;
+        Integer baned;
+        Integer role;
+        Double money;
+    }
+
 }

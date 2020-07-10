@@ -130,10 +130,17 @@ public class UserController {
         return userService.getManagedUserInfo(req.getTarget());
     }
 
+    /**
+     * 1.s.4
+     * /user/manage/setinfo 修改某用户信息
+     */
     @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
-    public Response modifyUserInfo(@RequestBody JSONObject object) {
-        UserInfo info = object.getObject("data", UserInfo.class);
-        return userService.modifyUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("target"), info);
+    public ManageSetResponse modifyUserInfo(@Valid ManageSetRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageSetResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageSetResponse(){{setState(-10);}};
+        if(! userService.checkUserRole(req.getUid(),1)) return new ManageSetResponse(){{setState(-10);}};
+        return userService.modifyUserInfo(req.getUid(), req.getTarget(),req.getNickname(),req.getVipRate(),
+                req.getBaned(),req.getMoney(),req.getRole());
     }
 
     @RequestMapping(value = "/manage/adduser", method = {RequestMethod.POST})

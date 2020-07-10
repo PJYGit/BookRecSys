@@ -152,4 +152,11 @@ public class UserResponses {
         double money;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageSetResponse {
+        int state;
+    }
+
 }

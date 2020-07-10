@@ -142,26 +142,25 @@ public class UserService {
                 info.getBaned(), info.getRole(),info.getMoney()*0.01);
     }
 
-    public Response modifyUserInfo(int uid, String token, int targetUID, UserInfo info) {
-        if (isTokenValid(uid, token)) {
+    /** 1.s.4 body **/
+    public ManageSetResponse modifyUserInfo(int mineUid, int uid, String nickname, Double vipRate,
+                                            Integer baned, Double money, Integer role) {
+        UserInfo userInfo = userMapper.getUserInfoWithUserID(uid);
+        if(userInfo == null) return new ManageSetResponse(){{setState(-11);}};
 
-            int role = userMapper.getUserInfoWithUserID(uid).getRole();
-            if (role == 0) return new StateResponse(Response.STATE_FAIL);
+        if(nickname != null) userInfo.setNickname(nickname);
+        if(vipRate != null) userInfo.setViprate((int) Math.round(vipRate * 100));
+        if(baned != null && (baned == 0 || baned == 1)) userInfo.setBaned(baned);
+        if(money != null && money >= 0 ) userInfo.setMoney((int) Math.round(money * 100));
+        if(role != null &&(role >= 0 && role <=1)){
+            if(userInfo.getRole() == 2 || mineUid == uid){
+                return new ManageSetResponse(){{setState(-12);}};
+            }
+            userInfo.setRole(role);
+        }
 
-            UserInfo old = userMapper.getUserInfoWithUserID(targetUID);
-
-            if (info.getUid() == 0) info.setUid(old.getUid());
-            if (info.getUrn() == null) info.setUrn(old.getUrn());
-            if (info.getNickname() == null) info.setNickname(old.getNickname());
-            if (info.getRegtime() == 0) info.setRegtime(old.getRegtime());
-            if (info.getHead() == null) info.setHead(old.getHead());
-            if (info.getViprate() == 0) info.setViprate(old.getViprate());
-            if (info.getBaned() == 0) info.setBaned(old.getBaned());
-            //if (info.getMoney() == null) info.setMoney(old.getMoney());
-
-            userMapper.updateUserInfo(info);
-            return new StateResponse(Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+        userMapper.updateUserInfo(userInfo);
+        return new ManageSetResponse(0);
     }
 
 
