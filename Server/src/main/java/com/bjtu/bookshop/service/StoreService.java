@@ -58,17 +58,15 @@ public class StoreService {
         return new BookListResponse(0, bookInfos);
     }
 
-
-    public Response getBookInfo(int uid, String token, int bid) {
-        if (isTokenValid(uid, token)) {
-            BookInfo info = bookMapper.getBookInfoWithBID(bid);
-            List<BookTag> tags = bookMapper.getBookTagWithBID(bid);
-
-            JSONObject data = new JSONObject();
-            data.put("bookInfo", info);
-            data.put("tags", tags);
-            return new ItemResponse<>(data, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+    /** 2.3 body **/
+    public BookInfoResponse getBookInfo(int bid) {
+        BookListResponse.book bookInfo = bookMapper.getBookByBid(bid);
+        if(bookInfo == null) return new BookInfoResponse(){{setState(-11);}};
+        bookInfo.trans();
+        return new BookInfoResponse(0,bookInfo.getBid(),bookInfo.getSid(),bookInfo.getInnerTid(),
+                bookInfo.getTid(),bookInfo.getBname(),bookInfo.getSname(),bookInfo.getAuther(),
+                bookInfo.getContent(),bookInfo.getPic(),bookInfo.getMark(),bookInfo.getSales(),
+                bookInfo.getRemain(),bookInfo.getPrice());
     }
 
     public Response searchStore(int uid, String token, String word) {

@@ -50,9 +50,15 @@ public class StoreController {
         return storeService.getBookList(req.getSid());
     }
 
+    /**
+     * 2.3
+     * /shop/getbookinfo 取书信息
+     */
     @RequestMapping(value = "/getbookinfo", method = {RequestMethod.POST})
-    public Response getShopBookInfo(@RequestBody JSONObject object) {
-        return storeService.getBookInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("bid"));
+    public BookInfoResponse getShopBookInfo(@Valid BookInfoRequest req, BindingResult br) {
+        if(br.hasErrors()) return new BookInfoResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new BookInfoResponse(){{setState(-10);}};
+        return storeService.getBookInfo(req.getBid());
     }
 
     @RequestMapping(value = "/search", method = {RequestMethod.POST})

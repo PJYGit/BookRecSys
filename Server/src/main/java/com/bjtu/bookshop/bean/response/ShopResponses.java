@@ -74,4 +74,36 @@ public class ShopResponses {
 
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class BookInfoResponse {
+        int state;
+        int bid;
+        int sid;
+        String innerTid;
+        List<Integer> tid;
+        String bname;
+        String sname;
+        String auther;
+        String content;
+        String pic;
+        double mark;
+        int sales;
+        int remain;
+        double price;
+
+        public void trans(){
+            if(innerTid == null) {
+                tid = new ArrayList<Integer>();
+            }else {
+                tid = Arrays.stream(innerTid.split(","))
+                        .map(Integer::parseInt)
+                        .collect(Collectors.toList());
+            }
+
+        }
+
+    }
+
 }

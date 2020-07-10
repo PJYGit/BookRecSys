@@ -28,4 +28,13 @@ public class ShopRequests {
         @NotNull int sid;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class BookInfoRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int bid;
+        //@NotNull int sid;
+    }
+
 }
