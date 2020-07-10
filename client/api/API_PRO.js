@@ -11,7 +11,7 @@ export default {
     userGetPhoneCode: {url: 'user/phone'},
 
     // 购物车模块接口
-    getCarList: {url: '/car/getinfo'},
+    getCarList: {url: '/car/getlist'},
     modifyCarBookCnt: {url: '/car/addbook'},
     editCarOrder: {url: '/car/setlist'},
     submitCarOrder: {url: '/car/submit'}

@@ -252,6 +252,7 @@ list\<elm\>|用户列表|用户信息列表
 键值|名称|描述
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
+urn|手机号|手机号
 token|验证串|和 uid 一起做身份验证
 nickname|昵称|昵称
 regtime|注册时间|注册时间 unix 秒时间戳
