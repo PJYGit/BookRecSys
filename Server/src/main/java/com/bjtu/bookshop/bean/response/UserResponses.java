@@ -136,4 +136,20 @@ public class UserResponses {
 
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageGetResponse {
+        int state;
+        int uid;
+        String urn;
+        String token;
+        String nickname;
+        long regtime;
+        double vipRate;
+        int baned;
+        int role;
+        double money;
+    }
+
 }

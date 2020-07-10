@@ -132,14 +132,14 @@ public class UserService {
         return new ManageSearchResponse(0,list);
     }
 
-    public Response getUserInfo(int uid, String token, int targetUID) {
-        if (isTokenValid(uid, token)) {
-            int role = userMapper.getUserInfoWithUserID(uid).getRole();
-            if (role == 0) return new StateResponse(Response.STATE_FAIL);
-
-            UserInfo info = userMapper.getUserInfoWithUserID(targetUID);
-            return new ItemResponse<>(info, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+    /** 1.s.3 body **/
+    public ManageGetResponse getManagedUserInfo(int targetUID) {
+        UserInfo info = userMapper.getUserInfoWithUserID(targetUID);
+        UserLogin loginInfo = userMapper.getUserLoginInfoWithUID(targetUID);
+        if(info == null || loginInfo == null) return new ManageGetResponse(){{setState(-11);}};
+        return new ManageGetResponse(0,targetUID,info.getUrn(),loginInfo.getToken(),
+                info.getNickname(), info.getRegtime(),info.getViprate()*0.01,
+                info.getBaned(), info.getRole(),info.getMoney()*0.01);
     }
 
     public Response modifyUserInfo(int uid, String token, int targetUID, UserInfo info) {

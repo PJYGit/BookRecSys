@@ -118,9 +118,16 @@ public class UserController {
         return userService.searchUserWithPhone(req.getPhone());
     }
 
+    /**
+     * 1.s.3
+     * /user/manage/getinfo 取某用户信息
+     */
     @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
-    public Response getUserInfoM(@RequestBody JSONObject object) {
-        return userService.getUserInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("target"));
+    public ManageGetResponse getUserInfoM(@Valid ManageGetRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageGetResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageGetResponse(){{setState(-10);}};
+        if(! userService.checkUserRole(req.getUid(),1)) return new ManageGetResponse(){{setState(-10);}};
+        return userService.getManagedUserInfo(req.getTarget());
     }
 
     @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})

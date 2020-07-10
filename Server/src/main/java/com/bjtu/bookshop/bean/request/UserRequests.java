@@ -103,4 +103,12 @@ public class UserRequests {
         @NotNull String phone;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageGetRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int target;
+    }
+
 }
