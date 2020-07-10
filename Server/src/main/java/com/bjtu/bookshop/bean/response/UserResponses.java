@@ -87,4 +87,29 @@ public class UserResponses {
         int state;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageListResponse {
+        int state;
+        int pagesize;
+        List<elm> list;
+
+        @Data
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class elm {
+            int uid;
+            String token;
+            String nickname;
+            long regtime;
+            double vipRate;
+            int baned;
+            int role;
+            double money;
+        }
+
+    }
+
+
 }

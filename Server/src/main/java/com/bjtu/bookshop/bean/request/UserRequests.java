@@ -87,4 +87,12 @@ public class UserRequests {
         }
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageListRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        Integer page;
+    }
+
 }

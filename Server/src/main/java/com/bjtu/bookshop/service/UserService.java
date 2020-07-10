@@ -15,6 +15,7 @@ import com.bjtu.bookshop.response.ItemResponse;
 import com.bjtu.bookshop.response.ListResponse;
 import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.response.StateResponse;
+import com.bjtu.bookshop.util.CacheUtil.*;
 import com.bjtu.bookshop.util.NumberUtil;
 import com.bjtu.bookshop.util.StringUtil;
 
@@ -34,6 +35,12 @@ public class UserService {
     public boolean checkUserToken(UserAuthorization uinfo){
         UserLogin loginInfo = userMapper.getUserLoginInfoWithUID(uinfo.getUid());
         return (loginInfo != null) && (uinfo.getToken().equals(loginInfo.getToken()));
+    }
+
+    public boolean checkUserRole(int uid, int level){
+        UserInfo info = userMapper.getUserInfoWithUID(uid);
+        assert (info != null);
+        return level >= info.getRole();
     }
 
     /** 1.1 body **/
@@ -106,13 +113,17 @@ public class UserService {
         return new SetInfoResponse(0);
     }
 
-    public Response getUserList(int uid, String token, int page) {
-        if (isTokenValid(uid, token)) {
-            List<UserInfo> userInfos;
-            if (page <= 0) page = 1;
-            userInfos = userMapper.getUserList((page - 1) * 20, page * 20);
-            return new ListResponse<>(userInfos, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+
+    static TimeCache<Integer> ManageListResponseListCache = new TimeCache<Integer>();
+    /** 1.s.1 body **/
+    public ManageListResponse getUserList(int page) {
+        if(!ManageListResponseListCache.available()){
+            ManageListResponseListCache.update((userMapper.getUserListCount() + 19) / 20);
+        }
+        int pageCnt = ManageListResponseListCache.get();
+        page = Math.max(1, page);
+        List<ManageListResponse.elm> list = userMapper.getManageUserList(page);
+        return new ManageListResponse(0,pageCnt,list);
     }
 
     public Response getUserInfo(int uid, String token, int targetUID) {

@@ -89,19 +89,21 @@ public class UserController {
     public SetInfoResponse updateUserInfo(@Valid SetInfoRequest req, BindingResult br) {
         if(br.hasErrors()) return new SetInfoResponse(){{setState(-1);}};
         if(! req.trans()) return new SetInfoResponse(){{setState(-1);}};
-
-        for(int i=0;i<req.getAddress().size();i++){
-            System.out.println(req.getAddress().get(i));
-        }
-
-        //UserInfo info = object.getObject("data", UserInfo.class);
+        if(! userService.checkUserToken(req)) return new SetInfoResponse(){{setState(-10);}};
         return userService.updateUserInfo(
                 req.getUid(),req.getNickname(),req.getHead(),req.getInnerAddress());
     }
 
+    /**
+     * 1.s.1
+     * /user/manage/list 取用户列表
+     */
     @RequestMapping(value = "/manage/list", method = {RequestMethod.POST})
-    public Response getUserList(@RequestBody JSONObject object) {
-        return userService.getUserList(object.getIntValue("uid"), object.getString("token"), object.getIntValue("page"));
+    public ManageListResponse getUserList(@Valid ManageListRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageListResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageListResponse(){{setState(-10);}};
+        if(! userService.checkUserRole(req.getUid(),1)) return new ManageListResponse(){{setState(-10);}};
+        return userService.getUserList(req.getPage() == null ? 0 : req.getPage());
     }
 
     @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
