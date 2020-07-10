@@ -6,6 +6,7 @@ import com.bjtu.bookshop.bean.db.StoreInfo;
 import com.bjtu.bookshop.bean.db.StoreManage;
 
 import com.bjtu.bookshop.bean.response.ShopResponses.*;
+import com.bjtu.bookshop.bean.response.UserResponses;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
@@ -30,4 +31,14 @@ public interface StoreMapper {
     @Select("select sid,name,head as pic,mark from store_info where name LIKE CONCAT('%',#{name},'%')")
     List<SearchResponse.elm> searchStoreInfo(String name);
 
+    @Select("select count(*) from store_info")
+    int getShopCnt();
+
+    @Select("select sid,s.name,uid as bossid,u.nickname as bossname,content,code,s.head,mark " +
+            "from store_info as s left join user_info as u on s.boss=u.uid " +
+            " limit #{page}, 20")
+    List<ManageListResponse.elm> getShopList(int page, boolean real);
+    default List<ManageListResponse.elm> getShopList(int page){
+        return getShopList(( page - 1 ) * 20,true);
+    }
 }

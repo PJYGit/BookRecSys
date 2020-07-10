@@ -72,9 +72,16 @@ public class StoreController {
         return storeService.searchStore(req.getWord());
     }
 
+    /**
+     * 2.s.1
+     * /shop/manage/list 取店铺列表
+     */
     @RequestMapping(value = "/manage/list", method = {RequestMethod.POST})
-    public Response getStoreList(@RequestBody JSONObject object) {
-        return storeService.getStoreList(object.getIntValue("uid"), object.getString("token"), object.getIntValue("page"));
+    public ManageListResponse getStoreList(@Valid ManageListRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageListResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageListResponse(){{setState(-10);}};
+        if(! userService.checkUserRole(req.getUid(),1)) return new ManageListResponse(){{setState(-11);}};
+        return storeService.getStoreList( req.getPage() == null ? 1 : req.getPage());
     }
 
     @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})

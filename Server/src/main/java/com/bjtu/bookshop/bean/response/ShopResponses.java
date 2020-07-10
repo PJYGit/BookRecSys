@@ -124,4 +124,28 @@ public class ShopResponses {
         }
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageListResponse {
+        int state;
+        int pageCnt;
+        List<elm> shops;
+
+        @Data
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class elm {
+            int sid;
+            int state;
+            String name;
+            int bossid;
+            String bossname;
+            String content;
+            int code;
+            String head;
+            double mark;
+        }
+    }
+
 }

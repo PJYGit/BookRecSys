@@ -12,6 +12,7 @@ import com.bjtu.bookshop.bean.db.StoreManage;
 import com.bjtu.bookshop.bean.db.UserInfo;
 import com.bjtu.bookshop.bean.db.UserLogin;
 import com.bjtu.bookshop.bean.response.ShopResponses.*;
+import com.bjtu.bookshop.bean.response.UserResponses;
 import com.bjtu.bookshop.mapper.BookMapper;
 import com.bjtu.bookshop.mapper.StoreMapper;
 import com.bjtu.bookshop.mapper.UserMapper;
@@ -19,6 +20,7 @@ import com.bjtu.bookshop.response.ItemResponse;
 import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.response.StateResponse;
 
+import com.bjtu.bookshop.util.CacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,42 +71,23 @@ public class StoreService {
                 bookInfo.getRemain(),bookInfo.getPrice());
     }
 
+    /** 2.4 body **/
     public SearchResponse searchStore(String word) {
         List<SearchResponse.elm> list = storeMapper.searchStoreInfo(word);
         return new SearchResponse(0,list);
     }
 
-    public Response getStoreList(int uid, String token, int page) {
-        /*
-        if (isTokenValid(uid, token)) {
-            if (page <= 0) page = 1;
-            List<StoreInfo> storeInfos = storeMapper.getStoreListWithPage((page - 1) * 20, page * 20);
 
-            @Data
-            class ReturnClass {
-                StoreInfo storeInfo;
-                UserInfo bossInfo;
-                List<UserInfo> managerInfos;
-            }
-            List<ReturnClass> list = new LinkedList<>();
-            for (StoreInfo info : storeInfos) {
-                ReturnClass class1 = new ReturnClass();
-                class1.storeInfo = info;
-                class1.bossInfo = userMapper.getUserInfoWithUserID(info.getBoss());
-
-                List<StoreManage> manages = storeMapper.getStoreManagerWithSID(info.getSid());
-                List<UserInfo> managerInfos = new LinkedList<>();
-                for (StoreManage manage : manages) {
-                    UserInfo managerInfo = userMapper.getUserInfoWithUserID(manage.getUid());
-                    managerInfos.add(managerInfo);
-                }
-                class1.managerInfos = managerInfos;
-            }
-
-            return new ItemResponse<>(list, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
-        */
-        return null;
+    static CacheUtil.TimeCache<Integer> ManageListResponseListCache = new CacheUtil.TimeCache<Integer>();
+    /** 2.s.1 body **/
+    public ManageListResponse getStoreList(int page) {
+        if(!ManageListResponseListCache.available()){
+            ManageListResponseListCache.update((storeMapper.getShopCnt() + 19) / 20);
+        }
+        int pageCnt = ManageListResponseListCache.get();
+        page = Math.max(1, page);
+        List<ManageListResponse.elm> list = storeMapper.getShopList(page);
+        return new ManageListResponse(0,pageCnt,list);
     }
 
     public Response getStoreManagerInfo(int uid, String token, Integer sid) {

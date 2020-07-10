@@ -45,5 +45,12 @@ public class ShopRequests {
         @NotNull String word;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageListRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        Integer page;
+    }
 
 }
