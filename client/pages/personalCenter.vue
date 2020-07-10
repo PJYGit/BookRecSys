@@ -9,7 +9,6 @@
                 <user-info :user-info="userInfo" style="margin-left: 5%;width: 40%"></user-info>
             </el-tab-pane>
             <!--<el-tab-pane label="修改密码" name="2">
-
             </el-tab-pane>-->
             <el-tab-pane label="地址管理" name="3">
                 <address-list :address-list="userInfo.address" style="margin-left: 5%;width: 80%"></address-list>
@@ -17,7 +16,7 @@
             <el-tab-pane label="我的店铺" name="4">
                 <shop-list style="width: 80%;margin-left: 5%"></shop-list>
             </el-tab-pane>
-            <el-tab-pane label="管理" name="5">
+            <el-tab-pane v-if="userInfo.role!==0" label="管理" name="5">
 
             </el-tab-pane>
         </el-tabs>
@@ -38,7 +37,7 @@
         components: {UserInfo, AddressList, ShopList, MyTitle, FlowBoard},
         data(){
             return{
-                activeName:'3',
+                activeName:'1',
                 token:Cookies.get("token"),
                 uid:Cookies.get("uid"),
                 userInfo:{},
@@ -61,8 +60,6 @@
                         return;
                     }
                     this.userInfo = res;
-                    //this.userInfo.head="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg";
-                    //this.userInfo.address=[];
                     console.log(this.userInfo);
                 }).catch(msg => {
                     alert(msg)

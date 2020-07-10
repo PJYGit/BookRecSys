@@ -24,6 +24,9 @@
                 <div v-if="userInfo.vipRate===1">无折扣</div>
                 <div v-if="userInfo.vipRate < 1">{{userInfo.vipRate * 10}}折</div>
             </el-form-item>
+            <el-form-item label="账户余额">
+                {{userInfo.money}}元
+            </el-form-item>
         </el-form>
         <el-button style="background-color: #ef9585;color: white;margin-top: 20px" @click="changePersonMsg">
             提交修改</el-button>
