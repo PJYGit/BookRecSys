@@ -1,4 +1,4 @@
-# agricultural-client
+# BookShopClient
 
 > Nuxt.js project
 
