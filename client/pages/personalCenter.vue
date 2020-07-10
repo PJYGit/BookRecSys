@@ -12,7 +12,7 @@
 
             </el-tab-pane>
             <el-tab-pane label="地址管理" name="3">
-                <address-list style="margin-left: 5%;width: 80%"></address-list>
+                <address-list :address-list="userInfo.address" style="margin-left: 5%;width: 80%"></address-list>
             </el-tab-pane>
             <el-tab-pane label="我的店铺" name="4">
                 <shop-list style="width: 80%;margin-left: 5%"></shop-list>
@@ -30,13 +30,43 @@
     import MyTitle from "../components/base/myTitle";
     import ShopList from "../components/shop/shopList";
     import AddressList from "../components/addressList";
+    import API from "../api";
+    import Cookies from 'js-cookie';
     export default {
         name: "personalCenter",
         components: {AddressList, ShopList, MyTitle, FlowBoard},
         data(){
             return{
                 activeName:'3',
+                token:Cookies.get("token"),
+                uid:Cookies.get("uid"),
+                userInfo:{},
             }
+        },
+
+        mounted(){
+            this.getMsg();
+        },
+        methods:{
+            getMsg(){
+                let data={
+                    uid:this.uid,
+                    token:this.token,
+                };
+
+                API.userGetInfo(data).then(res=>{
+                    if (res.state) {
+                        alert("获取个人信息失败");
+                        //return;
+                    }
+                    this.userInfo = res.item;
+                    //this.userInfo.address=[];
+                    console.log(this.userInfo);
+                }).catch(msg => {
+                    alert(msg)
+                })
+
+            },
         }
     }
 </script>
