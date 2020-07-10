@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author 李高丞
- * @version 1.0
+ * @author 李高丞、dsy
  */
 
 @RestController

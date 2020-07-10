@@ -1,12 +1,10 @@
 package com.bjtu.bookshop.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bjtu.bookshop.bean.request.ShopRequests.*;
-import com.bjtu.bookshop.bean.response.ShopResponses.*;
-import com.bjtu.bookshop.bean.response.UserResponses;
+import com.bjtu.bookshop.bean.request.ShopRequests.GetInfoRequest;
+import com.bjtu.bookshop.bean.response.ShopResponses.GetInfoResponse;
 import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.service.StoreService;
-
 import com.bjtu.bookshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;

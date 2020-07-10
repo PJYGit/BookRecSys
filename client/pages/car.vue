@@ -73,11 +73,10 @@
         },
         methods: {
             getMyCarList: function () {
-                let data = {
-                    uid: this.$cookie.get("uid"),
-                    token: this.$cookie.get("token")
-                }
-                API.getCarList(JSON.stringify(data)).then(res => {
+                let data = new FormData();
+                data.append('uid', this.$cookie.get("uid"))
+                data.append('token', this.$cookie.get("token"))
+                API.getCarList(data).then(res => {
                     this.carList = res.list
                 }).catch(res => {
                     console.log(res)
@@ -93,20 +92,19 @@
             },
 
             addBook: function (index) {
-                let data = {
-                    uid: this.$cookie.get("uid"),
-                    token: this.$cookie.get("token"),
-                    bid: this.carList[index].bid,
-                    sid: this.carList[index].sid,
-                    cnt: this.carList[index].cnt
-                }
+                let data = new FormData();
+                data.append('uid', this.$cookie.get("uid"))
+                data.append('token', this.$cookie.get("token"))
+                data.append('bid', this.carList[index].bid)
+                data.append('cid', this.carList[index].sid)
+                data.append('cnt', this.carList[index].cnt)
                 API.modifyCarBookCnt(data).then(res => {
                     if (res.state === 0)
                         this.$message.success('创建订单成功');
                     else
                         this.$message.error('创建订单失败');
                 }).catch(res => {
-
+                    console.log(res)
                 })
             },
 
@@ -131,11 +129,10 @@
                 else {
                     let buy = []
                     buy.push(this.carList[index])
-                    let data = {
-                        uid: this.$cookie.get("uid"),
-                        token: this.$cookie.get("token"),
-                        buy: buy
-                    }
+                    let data = new FormData();
+                    data.append('uid', this.$cookie.get("uid"))
+                    data.append('token', this.$cookie.get("token"))
+                    data.append('buy', JSON.stringify(buy))
                     API.submitCarOrder(data).then(res => {
                         if (res.state === 0)
                             this.$message.success('创建订单成功');
@@ -150,11 +147,10 @@
             createAllOrder: function () {
                 if (this.submitCarList.length === 0) this.$message.info('未勾选订单')
                 else {
-                    let data = {
-                        uid: this.$cookie.get("uid"),
-                        token: this.$cookie.get("token"),
-                        buy: this.submitCarList
-                    }
+                    let data = new FormData();
+                    data.append('uid', this.$cookie.get("uid"))
+                    data.append('token', this.$cookie.get("token"))
+                    data.append('buy', JSON.stringify(this.submitCarList))
                     API.submitCarOrder(data).then(res => {
                         if (res.state === 0)
                             this.$message.success('创建订单成功');
@@ -169,11 +165,10 @@
             removeCarInfo: function () {
                 if (this.submitCarList.length === 0) this.$message.info('未勾选订单')
                 else {
-                    let data = {
-                        uid: this.$cookie.get("uid"),
-                        token: this.$cookie.get("token"),
-                        car: this.submitCarList
-                    }
+                    let data = new FormData();
+                    data.append('uid', this.$cookie.get("uid"))
+                    data.append('token', this.$cookie.get("token"))
+                    data.append('car', JSON.stringify(this.submitCarList))
                     API.editCarOrder(data).then(res => {
                         if (res.state === 0)
                             this.$message.success('删除订单成功');
