@@ -19,4 +19,8 @@ export default {
 
     //个人中心模块
     changeMsg:{url:'user/setinfo'},
+
+    //管理模块
+    getUSList:{url:'user/manage/list'},//获取用户列表
+    setUserInfo:{url:'user/manage/setinfo'}//修改用户信息
 }

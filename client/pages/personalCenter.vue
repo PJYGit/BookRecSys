@@ -14,10 +14,12 @@
                 <address-list :address-list="userInfo.address" style="margin-left: 5%;width: 80%"></address-list>
             </el-tab-pane>
             <el-tab-pane label="我的店铺" name="4">
-                <shop-list style="width: 80%;margin-left: 5%"></shop-list>
+                <el-button v-if="noSelfShop" style="background-color: #ef9585;color: white;margin-left: 5%;margin-bottom: 20px;font-size: 16px" @click="addAddress=true">
+                    我要开店</el-button>
+                <shop-list style="width: 80%;margin-left: 5%;"></shop-list>
             </el-tab-pane>
             <el-tab-pane v-if="userInfo.role!==0" label="管理" name="5">
-
+                <manage-block style="width: 90%;"></manage-block>
             </el-tab-pane>
         </el-tabs>
 
@@ -32,15 +34,17 @@
     import API from "../api";
     import Cookies from 'js-cookie';
     import UserInfo from "../components/selfCenter/userInfo";
+    import ManageBlock from "../components/selfCenter/manageBlock";
     export default {
         name: "personalCenter",
-        components: {UserInfo, AddressList, ShopList, MyTitle, FlowBoard},
+        components: {ManageBlock, UserInfo, AddressList, ShopList, MyTitle, FlowBoard},
         data(){
             return{
-                activeName:'1',
+                activeName:'5',
                 token:Cookies.get("token"),
                 uid:Cookies.get("uid"),
                 userInfo:{},
+                noSelfShop:true,
             }
         },
 
@@ -60,7 +64,13 @@
                         return;
                     }
                     this.userInfo = res;
-                    console.log(this.userInfo);
+
+                    for(let i=0;i<this.userInfo.managed.length;i++){
+                        if(this.userInfo.managed[i].boss===1){
+                            this.noSelfShop=false;
+                            break;
+                        }
+                    }
                 }).catch(msg => {
                     alert(msg)
                 })
@@ -74,7 +84,6 @@
     >>> .el-tabs--left .el-tabs__header.is-left{
         margin-right: -1px;
     }
-
 
     >>> .el-tabs__item:hover{
         color: #EB7A67;
