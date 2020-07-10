@@ -64,11 +64,10 @@
         },
         methods: {
             doReg : function(){
-                let req = {
-                    urn: this.regForm.username,
-                    code: this.regForm.code,
-                    psw: this.regForm.password,
-                };
+                let fd = new FormData();
+                fd.append('urn',this.regForm.username);
+                fd.append('code',this.regForm.code);
+                fd.append('psw',this.regForm.password);
 
                 let failFunc = (function (that) {
                     return function () {
@@ -78,7 +77,7 @@
                 })(this);
 
                 this.locks.regLock = true;
-                API.userRegister(req).then(
+                API.userRegister(fd).then(
                     rsp => {
                         console.log(rsp);
                         if(rsp.state == 0){
