@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.bjtu.bookshop.bean.db.BookInfo;
 import com.bjtu.bookshop.bean.db.CarInfo;
 import com.bjtu.bookshop.bean.db.StoreInfo;
-import com.bjtu.bookshop.bean.db.UserLogin;
 import com.bjtu.bookshop.mapper.*;
 import com.bjtu.bookshop.response.ListResponse;
 import com.bjtu.bookshop.response.Response;
