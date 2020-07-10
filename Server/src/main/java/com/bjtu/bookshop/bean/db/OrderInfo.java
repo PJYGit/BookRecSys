@@ -17,5 +17,6 @@ public class OrderInfo {
     private int sid;
     private int state;
     private int money;
+    private String place;
     private String content;
 }

@@ -14,5 +14,5 @@ public class StoreInfo {
     private String content;
     private int code;
     private String head;
-    private String mark;
+    private double mark;
 }

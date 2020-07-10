@@ -7,4 +7,9 @@ public class CommonRequests {
         String getToken();
     }
 
+    public interface ShopAuthorization {
+        int getUid();
+        int getSid();
+    }
+
 }
