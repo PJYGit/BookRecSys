@@ -1,5 +1,6 @@
 package com.bjtu.bookshop.service;
 
+import com.bjtu.bookshop.bean.db.OrderContent;
 import com.bjtu.bookshop.bean.db.OrderInfo;
 import com.bjtu.bookshop.mapper.OrderMapper;
 import com.bjtu.bookshop.mapper.UserMapper;
@@ -7,6 +8,9 @@ import com.bjtu.bookshop.response.ItemResponse;
 import com.bjtu.bookshop.response.ListResponse;
 import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.response.StateResponse;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +26,70 @@ public class OrderService {
         this.orderMapper = orderMapper;
         this.userMapper = userMapper;
     }
+
+    // ========================================================
+    /*
+     * 直接下单
+     *    CREATE
+     * 	  CHECK
+     * 	  EXEC
+     *
+     * 购物车下单
+     *    CREATE
+     * 	  同一商家检测
+     * 	  CHECK
+     * 	  购物车清空
+     * 	  EXEC
+     *
+     * CHECK
+     *    订单生成
+     * 	  书的存量
+     * 	  价格计算
+     *
+     * EXEC
+     * 	  订单记录
+     * 	  存量和销量修改
+     * 	  用户钱包修改
+     *
+     * CREATE
+     *     接收 uid address List<BookItem>
+     * */
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class OrderItem {
+        private int uid;
+        private OrderInfo info;
+        private List<OrderContent> contentList;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class BookItem {
+        private int bid;
+        private int cnt;
+    }
+
+    public OrderItem newOrderCreate(int uid, String address, List<BookItem> list) {
+        OrderItem orderItem = new OrderItem();
+        // TODO
+        return orderItem;
+    }
+
+    public int newOrderCheck(OrderItem orderItem) {
+        // TODO
+        // 书的存量
+        return -114;
+        // 价格计算
+        // return -514;
+    }
+
+    public int newOrderExecute(OrderItem orderItem) {
+        // TODO
+        return 0;
+    }
+    // ========================================================
 
     public Response getAllOrderList(int uid, String token, int type) {
         if (isTokenValid(uid, token)) {
