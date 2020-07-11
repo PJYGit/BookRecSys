@@ -2,6 +2,7 @@ package com.bjtu.bookshop.service;
 
 import com.bjtu.bookshop.bean.db.OrderContent;
 import com.bjtu.bookshop.bean.db.OrderInfo;
+import com.bjtu.bookshop.mapper.BookMapper;
 import com.bjtu.bookshop.mapper.OrderMapper;
 import com.bjtu.bookshop.mapper.UserMapper;
 import com.bjtu.bookshop.response.ItemResponse;
@@ -14,16 +15,19 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class OrderService {
     private final OrderMapper orderMapper;
+    private final BookMapper bookMapper;
     private final UserMapper userMapper;
 
     @Autowired
-    public OrderService(OrderMapper orderMapper, UserMapper userMapper) {
+    public OrderService(OrderMapper orderMapper, BookMapper bookMapper, UserMapper userMapper) {
         this.orderMapper = orderMapper;
+        this.bookMapper = bookMapper;
         this.userMapper = userMapper;
     }
 
@@ -44,7 +48,7 @@ public class OrderService {
      * CHECK
      *    订单生成
      * 	  书的存量
-     * 	  价格计算
+     * 	  用户余额
      *
      * EXEC
      * 	  订单记录
@@ -53,12 +57,13 @@ public class OrderService {
      *
      * CREATE
      *     接收 uid address List<BookItem>
+     *     cid为0
+     *     计算并构造
      * */
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     public static class OrderItem {
-        private int uid;
         private OrderInfo info;
         private List<OrderContent> contentList;
     }
@@ -72,9 +77,34 @@ public class OrderService {
     }
 
     public OrderItem newOrderCreate(int uid, String address, List<BookItem> list) {
-        OrderItem orderItem = new OrderItem();
-        // TODO
-        return orderItem;
+        int viprate = userMapper.getUserInfoWithUserID(uid).getViprate();
+        int sid = bookMapper.getBookInfoWithBID(list.get(0).getBid()).getSid();
+        int money = 0;
+
+        List<OrderContent> contentList = new LinkedList<>();
+        for (BookItem bookItem : list) {
+            OrderContent orderContent = new OrderContent(
+                    -1,
+                    bookItem.getBid(),
+                    bookItem.getCnt(),
+                    bookItem.getBid() * bookItem.getCnt() * viprate / 100
+            );
+            contentList.add(orderContent);
+            money += orderContent.getMoney();
+        }
+
+        OrderInfo orderInfo = new OrderInfo(
+                -1,
+                uid,
+                sid,
+                0,
+                money,
+                address,
+                "",
+                0
+        );
+
+        return new OrderItem(orderInfo, contentList);
     }
 
     public int newOrderCheck(OrderItem orderItem) {
@@ -87,7 +117,7 @@ public class OrderService {
 
     public int newOrderExecute(OrderItem orderItem) {
         // TODO
-        return 0;
+        return -1;
     }
     // ========================================================
 
