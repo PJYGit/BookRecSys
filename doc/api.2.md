@@ -231,7 +231,27 @@ mark|商店评分|商店书本平均评分
 
 ```
 
+---
+## /shop/tags 获取标签文字
+request:
 
+键值|名称|描述
+-|-|-
+uid [number]|用户 id|系统内唯一标志符，用于后续操作
+token|验证串|和 uid 一起做身份验证
+
+response:
+
+键值|名称|描述
+-|-|-
+state [number]|返回码|0 为正常，-1 为失败
+tags[] [list\<elm\>]|tag店数组|tag数组
+
+其中 elm：
+键值|名称|描述
+-|-|-
+tid|tagid|tagid
+name|商店名|商店名
 
 ---
 ## 2.sub#店铺管理
@@ -346,6 +366,7 @@ request:
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
+sid|商铺id|商铺id
 tid[]|分类id|分类id数组
 bname|书本名|书本名
 author|作者|作者
