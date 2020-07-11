@@ -1,6 +1,6 @@
 <template>
     <div style="width: 180px;cursor: pointer;" @click="toDetail">
-        <img :src="bookItem.src" style="width: 180px;">
+        <img :src="bookItem.pic" style="width: 180px;">
         <div style="font-size: 18px;line-height: 25px;margin-left: 21px;margin-top: 2px;">
             {{bookItem.bname}}
         </div>
@@ -8,15 +8,16 @@
             {{bookItem.author}}
         </div>
         <div style="margin-left: 20px">
-            <span style="font-size: 18px;color: red">{{bookItem.price}}</span>
+            <span style="font-size: 18px;color: red">￥{{(bookItem.price*rate).toFixed(2)}}</span>
             <span style="margin-left: 5px;color: gray;text-decoration:line-through;margin-top: -1px">
-                {{bookItem.oldPrice}}</span>
+                ￥{{bookItem.price.toFixed(2)}}</span>
         </div>
     </div>
 
 </template>
 
 <script>
+    import Cookies from 'js-cookie'
     export default {
         name: "book",
         props:{
@@ -26,11 +27,11 @@
         },
         data(){
             return{
-                src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                rate:Cookies.get('vipRate'),
+                pic:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
                 bname:"九年级上册历史书",
                 author:"作者1 作者2等",
-                price:'￥24.00',
-                oldPrice:'￥30.00 ',
+                price:24,
             }
         },
 

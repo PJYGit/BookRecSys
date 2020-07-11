@@ -28,7 +28,6 @@
         data(){
             return{
                 activeName:'user',
-                role:1,
             }
         }
     }

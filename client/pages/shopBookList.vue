@@ -17,8 +17,8 @@
                             </el-col>
                         </div>
                     </el-tab-pane>
-                </el-tabs>
 
+                </el-tabs>
             </el-col>
         </el-row>
     </flow-board>
@@ -29,63 +29,45 @@
     import FlowBoard from "../components/board/FlowBoard";
     import Book from "../components/base/book";
     import ShopMessage from "../components/shop/shopMessage";
+    import API from '../api';
+    import Cookies from 'js-cookie';
     export default {
         name: "shopBookList",
         components: {ShopMessage, Book, FlowBoard, MyTitle},
         data(){
             return{
                 activeName:'first',
-                shopBookList:[{
-                    bid:1,
-                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:'￥24.00',
-                    oldPrice:'￥30.00 '
-                },{
-                    bid:2,
-                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:'￥24.00',
-                    oldPrice:'￥30.00 '
-                },{
-                    bid:3,
-                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:'￥24.00',
-                    oldPrice:'￥30.00 '
-                },{
-                    bid:4,
-                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:'￥24.00',
-                    oldPrice:'￥30.00 '
-                },{
-                    bid:5,
-                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:'￥24.00',
-                    oldPrice:'￥30.00 '
-                },{
-                    bid:6,
-                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:'￥24.00',
-                    oldPrice:'￥30.00 '
-                },{
-                    bid:7,
-                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:'￥24.00',
-                    oldPrice:'￥30.00 '
-                }],
+                uid:Cookies.get('uid'),
+                token:Cookies.get('token'),
+                shopId:0,
+                shopBookList:[],
             }
+        },
+
+        mounted(){
+            this.shopId = this.$route.query.sid;
+            this.getShopBookList();
+        },
+
+        methods:{
+            getShopBookList(){
+                let fd = new FormData();
+                fd.append('uid',this.uid);
+                fd.append('token',this.token);
+                fd.append('sid',this.shopId);
+
+                API.getShopBookInfo(fd).then(res=>{
+                    if (res.state) {
+                        alert("获取店内图书列表失败");
+                        return;
+                    }
+                    console.log(res);
+                    this.shopBookList = res.books;
+
+                }).catch(msg => {
+                    alert(msg)
+                })
+            },
         }
     }
 </script>

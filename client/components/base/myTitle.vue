@@ -54,6 +54,7 @@
                         .then(_ => {
                             this.$cookie.delete("uid");
                             this.$cookie.delete("token");
+                            this.$cookie.delete("vipRate");
                             window.location.reload();
                         })
                         .catch(_ => {});
@@ -71,7 +72,7 @@
             },
             toMyOrder(){
                 if(this.onLine){
-                    //this.$router.push("/car");
+                    this.$router.push("/orderList");
                 } else {
                     this.$router.push("/login");
                 }
