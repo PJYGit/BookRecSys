@@ -123,9 +123,17 @@ public class StoreController {
                 req.getPic(),req.getRemain(),req.getPrice());
     }
 
+    /**
+     * 2.s.4
+     * /shop/manage/delbook 删除书
+     */
     @RequestMapping(value = "/manage/delbook", method = {RequestMethod.POST})
-    public Response delBookInStore(@RequestBody JSONObject object) {
-        return storeService.delBook(object.getIntValue("uid"), object.getString("token"), object.getIntValue("bid"));
+    public ManageDelBookResponse delBookInStore(@Valid ManageDelBookRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageDelBookResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageDelBookResponse(){{setState(-10);}};
+        boolean isSuper = userService.checkUserRole(req.getUid(),1);
+
+        return storeService.delBook(req.getUid(),isSuper,req.getBid());
     }
 
     @RequestMapping(value = "/manage/setbookinfo", method = {RequestMethod.POST})

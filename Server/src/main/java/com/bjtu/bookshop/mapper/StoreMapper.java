@@ -67,4 +67,13 @@ public interface StoreMapper {
 
     @Insert("insert into book_tag(bid,tid) values (#{bid},#{tid})")
     void insertTagForBook(int bid, int tid);
+
+    @Delete("delete from book_info where bid = #{bid} ")
+    int removeBook(int bid);
+
+    @Delete("delete from book_tag where bid = #{bid} ")
+    void cleanBookTag(int bid);
+
+    @Select("select * from book_info where bid = #{bid}")
+    BookInfo getBookWithBid(int bid);
 }

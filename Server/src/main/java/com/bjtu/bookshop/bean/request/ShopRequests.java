@@ -88,4 +88,12 @@ public class ShopRequests {
         @NotNull double price;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageDelBookRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int bid;
+    }
+
 }

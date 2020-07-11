@@ -151,11 +151,19 @@ public class StoreService {
         return new ManageAddBookResponse(0);
     }
 
-    public Response delBook(int uid, String token, int bid) {
-        if (isTokenValid(uid, token)) {
-            bookMapper.deleteBookWithBID(bid);
-            return new StateResponse(Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+    /** 2.s.5 body **/
+    public ManageDelBookResponse delBook(int uid, boolean isSuper, int bid) {
+
+        BookInfo binfo = storeMapper.getBookWithBid(bid);
+        if(binfo == null) return new ManageDelBookResponse(){{setState(-12);}};
+
+        StoreInfo info = getShop(uid, binfo.getSid(), isSuper);
+        if(info == null) return new ManageDelBookResponse(){{setState(-13);}};
+
+        storeMapper.removeBook(bid);
+        storeMapper.cleanBookTag(bid);
+
+        return new ManageDelBookResponse(0);
     }
 
     public Response updateBookInfo(int uid, String token, JSONObject object) {
