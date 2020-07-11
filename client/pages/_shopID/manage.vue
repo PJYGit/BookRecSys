@@ -12,11 +12,35 @@
                                 店铺信息
                             </span>
                             <div style="float: right">
-                                <p style="font-size: 1.1rem; cursor: pointer;">
+                                <p style="font-size: 1.1rem; cursor: pointer;" @click="isEditShopInfo=!isEditShopInfo">
                                     <u>
                                         修改
                                     </u>
                                 </p>
+                                <el-dialog
+                                        title="修改店铺信息"
+                                        center
+                                        :visible.sync="isEditShopInfo">
+                                    <div>
+                                        <el-form label-width="80px">
+                                            <el-form-item label="店铺名">
+                                                <el-input v-model="editShopInfo.name" size="mini"
+                                                          style="width: 300px;"/>
+                                            </el-form-item>
+                                            <el-form-item label="店铺简介">
+                                                <el-input v-model="editShopInfo.content" type="textarea"
+                                                          :autosize="{ minRows: 4}"/>
+                                            </el-form-item>
+                                            <el-form-item label="店铺图片">
+                                                TODO 上传图片获得返回地址
+                                            </el-form-item>
+                                        </el-form>
+                                    </div>
+                                    <span slot="footer">
+                                        <el-button @click="modifyShopInfo" type="primary" size="mini">保存修改</el-button>
+                                        <el-button @click="cancelEditShopInfo" size="mini">取消</el-button>
+                                    </span>
+                                </el-dialog>
                             </div>
                             <br/>
                             <img src="http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg" alt="店铺图片">
@@ -63,59 +87,103 @@
                 </el-tab-pane>
                 <el-tab-pane label="店铺书籍管理">
                     <div>
-                        <el-button size="mini" type="primary">添加新图书</el-button>
+                        <el-button @click="isAddNewBook = !isAddNewBook" size="mini" type="primary">添加新图书</el-button>
+                        <el-dialog title="添加图书" center :visible.sync="isAddNewBook">
+                            <div>
+                                <el-form label-width="80px">
+                                    <el-form-item label="书名">
+                                        <el-input v-model="newBookInfo.bname" size="mini"
+                                                  style="width: 300px;"/>
+                                    </el-form-item>
+                                    <el-form-item label="作者">
+                                        <el-input v-model="newBookInfo.author" size="mini"
+                                                  style="width: 300px;"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="图书简介">
+                                        <el-input v-model="newBookInfo.content" type="textarea"
+                                                  :autosize="{ minRows: 4}"/>
+                                    </el-form-item>
+                                    <el-form-item label="图书价钱">
+                                        <el-input-number v-model="newBookInfo.price" size="small"></el-input-number>
+                                    </el-form-item>
+                                    <el-form-item label="图书库存">
+                                        <el-input-number v-model="newBookInfo.remain" size="small"></el-input-number>
+                                    </el-form-item>
+                                    <el-form-item label="图书类别">
+
+                                    </el-form-item>
+                                    <el-form-item label="图书图片">
+                                        <el-input value="TODO 上传图片获取返回地址" disabled size="mini"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                            <span slot="footer">
+                                <el-button @click="addNewBook" type="primary" size="mini">确认添加</el-button>
+                                <el-button @click="isAddNewBook=!isAddNewBook" size="mini">取消</el-button>
+                            </span>
+                        </el-dialog>
                     </div>
-                    <div style="margin: 30px;display: flex;justify-content: space-between;">
+                    <div v-for="(item) in shopBookList" :key="item.bid"
+                         style="margin: 30px;display: flex;justify-content: space-between;">
                         <el-card shadow="hover" style="width: 30%; text-align: center">
                             <div slot="header">
-                                book name
+                                {{item.bname}}
                                 <br/>
                                 <img src="http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg" alt="bookImage">
                             </div>
                             <div slot="default">
                                 <table style="width: 100%">
                                     <tr>
-                                        <td>author</td>
+                                        <td>作者</td>
                                         <td>
-                                            author
+                                            {{item.author}}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>content</td>
+                                        <td>标签</td>
                                         <td>
-                                            content
+                                            {{item.tid}}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>sales</td>
+                                        <td>简介</td>
                                         <td>
-                                            sales
+                                            {{item.content}}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>remain</td>
+                                        <td>销量</td>
                                         <td>
-                                            remain
+                                            {{item.sales}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>库存</td>
+                                        <td>
+                                            {{item.remain}}
                                         </td>
                                     </tr>
                                 </table>
                                 <p>
-                                    ￥price
+                                    ￥{{item.price}}
                                 </p>
                                 <el-rate
-                                        v-model="shopInfo.mark"
+                                        v-model="item.mark"
                                         disabled
                                         show-score
                                         text-color="#eb7a67"
                                         :colors="['#eb7a67','#eb7a67','#eb7a67']"
                                         style="margin: 25px auto;">
                                 </el-rate>
-                                <span style="font-size: 1.1rem; cursor: pointer; color: #EB7A67">
+                                <span @click="modifyBookInfo"
+                                      style="font-size: 1.1rem; cursor: pointer; color: #EB7A67">
                                     <u>
                                         修改
                                     </u>
+                                    <el-dialog title="修改图书信息"></el-dialog>
                                 </span>
-                                <span style="font-size: 1.1rem; cursor: pointer;margin-left: 15px;color: #EB7A67">
+                                <span @click="delShopBook(item.bid)"
+                                      style="font-size: 1.1rem; cursor: pointer;margin-left: 15px;color: #EB7A67">
                                     <u>
                                         删除
                                     </u>
@@ -154,8 +222,8 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
-                                <el-button size="mini" type="primary">发货</el-button>
-                                <el-button size="mini" type="danger">取消订单</el-button>
+                                <el-button @click="operateOrder(true)" size="mini" type="primary">发货</el-button>
+                                <el-button @click="operateOrder(false)" size="mini" type="danger">取消订单</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -177,6 +245,8 @@
             return {
                 sid: 0,
                 uid: this.$cookie.get('uid'),
+                isEditShopInfo: false,
+                isAddNewBook: false,
                 shopInfo: {
                     uid: 0,
                     sid: 0,
@@ -191,7 +261,36 @@
                     head: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
                     mark: 4.7
                 },
-                shopBookList: [],
+                editShopInfo: {
+                    uid: 0,
+                    sid: 0,
+                    name: '123',
+                    boss: {
+                        uid: 7,
+                        name: 'test'
+                    },
+                    manager: [],
+                    content: 'asd1qaw',
+                    code: 2,
+                    head: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
+                    mark: 4.7
+                },
+                shopBookList: [
+                    {
+                        bid: 1,
+                        sid: 1,
+                        tid: [1, 2, 3],
+                        bname: 'test',
+                        sname: '12313',
+                        author: '123123131',
+                        content: '12313131',
+                        pic: 'adasdasda',
+                        mark: 4.5,
+                        sales: 1,
+                        remain: 1,
+                        price: 1
+                    },
+                ],
                 orderList: [
                     {
                         cid: 1,
@@ -213,7 +312,18 @@
                             }
                         ]
                     },
-                ]
+                ],
+                newBookInfo: {
+                    bid: 1,
+                    sid: 1,
+                    tid: [],
+                    bname: '',
+                    author: '',
+                    content: '',
+                    pic: '',
+                    remain: '',
+                    price: 1
+                }
             }
         },
         mounted() {
@@ -230,6 +340,7 @@
                 API.getShopInfo(data).then(res => {
                     if (res.state === 0) {
                         this.shopInfo = res
+                        this.editShopInfo = this.shopInfo
                     } else this.$message.error('获取商店消息失败')
                 }).catch(res => {
                     this.$message.info(res)
@@ -283,6 +394,18 @@
                 }).catch(res => {
                     this.$message.info(res)
                 })
+                this.isAddNewBook = !this.isAddNewBook
+                this.newBookInfo = {
+                    bid: 1,
+                    sid: 1,
+                    tid: [],
+                    bname: '',
+                    author: '',
+                    content: '',
+                    pic: '',
+                    remain: '',
+                    price: 1
+                }
             },
             modifyBookInfo: function (bid) {
                 let data = new FormData()
@@ -306,17 +429,19 @@
                 })
             },
             delShopBook: function (bid) {
-                let data = new FormData()
-                data.append('uid', this.$cookie.get('uid'))
-                data.append('token', this.$cookie.get('token'))
-                data.append('bid', bid)
-                API.delBookInfo().then(res => {
-                    if (res.state === 0) {
-                        this.$message.success('删除成功')
-                    } else this.$message.error('')
-                }).catch(res => {
-                    this.$message.info(res)
-                })
+                this.$confirm('确认删除？').then(res => {
+                    let data = new FormData()
+                    data.append('uid', this.$cookie.get('uid'))
+                    data.append('token', this.$cookie.get('token'))
+                    data.append('bid', bid)
+                    API.delBookInfo().then(res => {
+                        if (res.state === 0) {
+                            this.$message.success('删除成功')
+                        } else this.$message.error('')
+                    }).catch(res => {
+                        this.$message.info(res)
+                    })
+                }).catch(res => this.$message.info(res))
             },
             getOrderList: function () {
                 let data = new FormData()
@@ -341,20 +466,37 @@
                     this.$message.info(res)
                 })
             },
-            operateOrder: function () {
+            operateOrder: function (isSend, cid) {
                 let data = new FormData()
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
-                data.append('sid', this.$cookie.get('sid'))
+                data.append('cid', cid)
+                data.append('op', isSend ? 'sent' : 'cancel')
                 API.operateOrder().then(res => {
                     if (res.state === 0) {
-
+                        this.$message.success(isSend ? '发送成功' : '取消成功')
+                    } else this.$message.error('未能完成操作')
+                }).catch(_ => {})
+            },
+            modifyManager: function () {
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('sid', this.sid)
+                data.append('manager', JSON.stringify(this.shopInfo.manager))
+                data.append('content', this.shopInfo.content)
+                data.append('head', this.shopInfo.head)
+                API.setShopInfo(data).then(res => {
+                    if (res.state === 0) {
+                        this.$message.success('修改成功')
                     } else this.$message.error('')
-                }).catch(res => {
-                    this.$message.info(res)
+                }).catch(_ => {
                 })
             },
-
+            cancelEditShopInfo: function () {
+                this.isEditShopInfo = !this.isEditShopInfo
+                this.editShopInfo = this.shopInfo
+            }
         }
     }
 </script>
