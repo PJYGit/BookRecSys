@@ -19,6 +19,7 @@ export default {
 
     // 店铺模块
     getShopBookInfo: {url: '/shop/booklist'},
+    getTagsList: {url: '/shop/tags'},
 
     //个人中心模块
     changeMsg: {url: 'user/setinfo'},
