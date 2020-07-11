@@ -86,6 +86,27 @@
                 :page-count="pagesize"
                 @current-change="getUserList" style="margin-top: 20px;float: right;margin-right: 20px">
         </el-pagination>
+
+        <el-dialog title="修改用户信息" :visible.sync="changeAddress">
+            <el-form :model="updateUserMsg" label-width="100px">
+                <el-form-item label="昵称">
+                    <el-input v-model="updateUserMsg.title" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="折扣">
+                    <el-input v-model="updateUserMsg.content" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="账户余额">
+                    <el-input v-model="updateUserMsg.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="身份">
+                    <el-input v-model="updateUserMsg.phone" autocomplete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="changeAddress = false">取 消</el-button>
+                <el-button type="primary" @click="updateAddr">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -99,6 +120,7 @@
                 userList:[],
                 pagesize:0,
                 currentPage:1,
+                updateUserMsg:{},
                 uid:Cookies.get('uid'),
                 token:Cookies.get('token'),
             }
@@ -156,7 +178,10 @@
             },
 
             changeUser(item){
-
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('target',item.uid);
             }
 
         }
