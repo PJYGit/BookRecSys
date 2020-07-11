@@ -2,12 +2,12 @@
     <div>
         <el-tabs v-model="activeName" tab-position="left" >
             <el-tab-pane label="用户管理" name="user">
-                <manage-user style="margin-left: 40px"></manage-user>
+                <manage-user :user-role="userRole" style="margin-left: 40px"></manage-user>
             </el-tab-pane>
             <el-tab-pane label="店铺管理" name="shop">
                 <manage-shop style="margin-left: 40px"></manage-shop>
             </el-tab-pane>
-            <el-tab-pane v-if="role===2" label="系统管理员管理" name="manager">
+            <el-tab-pane v-if="userRole===2" label="系统管理员管理" name="manager">
 
             </el-tab-pane>
         </el-tabs>
@@ -19,6 +19,11 @@
     import ManageShop from "./manageShop";
     export default {
         name: "manageBlock",
+        props:{
+            userRole:{
+                type:Number
+            }
+        },
         components: {ManageShop, ManageUser},
         data(){
             return{

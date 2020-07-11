@@ -19,7 +19,7 @@
                 <shop-list style="width: 80%;margin-left: 5%;"></shop-list>
             </el-tab-pane>
             <el-tab-pane v-if="userInfo.role!==0" label="管理" name="5">
-                <manage-block style="width: 90%;"></manage-block>
+                <manage-block :user-role="userInfo.role" style="width: 90%;"></manage-block>
             </el-tab-pane>
         </el-tabs>
 
