@@ -1,7 +1,6 @@
 package com.bjtu.bookshop.service;
 
-import com.bjtu.bookshop.entity.OrderInfo;
-import com.bjtu.bookshop.entity.UserLogin;
+import com.bjtu.bookshop.bean.db.OrderInfo;
 import com.bjtu.bookshop.mapper.OrderMapper;
 import com.bjtu.bookshop.mapper.UserMapper;
 import com.bjtu.bookshop.response.ItemResponse;
@@ -61,7 +60,6 @@ public class OrderService {
     }
 
     private boolean isTokenValid(int uid, String token) {
-        UserLogin login = userMapper.getUserLoginInfoWithUID(uid);
-        return token.equals(login.getToken());
+        return false;
     }
 }

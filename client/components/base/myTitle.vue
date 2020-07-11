@@ -30,17 +30,16 @@
             let cktoken = this.$cookie.get("token");
             if( ckuid == null || cktoken == null) return;
 
-            let req = {
-                uid: ckuid,
-                token: cktoken,
-            };
+            let fd = new FormData();
+            fd.append('uid',ckuid);
+            fd.append('token',cktoken);
 
-            API.userGetInfo(JSON.stringify(req)).then(rsp => {
+            API.userGetInfo(fd).then(rsp => {
                 if(rsp.state == 0){
                     this.onLine = true;
-                    this.info = rsp.item;
-                    let nickname = rsp.item.nickname || "无名氏";
-                    let urn = rsp.item.urn;
+                    this.info = rsp;
+                    let nickname = rsp.nickname || "无名氏";
+                    let urn = rsp.urn;
                     this.nicknameShowing = nickname + "(" + urn + ")";
                 }else{
                     this.$message.info("登录已失效");
@@ -78,7 +77,7 @@
             },
             toSelfCenter(){
                 if(this.onLine){
-                    //this.$router.push("/car");
+                    this.$router.push("/personalCenter");
                 } else {
                     this.$router.push("/login");
                 }

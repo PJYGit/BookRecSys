@@ -1,6 +1,6 @@
 package com.bjtu.bookshop.mapper;
 
-import com.bjtu.bookshop.entity.OrderInfo;
+import com.bjtu.bookshop.bean.db.OrderInfo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

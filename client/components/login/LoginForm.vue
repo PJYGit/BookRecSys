@@ -45,18 +45,15 @@
         },
         methods: {
             doLogin : function(){
-                let uname = this.loginForm.username;
-                let pwd = this.loginForm.password;
 
-                let req = {
-                    urn: uname,
-                    pw: pwd,
-                };
+                let fd = new FormData();
+                fd.append('urn',this.loginForm.username);
+                fd.append('pw',this.loginForm.password);
 
                 this.locks.submitLock = true;
-                API.userLogin(JSON.stringify(req)).then(rsp => {
+                API.userLogin(fd).then(rsp => {
                     if(rsp.state == 0){
-                        this.doLoginSuccess(rsp.item);
+                        this.doLoginSuccess(rsp);
                     }else{
                         this.doLoginFail();
                     }
@@ -70,6 +67,7 @@
                 this.$message.error('登录失败');
             },
             doLoginSuccess : function(data){
+                console.log(data);
                 this.$cookie.set("uid",data.uid);
                 this.$cookie.set("token",data.token);
                 this.$router.push('/');

@@ -143,7 +143,17 @@ head|头像 url|头像 url
 regtime|注册时间|注册时间 unix 秒时间戳
 vipRate [number]|vip 价格系数|1 不打折 0.8 八折 以此类推
 money|余额|余额
+address[] [list\<loc\>]|地址列表|地址列表
 managed[] [list\<elm\>]|管理的店铺|管理的店铺列表
+
+其中 loc：
+键值|名称|描述
+-|-|-
+title|地址名|地址名
+content|地址内容|地址内容
+name|收货人姓名|收货人姓名
+phone|手机号|手机号
+selected|是否默认|是1 不是0
 
 其中 elm：
 键值|名称|描述
@@ -183,15 +193,20 @@ request:
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
-data[object]|数据|需要修改的数据信息
-```json
-{
-    "uid": 7,
-    "token": "a04baa4f1afd48345ee5a500933d82fe",
-    "data": {
-        "money": "100"
-    }
-}
+head|头像|头像
+nickname|昵称|昵称
+address[] [list\<elm\>]|地址|地址，elm见实例
+
+数组传递方法：
+``` js
+var fd = new FormData();
+
+fd.append('uid',18);
+fd.append('token','a5b64212bc603e50cd2b4cbe8a1fb5d6');
+fd.append('address',JSON.stringify({'title':'','content':'','name':'','phone':'','selected':1}));
+fd.append('address',JSON.stringify({'title':'','content':'','name':'','phone':'','selected':1}));
+fd.append('address',JSON.stringify({'title':'','content':'','name':'','phone':'','selected':1}));
+
 ```
 
 可选项为上述所有可修改项
@@ -229,6 +244,7 @@ response:
 键值|名称|描述
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
+pagesize|有多少页|页数
 list\<elm\>|用户列表|用户信息列表
 
 其中 elm:
@@ -236,6 +252,7 @@ list\<elm\>|用户列表|用户信息列表
 键值|名称|描述
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
+urn|手机号|手机号
 token|验证串|和 uid 一起做身份验证
 nickname|昵称|昵称
 regtime|注册时间|注册时间 unix 秒时间戳

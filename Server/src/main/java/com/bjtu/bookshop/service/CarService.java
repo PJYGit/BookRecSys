@@ -2,10 +2,9 @@ package com.bjtu.bookshop.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.bjtu.bookshop.entity.BookInfo;
-import com.bjtu.bookshop.entity.CarInfo;
-import com.bjtu.bookshop.entity.StoreInfo;
-import com.bjtu.bookshop.entity.UserLogin;
+import com.bjtu.bookshop.bean.db.BookInfo;
+import com.bjtu.bookshop.bean.db.CarInfo;
+import com.bjtu.bookshop.bean.db.StoreInfo;
 import com.bjtu.bookshop.mapper.*;
 import com.bjtu.bookshop.response.ListResponse;
 import com.bjtu.bookshop.response.Response;
@@ -107,7 +106,6 @@ public class CarService {
     }
 
     private boolean isTokenValid(int uid, String token) {
-        UserLogin login = userMapper.getUserLoginInfoWithUID(uid);
-        return token.equals(login.getToken());
+        return false;
     }
 }
