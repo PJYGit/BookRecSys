@@ -73,4 +73,55 @@ public class ShopRequests {
         String head;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageAddBookRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int sid;
+        @NotNull List<Integer> tid;
+        @NotNull String bname;
+        @NotNull String author;
+        @NotNull String content;
+        @NotNull String pic;
+        @NotNull int remain;
+        @NotNull double price;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class ManageDelBookRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int bid;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class ManageSetBookRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int bid;
+        List<Integer> tid;
+        String bname;
+        String author;
+        String content;
+        String pic;
+        Integer remain;
+        Double price;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class ManageGetUserRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull String phone;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class TagListRequest {
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.bjtu.bookshop.bean.response;
 
+import com.bjtu.bookshop.bean.db.BookTag;
 import com.bjtu.bookshop.bean.middle.SimpleUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -161,6 +162,44 @@ public class ShopResponses {
     @NoArgsConstructor
     public static class ManageSetInfoResponse {
         int state;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageAddBookResponse {
+        int state;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageDelBookResponse {
+        int state;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageSetBookResponse {
+        int state;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageGetUserResponse {
+        int state;
+        int uid;
+        String nickname;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TagListResponse {
+        int state;
+        List<BookTag> tags;
     }
 
 }

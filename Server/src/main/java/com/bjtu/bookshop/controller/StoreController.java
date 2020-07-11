@@ -73,6 +73,16 @@ public class StoreController {
     }
 
     /**
+     * 2.5
+     * /shop/tags 获取标签文字
+     */
+    @RequestMapping(value = "/tags", method = {RequestMethod.POST})
+    public TagListResponse listTag(@Valid TagListRequest req, BindingResult br) {
+        if(br.hasErrors()) return new TagListResponse(){{setState(-1);}};
+        return storeService.listTag();
+    }
+
+    /**
      * 2.s.1
      * /shop/manage/list 取店铺列表
      */
@@ -109,18 +119,58 @@ public class StoreController {
                 req.getCode(),req.getContent(),req.getHead(),req.getManagers());
     }
 
+    /**
+     * 2.s.3
+     * /shop/manage/addbook 添加书
+     */
     @RequestMapping(value = "/manage/addbook", method = {RequestMethod.POST})
-    public Response addBookIntoStore(@RequestBody JSONObject object) {
-        return storeService.addBook(object.getIntValue("uid"), object.getString("token"), object);
+    public ManageAddBookResponse addBookIntoStore(@Valid ManageAddBookRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageAddBookResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageAddBookResponse(){{setState(-10);}};
+        boolean isSuper = userService.checkUserRole(req.getUid(),1);
+        return storeService.addBook(req.getUid(),req.getSid(),isSuper,
+                req.getTid(),req.getBname(),req.getAuthor(),req.getContent(),
+                req.getPic(),req.getRemain(),req.getPrice());
     }
 
+    /**
+     * 2.s.4
+     * /shop/manage/delbook 删除书
+     */
     @RequestMapping(value = "/manage/delbook", method = {RequestMethod.POST})
-    public Response delBookInStore(@RequestBody JSONObject object) {
-        return storeService.delBook(object.getIntValue("uid"), object.getString("token"), object.getIntValue("bid"));
+    public ManageDelBookResponse delBookInStore(@Valid ManageDelBookRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageDelBookResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageDelBookResponse(){{setState(-10);}};
+        boolean isSuper = userService.checkUserRole(req.getUid(),1);
+
+        return storeService.delBook(req.getUid(),isSuper,req.getBid());
     }
 
+    /**
+     * 2.s.5
+     * /shop/manage/setbookinfo 设置书信息
+     */
     @RequestMapping(value = "/manage/setbookinfo", method = {RequestMethod.POST})
-    public Response modifyBookInfoInStore(@RequestBody JSONObject object) {
-        return storeService.updateBookInfo(object.getIntValue("uid"), object.getString("token"), object);
+    public ManageSetBookResponse modifyBookInfoInStore(@Valid ManageSetBookRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageSetBookResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageSetBookResponse(){{setState(-10);}};
+        boolean isSuper = userService.checkUserRole(req.getUid(),1);
+
+        return storeService.updateBookInfo(req.getUid(),isSuper,req.getBid(),
+                req.getTid(),req.getBname(),req.getAuthor(),req.getContent(),
+                req.getPic(),req.getRemain(),req.getPrice());
     }
+
+    /**
+     * 2.s.6
+     * /shop/manage/getuser 手机取用户
+     */
+    @RequestMapping(value = "/manage/getuser", method = {RequestMethod.POST})
+    public ManageGetUserResponse getUserInfo(@Valid ManageGetUserRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageGetUserResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageGetUserResponse(){{setState(-10);}};
+
+        return storeService.getUserInfo(req.getPhone());
+    }
+
 }

@@ -21,6 +21,7 @@
 * /shop/booklist 取某商店书本列表
 * /shop/getbookinfo 取书信息
 * /shop/search 店铺搜索
+* /shop/tags 获取标签文字
 
 2.sub#店铺管理
 * /shop/manage/list 取店铺列表
