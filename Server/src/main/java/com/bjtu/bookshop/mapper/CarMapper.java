@@ -10,15 +10,15 @@ import java.util.List;
 @Component
 public interface CarMapper {
 
-    @Insert("insert into car_info(uid, bid, sid, cnt) values(#{uid}, #{bid}, #{sid}, #{cnt})")
-    void insertIntoCarInfo(int uid, int bid, int sid, int cnt);
+    @Insert("insert into car_info(uid, bid, cnt, sid) values(#{uid}, #{bid}, #{cnt}, #{sid})")
+    void insertIntoCarInfo(int uid, int bid, int cnt, int sid);
 
     @Select("select * from car_info where uid = #{uid}")
     List<CarInfo> getCarInfoWithUID(int uid);
 
-    @Update("update car_info set cnt = #{cnt} where uid = #{uid} and bid = #{bid}")
-    void updateCarInfo(int uid, int bid, int cnt);
+    @Delete("delete from car_info where uid = #{uid}")
+    void deleteCarInfoWithUid(int uid);
 
     @Delete("delete from car_info where uid = #{uid} and bid = #{bid}")
-    void deleteCarInfoWithBIDAndCnt(int uid, int bid);
+    void deleteCarInfoWithUIDAndBID(int uid, int bid);
 }
