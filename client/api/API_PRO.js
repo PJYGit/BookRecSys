@@ -33,4 +33,6 @@ export default {
     addNewBookIntoShop: {url: '/shop/manage/addbook'},
     setBookInfo: {url: '/shop/manage/setbookinfo'},
     delBookInfo: {url: '/shop/manage/delbook'},
+    getShopOrder: {url: '/shop/manage/getlist'},
+    operateOrder: {url: '/shop/manage/operate'},
 }
