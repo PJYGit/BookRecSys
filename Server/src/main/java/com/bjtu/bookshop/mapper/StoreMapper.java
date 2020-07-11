@@ -8,8 +8,7 @@ import com.bjtu.bookshop.bean.db.StoreManage;
 import com.bjtu.bookshop.bean.middle.SimpleUser;
 import com.bjtu.bookshop.bean.response.ShopResponses.*;
 import com.bjtu.bookshop.bean.response.UserResponses;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 @Mapper
@@ -43,4 +42,15 @@ public interface StoreMapper {
 
     @Select("select * from store_info where boss = #{uid}")
     StoreInfo getStoreInfoWithBoss(int uid);
+
+    @Delete("delete from store_manage where sid = ${sid}")
+    void cleanManager(int sid);
+
+    @Insert("insert into store_manage(sid,uid) values (#{sid},#{uid})")
+    void insertManager(int sid, int uid);
+
+    @Update("update store_info set name = #{name}, boss = #{boss}," +
+            "content = #{content}, code = #{code}, head = #{head}," +
+            "mark = #{mark} where sid = #{sid}")
+    void updateStoreInfo(StoreInfo info);
 }

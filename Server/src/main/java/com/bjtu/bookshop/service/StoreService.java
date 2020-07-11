@@ -115,11 +115,36 @@ public class StoreService {
                 info.getHead(),info.getMark());
     }
 
-    public Response updateStoreInfo(int uid, String token) {
-        if (isTokenValid(uid, token)) {
+    public ManageSetInfoResponse updateStoreInfo(
+            int uid, Integer sid, boolean isSuper, Integer code,
+            String content, String head, List<Integer> managers) {
 
-            return new ItemResponse<>(uid, Response.STATE_FAIL);
-        } else return new StateResponse(Response.STATE_FAIL);
+        StoreInfo info = null;
+
+        if(sid != null){
+            info = storeMapper.getStoreInfoWithSID(sid);
+            boolean isBoss = info.getBoss() == uid;
+            boolean isManager = storeMapper.checkManager(sid, uid) > 0;
+            if(! (isBoss || isManager || isSuper) ) return new ManageSetInfoResponse(){{setState(-12);}};
+        }else{
+            info = storeMapper.getStoreInfoWithBoss(uid);
+        }
+
+        if(info == null) return new ManageSetInfoResponse(){{setState(-12);}};
+
+        if(code != null && isSuper) info.setCode(code);
+        if(content != null) info.setContent(content);
+        if(head != null) info.setHead(head);
+        if(managers != null){
+            storeMapper.cleanManager(info.getSid());
+            for(Integer Uid:managers){
+                if(Uid == null || Uid <= 0 )continue;
+                storeMapper.insertManager(info.getSid(),Uid);
+            }
+        }
+        storeMapper.updateStoreInfo(info);
+
+        return new ManageSetInfoResponse(0);
     }
 
     public Response addBook(int uid, String token, JSONObject object) {
