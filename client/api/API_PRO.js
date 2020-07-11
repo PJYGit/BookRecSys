@@ -18,6 +18,7 @@ export default {
     submitCarOrder: {url: '/car/submit'},
 
     // 店铺模块
+    getShopBaseInfo:{url:'shop/getinfo'},
     getShopBookInfo: {url: '/shop/booklist'},
     getTagsList: {url: '/shop/tags'},
 

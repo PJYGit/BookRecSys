@@ -163,7 +163,6 @@
                 data.append('page',this.currentPage);
 
                 API.getUSList(data).then(res=>{
-                    console.log(res);
                     if (res.state) {
                         alert("获取用户列表失败");
                         return;
@@ -198,7 +197,6 @@
                 data.append('baned',item.baned);
 
                 API.setUserInfo(data).then(res=>{
-                    console.log(res);
                     if (res.state) {
                         alert("修改账户状态失败");
                         return;
@@ -224,7 +222,6 @@
                 data.append('role',this.updateUserMsg.role);
 
                 API.setUserInfo(data).then(res=>{
-                    console.log(res);
                     if (res.state) {
                         alert("修改账户状态失败");
                         return;

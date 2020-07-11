@@ -16,7 +16,8 @@
             <el-tab-pane label="我的店铺" name="4">
                 <el-button v-if="noSelfShop" style="background-color: #ef9585;color: white;margin-left: 5%;margin-bottom: 20px;font-size: 16px" @click="addAddress=true">
                     我要开店</el-button>
-                <shop-list style="width: 80%;margin-left: 5%;"></shop-list>
+                <div v-if="noShop" style="margin-left: 5%">还没有店铺，自己开一个吧</div>
+                <my-shop v-if="!noShop" :my-shop-list="userInfo.managed" style="width: 80%;margin-left: 5%;"></my-shop>
             </el-tab-pane>
             <el-tab-pane v-if="userInfo.role!==0" label="管理" name="5">
                 <manage-block :user-role="userInfo.role" style="width: 90%;"></manage-block>
@@ -35,16 +36,18 @@
     import Cookies from 'js-cookie';
     import UserInfo from "../components/selfCenter/userInfo";
     import ManageBlock from "../components/selfCenter/manageBlock";
+    import MyShop from "../components/shop/myShop";
     export default {
         name: "personalCenter",
-        components: {ManageBlock, UserInfo, AddressList, ShopList, MyTitle, FlowBoard},
+        components: {MyShop, ManageBlock, UserInfo, AddressList, ShopList, MyTitle, FlowBoard},
         data(){
             return{
-                activeName:'5',
+                activeName:'1',
                 token:Cookies.get("token"),
                 uid:Cookies.get("uid"),
                 userInfo:{},
                 noSelfShop:true,
+                noShop:false,
             }
         },
 
@@ -59,11 +62,17 @@
                 data.append('token',this.token);
 
                 API.userGetInfo(data).then(res=>{
+
+                    console.log(res);
                     if (res.state) {
                         alert("获取个人信息失败");
                         return;
                     }
                     this.userInfo = res;
+
+                    if(this.userInfo.managed.length===0){
+                        this.noShop=true;
+                    }
 
                     for(let i=0;i<this.userInfo.managed.length;i++){
                         if(this.userInfo.managed[i].boss===1){

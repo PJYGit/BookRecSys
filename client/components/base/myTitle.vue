@@ -57,6 +57,7 @@
                             window.location.reload();
                         })
                         .catch(_ => {});
+                    this.$router.push("/");
                 } else {
                     this.$router.push("/login");
                 }

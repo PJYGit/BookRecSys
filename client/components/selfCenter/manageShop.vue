@@ -148,7 +148,6 @@
                 data.append('page',this.currentPage);
 
                 API.getSList(data).then(res=>{
-                    console.log(res);
                     if (res.state) {
                         alert("获取店铺列表失败");
                         return;
@@ -181,7 +180,6 @@
                 data.append('code',msg.code);
 
                 API.setShopInfo(data).then(res=>{
-                    console.log(res);
                     if (res.state) {
                         alert("修改店铺信息失败");
                         return;
