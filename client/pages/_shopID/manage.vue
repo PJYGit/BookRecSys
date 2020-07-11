@@ -4,17 +4,24 @@
             <my-title></my-title>
         </template>
         <template slot="default">
-            <el-row :gutter="20">
-                <el-col :span="8">
-                    <el-card style="margin: 30px; text-align: center">
-                        <div slot="header">
+            <el-tabs type="border-card" style="margin: 30px;">
+                <el-tab-pane label="店铺信息管理">
+                    <div style="text-align: center">
+                        <div>
                             <span style="font-size: 34px;color: #EB7A67;">
                                 店铺信息
                             </span>
-                            <br />
+                            <div style="float: right">
+                                <p style="font-size: 1.1rem; cursor: pointer;">
+                                    <u>
+                                        修改
+                                    </u>
+                                </p>
+                            </div>
+                            <br/>
                             <img src="http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg" alt="店铺图片">
                         </div>
-                        <div slot="default">
+                        <div>
                             <table style="width: 100%">
                                 <tr>
                                     <td>店铺名</td>
@@ -52,9 +59,12 @@
                                 {{shopInfo.content}}
                             </span>
                         </div>
-                    </el-card>
-                </el-col>
-                <el-col :span="16">
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="店铺书籍管理">
+                    <div>
+                        <el-button size="mini" type="primary">添加新图书</el-button>
+                    </div>
                     <div style="margin: 30px;display: flex;justify-content: space-between;">
                         <el-card shadow="hover" style="width: 30%; text-align: center">
                             <div slot="header">
@@ -100,22 +110,53 @@
                                         :colors="['#eb7a67','#eb7a67','#eb7a67']"
                                         style="margin: 25px auto;">
                                 </el-rate>
-                                <p style="font-size: 0.8rem; cursor: pointer;">
+                                <span style="font-size: 1.1rem; cursor: pointer; color: #EB7A67">
                                     <u>
                                         修改
                                     </u>
-                                </p>
+                                </span>
+                                <span style="font-size: 1.1rem; cursor: pointer;margin-left: 15px;color: #EB7A67">
+                                    <u>
+                                        删除
+                                    </u>
+                                </span>
                             </div>
                         </el-card>
-                        <el-card shadow="hover" style="width: 30%;">
-
-                        </el-card>
-                        <el-card shadow="hover" style="width: 30%;">
-
-                        </el-card>
                     </div>
-                </el-col>
-            </el-row>
+                </el-tab-pane>
+                <el-tab-pane v-if="parseInt(this.uid)===shopInfo.boss.uid" label="店铺管理员管理">
+
+                </el-tab-pane>
+                <el-tab-pane label="店铺订单管理">
+                    <el-table :data="orderList">
+                        <el-table-column label="订单号" prop="cid">
+
+                        </el-table-column>
+                        <el-table-column label="书名">
+                            <template slot-scope="scope">
+                                {{scope.$index}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="数量">
+
+                        </el-table-column>
+                        <el-table-column label="总价">
+
+                        </el-table-column>
+                        <el-table-column label="状态" prop="type">
+                            <el-tag type="warning">待付款</el-tag>
+                            <el-tag type="info">待发货</el-tag>
+                            <el-tag type="info">待确认发货</el-tag>
+                            <el-tag>待评价</el-tag>
+                            <el-tag type="success">已完成</el-tag>
+                            <el-tag type="danger">已取消</el-tag>
+                        </el-table-column>
+                        <el-table-column label="操作">
+
+                        </el-table-column>
+                    </el-table>
+                </el-tab-pane>
+            </el-tabs>
         </template>
     </flow-board>
 </template>
@@ -124,17 +165,20 @@
     import FlowBoard from "../../components/board/FlowBoard";
     import MyTitle from "../../components/base/myTitle";
     import API from "../../api";
+
     export default {
         name: "manage",
         components: {MyTitle, FlowBoard},
         data() {
             return {
                 sid: 0,
+                uid: this.$cookie.get('uid'),
                 shopInfo: {
-                    uid: 1,
-                    sid: 1,
+                    uid: 0,
+                    sid: 0,
                     name: '123',
                     boss: {
+                        uid: 7,
                         name: 'test'
                     },
                     manager: [],
@@ -143,13 +187,35 @@
                     head: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
                     mark: 4.7
                 },
-                shopBookList: []
+                shopBookList: [],
+                orderList: [
+                    {
+                        cid: 1,
+                        type: 0,
+                        items: [
+                            {
+                                bid: 1,
+                                name: 'test',
+                                cnt: 5,
+                                pic: '',
+                                money: 123
+                            },
+                            {
+                                bid: 2,
+                                name: 'asdada',
+                                cnt: 3,
+                                pic: '',
+                                money: 11223
+                            }
+                        ]
+                    },
+                ]
             }
         },
-        mounted(){
+        mounted() {
             this.sid = this.$route.query.sid;
-            this.getShopInfo()
-            this.getShopBookInfo()
+            //this.getShopInfo()
+            //this.getShopBookInfo()
         },
         methods: {
             getShopInfo: function () {
@@ -177,7 +243,26 @@
                 }).catch(res => {
                     this.$message.info(res)
                 })
-            }
+            },
+            modifyShopInfo: function () {
+
+            },
+            addNewBook: function () {
+
+            },
+            modifyBookInfo: function () {
+
+            },
+            delShopBook: function () {
+
+            },
+            getOrderList: function () {
+
+            },
+            operateOrder: function () {
+
+            },
+
         }
     }
 </script>
