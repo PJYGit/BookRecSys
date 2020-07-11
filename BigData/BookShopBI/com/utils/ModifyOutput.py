@@ -5,8 +5,7 @@ sys.path.append('/home/software/files/BookShopBI/BookShopBI/')
 
 import os
 
-
-def modify():
+def modifyOutput():
     shell = "hadoop fs -get /user/hdfs/itemCF/result/part-r-00000 /home/files/"
     os.system(shell)
     infile = open("/home/files/part-r-00000", "r")
