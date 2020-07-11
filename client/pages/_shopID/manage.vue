@@ -129,30 +129,34 @@
                 </el-tab-pane>
                 <el-tab-pane label="店铺订单管理">
                     <el-table :data="orderList">
-                        <el-table-column label="订单号" prop="cid">
-
-                        </el-table-column>
-                        <el-table-column label="书名">
+                        <el-table-column label="订单号" prop="cid"></el-table-column>
+                        <el-table-column label="订单内容">
                             <template slot-scope="scope">
-                                {{scope.$index}}
+                                <div v-for="(item, index) in scope.row.items" :key="index">
+                                    <img :src="item.pic" alt="图书图片" style="width: 40%"/>
+                                    <div style="display: inline-block;">
+                                        <p style="font-size: 1.2rem;color: #EB7A67;margin: 10px;">书名：{{item.name}}</p>
+                                        <p style="font-size: 1rem;color: #EB7A67;margin: 10px;">数量：{{item.cnt}}</p>
+                                        <p style="font-size: 1.2rem;color: #EB7A67;margin: 10px;">￥{{item.money}}</p>
+                                    </div>
+                                </div>
                             </template>
                         </el-table-column>
-                        <el-table-column label="数量">
-
-                        </el-table-column>
-                        <el-table-column label="总价">
-
-                        </el-table-column>
-                        <el-table-column label="状态" prop="type">
-                            <el-tag type="warning">待付款</el-tag>
-                            <el-tag type="info">待发货</el-tag>
-                            <el-tag type="info">待确认发货</el-tag>
-                            <el-tag>待评价</el-tag>
-                            <el-tag type="success">已完成</el-tag>
-                            <el-tag type="danger">已取消</el-tag>
+                        <el-table-column label="状态">
+                            <template slot-scope="scope">
+                                <el-tag v-if="scope.row.type===0" type="warning">待付款</el-tag>
+                                <el-tag v-if="scope.row.type===1" type="info">待发货</el-tag>
+                                <el-tag v-if="scope.row.type===2" type="info">待确认发货</el-tag>
+                                <el-tag v-if="scope.row.type===3">待评价</el-tag>
+                                <el-tag v-if="scope.row.type===4" type="success">已完成</el-tag>
+                                <el-tag v-if="scope.row.type===-1" type="danger">已取消</el-tag>
+                            </template>
                         </el-table-column>
                         <el-table-column label="操作">
-
+                            <template slot-scope="scope">
+                                <el-button size="mini" type="primary">发货</el-button>
+                                <el-button size="mini" type="danger">取消订单</el-button>
+                            </template>
                         </el-table-column>
                     </el-table>
                 </el-tab-pane>
@@ -197,14 +201,14 @@
                                 bid: 1,
                                 name: 'test',
                                 cnt: 5,
-                                pic: '',
+                                pic: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
                                 money: 123
                             },
                             {
                                 bid: 2,
                                 name: 'asdada',
                                 cnt: 3,
-                                pic: '',
+                                pic: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
                                 money: 11223
                             }
                         ]
@@ -222,7 +226,7 @@
                 let data = new FormData()
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
-                data.append('sid', this.$cookie.get('sid'))
+                data.append('sid', this.sid)
                 API.getShopInfo(data).then(res => {
                     if (res.state === 0) {
                         this.shopInfo = res
@@ -235,7 +239,7 @@
                 let data = new FormData()
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
-                data.append('sid', this.$cookie.get('sid'))
+                data.append('sid', this.sid)
                 API.getShopBookInfo().then(res => {
                     if (res.state === 0) {
                         this.shopBookList = res.books
@@ -245,22 +249,110 @@
                 })
             },
             modifyShopInfo: function () {
-
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('sid', this.sid)
+                data.append('manager', JSON.stringify(this.shopInfo.manager))
+                data.append('content', this.shopInfo.content)
+                data.append('head', this.shopInfo.head)
+                API.setShopInfo(data).then(res => {
+                    if (res.state === 0) {
+                        this.$message.success('修改成功')
+                    } else this.$message.error('')
+                }).catch(res => {
+                    this.$message.info(res)
+                })
             },
             addNewBook: function () {
-
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('sid', this.sid)
+                data.append('tid', '')
+                data.append('bname', '')
+                data.append('author', '')
+                data.append('content', '')
+                data.append('pic', '')
+                data.append('remain', '')
+                data.append('price', '')
+                API.addNewBookIntoShop().then(res => {
+                    if (res.state === 0) {
+                        this.$message.success('添加成功')
+                    } else this.$message.error('')
+                }).catch(res => {
+                    this.$message.info(res)
+                })
             },
-            modifyBookInfo: function () {
-
+            modifyBookInfo: function (bid) {
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('sid', this.sid)
+                data.append('bid', bid)
+                data.append('tid', '')
+                data.append('bname', '')
+                data.append('author', '')
+                data.append('content', '')
+                data.append('pic', '')
+                data.append('remain', '')
+                data.append('price', '')
+                API.setBookInfo().then(res => {
+                    if (res.state === 0) {
+                        this.$message.success('修改成功')
+                    } else this.$message.error('')
+                }).catch(res => {
+                    this.$message.info(res)
+                })
             },
-            delShopBook: function () {
-
+            delShopBook: function (bid) {
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('bid', bid)
+                API.delBookInfo().then(res => {
+                    if (res.state === 0) {
+                        this.$message.success('删除成功')
+                    } else this.$message.error('')
+                }).catch(res => {
+                    this.$message.info(res)
+                })
             },
             getOrderList: function () {
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('sid', this.$cookie.get('sid'))
+                API.addNewBookIntoShop().then(res => {
+                    if (res.state === 0) {
 
+                    } else this.$message.error('')
+                }).catch(res => {
+                    this.$message.info(res)
+                })
+            },
+            getShopOrder: function () {
+
+                API.getShopOrder().then(res => {
+                    if (res.state === 0) {
+
+                    } else this.$message.error('')
+                }).catch(res => {
+                    this.$message.info(res)
+                })
             },
             operateOrder: function () {
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('sid', this.$cookie.get('sid'))
+                API.operateOrder().then(res => {
+                    if (res.state === 0) {
 
+                    } else this.$message.error('')
+                }).catch(res => {
+                    this.$message.info(res)
+                })
             },
 
         }
