@@ -184,4 +184,13 @@ public class ShopResponses {
         int state;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageGetUserResponse {
+        int state;
+        int uid;
+        String nickname;
+    }
+
 }

@@ -5,12 +5,7 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.bjtu.bookshop.bean.db.BookInfo;
-import com.bjtu.bookshop.bean.db.BookTag;
-import com.bjtu.bookshop.bean.db.StoreInfo;
-import com.bjtu.bookshop.bean.db.StoreManage;
-import com.bjtu.bookshop.bean.db.UserInfo;
-import com.bjtu.bookshop.bean.db.UserLogin;
+import com.bjtu.bookshop.bean.db.*;
 import com.bjtu.bookshop.bean.middle.SimpleUser;
 import com.bjtu.bookshop.bean.response.ShopResponses.*;
 import com.bjtu.bookshop.bean.response.UserResponses;
@@ -166,6 +161,7 @@ public class StoreService {
         return new ManageDelBookResponse(0);
     }
 
+    /** 2.s.6 body **/
     public ManageSetBookResponse updateBookInfo(int uid, boolean isSuper, int bid,
                                                 List<Integer> tid, String bname, String author,
                                                 String content, String pic, Integer remain, Double price) {
@@ -194,7 +190,15 @@ public class StoreService {
 
         return new ManageSetBookResponse(0);
     }
-    
+
+    /** 2.s.7 body **/
+    public ManageGetUserResponse getUserInfo(String phone) {
+        UserReg reg = userMapper.getUserRegWithPhone(phone);
+        if(reg == null) return new ManageGetUserResponse(){{setState(-12);}};
+        UserInfo info = userMapper.getUserInfoWithUserID(reg.getUid());
+        return new ManageGetUserResponse(0,reg.getUid(),info.getNickname());
+    }
+
     public StoreInfo getShop(int uid, Integer sid,boolean isSuper){
         if(sid != null){
             StoreInfo info = storeMapper.getStoreInfoWithSID(sid);
@@ -206,5 +210,6 @@ public class StoreService {
             return storeMapper.getStoreInfoWithBoss(uid);
         }
     }
+
 
 }

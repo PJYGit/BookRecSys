@@ -111,4 +111,12 @@ public class ShopRequests {
         Double price;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageGetUserRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull String phone;
+    }
+
 }

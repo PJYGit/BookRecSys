@@ -150,4 +150,17 @@ public class StoreController {
                 req.getTid(),req.getBname(),req.getAuthor(),req.getContent(),
                 req.getPic(),req.getRemain(),req.getPrice());
     }
+
+    /**
+     * 2.s.6
+     * /shop/manage/getuser 手机取用户
+     */
+    @RequestMapping(value = "/manage/getuser", method = {RequestMethod.POST})
+    public ManageGetUserResponse getUserInfo(@Valid ManageGetUserRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageGetUserResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageGetUserResponse(){{setState(-10);}};
+
+        return storeService.getUserInfo(req.getPhone());
+    }
+
 }
