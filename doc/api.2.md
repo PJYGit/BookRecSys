@@ -346,6 +346,7 @@ request:
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
+sid|商铺id|商铺id
 tid[]|分类id|分类id数组
 bname|书本名|书本名
 author|作者|作者
