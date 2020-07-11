@@ -73,6 +73,16 @@ public class StoreController {
     }
 
     /**
+     * 2.5
+     * /shop/tags 获取标签文字
+     */
+    @RequestMapping(value = "/tags", method = {RequestMethod.POST})
+    public TagListResponse listTag(@Valid TagListRequest req, BindingResult br) {
+        if(br.hasErrors()) return new TagListResponse(){{setState(-1);}};
+        return storeService.listTag();
+    }
+
+    /**
      * 2.s.1
      * /shop/manage/list 取店铺列表
      */

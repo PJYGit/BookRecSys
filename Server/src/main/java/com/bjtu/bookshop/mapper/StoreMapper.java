@@ -3,6 +3,7 @@ package com.bjtu.bookshop.mapper;
 import java.util.List;
 
 import com.bjtu.bookshop.bean.db.BookInfo;
+import com.bjtu.bookshop.bean.db.BookTag;
 import com.bjtu.bookshop.bean.db.StoreInfo;
 import com.bjtu.bookshop.bean.db.StoreManage;
 
@@ -81,4 +82,7 @@ public interface StoreMapper {
             "content = #{content}, pic = #{pic}, remain = #{remain}, price = #{price} " +
             "where bid = #{bid}")
     void updateBookInfo(BookInfo binfo);
+
+    @Select("select * from book_type")
+    List<BookTag> getTagList();
 }

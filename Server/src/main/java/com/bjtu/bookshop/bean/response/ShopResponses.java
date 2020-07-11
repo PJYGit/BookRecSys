@@ -1,5 +1,6 @@
 package com.bjtu.bookshop.bean.response;
 
+import com.bjtu.bookshop.bean.db.BookTag;
 import com.bjtu.bookshop.bean.middle.SimpleUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -191,6 +192,14 @@ public class ShopResponses {
         int state;
         int uid;
         String nickname;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TagListResponse {
+        int state;
+        List<BookTag> tags;
     }
 
 }

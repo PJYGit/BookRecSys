@@ -119,4 +119,9 @@ public class ShopRequests {
         @NotNull String phone;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class TagListRequest {
+    }
+
 }

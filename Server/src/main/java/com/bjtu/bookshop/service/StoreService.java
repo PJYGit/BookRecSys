@@ -75,6 +75,11 @@ public class StoreService {
         return new SearchResponse(0,list);
     }
 
+    /** 2.5 body **/
+    public TagListResponse listTag() {
+        List<BookTag> list = storeMapper.getTagList();
+        return new TagListResponse(0,list);
+    }
 
     static CacheUtil.TimeCache<Integer> ManageListResponseListCache = new CacheUtil.TimeCache<Integer>();
     /** 2.s.1 body **/
@@ -210,6 +215,7 @@ public class StoreService {
             return storeMapper.getStoreInfoWithBoss(uid);
         }
     }
+
 
 
 }
