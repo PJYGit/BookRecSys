@@ -111,7 +111,7 @@
                                     </el-form-item>
                                     <el-form-item label="图书类别">
                                         <el-select v-model="newBookInfo.tid" multiple size="mini">
-                                            <el-option v-for="item in this.tagList" :key="item.tid" :value="item.name" />
+                                            <el-option v-for="item in this.tagList" :key="item.tid" :value="item.tid" :label="item.name" />
                                         </el-select>
                                     </el-form-item>
                                     <el-form-item label="图书图片">
@@ -145,7 +145,7 @@
                                         <td>标签</td>
                                         <td>
                                             <span v-for="each in item.tid" :key="each">
-                                                {{each}}
+                                                {{tagList.filter(i => i.tid===each)[0].name}}
                                             </span>
                                         </td>
                                     </tr>
@@ -285,7 +285,7 @@
                 isEditShopInfo: false,
                 isAddNewBook: false,
                 isEditBookInfo: false,
-                tagList: [],
+                tagList: [{tid: 1, name: 'first'}, {tid: 2, name: 'second'}, {tid: 3, name: 'third'}],
                 shopInfo: {
                     uid: 0,
                     sid: 0,
@@ -376,14 +376,11 @@
                 }
             }
         },
-        created() {
-            this.getTagList()
-        },
         mounted() {
-            this.sid = this.$route.query.sid;
+            this.sid = this.$route.query.sid
+            //this.getTagList()
             //this.getShopInfo()
             //this.getShopBookInfo()
-            // this.getTagList()
         },
         methods: {
             getShopInfo: function () {
@@ -441,10 +438,11 @@
                 data.append('pic', this.newBookInfo.pic)
                 data.append('remain', this.newBookInfo.remain)
                 data.append('price', this.newBookInfo.price)
-                API.addNewBookIntoShop().then(res => {
+                API.addNewBookIntoShop(data).then(res => {
                     if (res.state === 0) {
                         this.$message.success('添加成功')
-                    } else this.$message.error('')
+                        this.getShopBookInfo()
+                    } else this.$message.error('添加失败')
                 }).catch(res => {
                     this.$message.info(res)
                 })
