@@ -136,8 +136,18 @@ public class StoreController {
         return storeService.delBook(req.getUid(),isSuper,req.getBid());
     }
 
+    /**
+     * 2.s.5
+     * /shop/manage/setbookinfo 设置书信息
+     */
     @RequestMapping(value = "/manage/setbookinfo", method = {RequestMethod.POST})
-    public Response modifyBookInfoInStore(@RequestBody JSONObject object) {
-        return storeService.updateBookInfo(object.getIntValue("uid"), object.getString("token"), object);
+    public ManageSetBookResponse modifyBookInfoInStore(@Valid ManageSetBookRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageSetBookResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageSetBookResponse(){{setState(-10);}};
+        boolean isSuper = userService.checkUserRole(req.getUid(),1);
+
+        return storeService.updateBookInfo(req.getUid(),isSuper,req.getBid(),
+                req.getTid(),req.getBname(),req.getAuthor(),req.getContent(),
+                req.getPic(),req.getRemain(),req.getPrice());
     }
 }

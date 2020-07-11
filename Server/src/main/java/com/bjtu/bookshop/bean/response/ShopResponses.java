@@ -177,4 +177,11 @@ public class ShopResponses {
         int state;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageSetBookResponse {
+        int state;
+    }
+
 }

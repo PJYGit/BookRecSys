@@ -166,31 +166,35 @@ public class StoreService {
         return new ManageDelBookResponse(0);
     }
 
-    public Response updateBookInfo(int uid, String token, JSONObject object) {
-        if (isTokenValid(uid, token)) {
+    public ManageSetBookResponse updateBookInfo(int uid, boolean isSuper, int bid,
+                                                List<Integer> tid, String bname, String author,
+                                                String content, String pic, Integer remain, Double price) {
 
-            BookInfo info = bookMapper.getBookInfoWithBID(object.getIntValue("bid"));
-            if (object.getString("bname") != null) info.setName(object.getString("bname"));
-            if (object.getString("author") != null) info.setAuthor(object.getString("author"));
-            if (object.getString("content") != null) info.setContent(object.getString("content"));
-            if (object.getString("pic") != null) info.setPic(object.getString("pic"));
-            if (object.getString("remain") != null) info.setRemain(object.getIntValue("remain"));
-            //if (object.getDoubleValue("price") != 0) info.setPrice(object.getDoubleValue("price"));
-            bookMapper.updateBookInfo(info);
+        BookInfo binfo = storeMapper.getBookWithBid(bid);
+        if(binfo == null) return new ManageSetBookResponse(){{setState(-12);}};
 
-            JSONArray array = object.getJSONArray("tid");
-            bookMapper.deleteBookAllTagWithBID(info.getBid());
-            for (int i = 0; i < array.size(); i++)
-                bookMapper.insertBookTag(info.getBid(), array.getIntValue(i));
+        StoreInfo info = getShop(uid, binfo.getSid(), isSuper);
+        if(info == null) return new ManageSetBookResponse(){{setState(-13);}};
 
-            return new StateResponse(Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+        if(bname != null) binfo.setName(bname);
+        if(author != null) binfo.setAuthor(author);
+        if(content != null) binfo.setContent(content);
+        if(pic != null) binfo.setPic(pic);
+        if(remain != null) binfo.setRemain(remain);
+        if(price != null) binfo.setPrice((int)Math.round(100 * price));
+
+        storeMapper.updateBookInfo(binfo);
+        if(tid != null){
+            storeMapper.cleanBookTag(bid);
+            for(Integer Tid:tid) {
+                if(Tid == null || Tid <= 0 )continue;
+                storeMapper.insertTagForBook(bid, Tid);
+            }
+        }
+
+        return new ManageSetBookResponse(0);
     }
-
-    private boolean isTokenValid(int uid, String token) {
-        return false;
-    }
-
+    
     public StoreInfo getShop(int uid, Integer sid,boolean isSuper){
         if(sid != null){
             StoreInfo info = storeMapper.getStoreInfoWithSID(sid);

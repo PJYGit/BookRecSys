@@ -76,4 +76,9 @@ public interface StoreMapper {
 
     @Select("select * from book_info where bid = #{bid}")
     BookInfo getBookWithBid(int bid);
+
+    @Update("update book_info set name = #{name}, author = #{author}," +
+            "content = #{content}, pic = #{pic}, remain = #{remain}, price = #{price} " +
+            "where bid = #{bid}")
+    void updateBookInfo(BookInfo binfo);
 }
