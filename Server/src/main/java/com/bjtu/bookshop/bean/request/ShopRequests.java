@@ -73,4 +73,19 @@ public class ShopRequests {
         String head;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageAddBookRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int sid;
+        @NotNull List<Integer> tid;
+        @NotNull String bname;
+        @NotNull String author;
+        @NotNull String content;
+        @NotNull String pic;
+        @NotNull int remain;
+        @NotNull double price;
+    }
+
 }

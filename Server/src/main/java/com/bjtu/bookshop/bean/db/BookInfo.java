@@ -14,7 +14,7 @@ public class BookInfo {
     private int sid;
     private String content;
     private String pic;
-    private String sales;
-    private String remain;
+    private int sales;
+    private int remain;
     private int price;
 }

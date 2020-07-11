@@ -2,6 +2,7 @@ package com.bjtu.bookshop.mapper;
 
 import java.util.List;
 
+import com.bjtu.bookshop.bean.db.BookInfo;
 import com.bjtu.bookshop.bean.db.StoreInfo;
 import com.bjtu.bookshop.bean.db.StoreManage;
 
@@ -53,4 +54,17 @@ public interface StoreMapper {
             "content = #{content}, code = #{code}, head = #{head}," +
             "mark = #{mark} where sid = #{sid}")
     void updateStoreInfo(StoreInfo info);
+
+    @Insert("INSERT INTO book_info(name, author, sid, content, pic, sales, remain, price) " +
+            "VALUES(#{body.name}, #{body.author}, #{body.sid}, #{body.content}, " +
+            "#{body.pic}, #{body.sales}, #{body.remain}, #{body.price} )")
+    @Options(useGeneratedKeys = true, keyProperty = "body.bid")
+    void InsertBook(@Param("body") BookInfo binfo, boolean real);
+    default int InsertBook(BookInfo binfo){
+        InsertBook(binfo,true);
+        return binfo.getBid();
+    }
+
+    @Insert("insert into book_tag(bid,tid) values (#{bid},#{tid})")
+    void insertTagForBook(int bid, int tid);
 }
