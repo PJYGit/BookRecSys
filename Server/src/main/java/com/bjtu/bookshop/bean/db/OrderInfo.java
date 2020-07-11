@@ -4,10 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author 李高丞
- * @version 1.0
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +12,8 @@ public class OrderInfo {
     private int uid;
     private int sid;
     private int state;
-    private int money;
-    private String place;
-    private String content;
+    private int cost;
+    private String address;
+    private String comment;
+    int mark;
 }
