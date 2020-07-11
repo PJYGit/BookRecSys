@@ -110,7 +110,9 @@
                                         <el-input-number v-model="newBookInfo.remain" size="small"></el-input-number>
                                     </el-form-item>
                                     <el-form-item label="图书类别">
-
+                                        <el-select v-model="newBookInfo.tid" multiple size="mini">
+                                            <el-option v-for="item in this.tagList" :key="item.tid" :value="item.tid" :label="item.name" />
+                                        </el-select>
                                     </el-form-item>
                                     <el-form-item label="图书图片">
                                         <el-input value="TODO 上传图片获取返回地址" disabled size="mini"></el-input>
@@ -142,7 +144,9 @@
                                     <tr>
                                         <td>标签</td>
                                         <td>
-                                            {{item.tid}}
+                                            <span v-for="each in item.tid" :key="each">
+                                                {{tagList.filter(i => i.tid===each)[0].name}}
+                                            </span>
                                         </td>
                                     </tr>
                                     <tr>
@@ -175,12 +179,45 @@
                                         :colors="['#eb7a67','#eb7a67','#eb7a67']"
                                         style="margin: 25px auto;">
                                 </el-rate>
-                                <span @click="modifyBookInfo"
+                                <span
                                       style="font-size: 1.1rem; cursor: pointer; color: #EB7A67">
-                                    <u>
+                                    <u @click="beforeEditBookInfo(item)">
                                         修改
                                     </u>
-                                    <el-dialog title="修改图书信息"></el-dialog>
+                                    <el-dialog center title="修改图书信息" :visible.sync="isEditBookInfo">
+                                        <div>
+                                            <el-form label-width="80px">
+                                                <el-form-item label="书名">
+                                            <el-input v-model="editBookInfo.bname" size="mini"
+                                                      style="width: 300px;"/>
+                                            </el-form-item>
+                                            <el-form-item label="作者">
+                                                <el-input v-model="editBookInfo.author" size="mini"
+                                                          style="width: 300px;"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="图书简介">
+                                                <el-input v-model="editBookInfo.content" type="textarea"
+                                                          :autosize="{ minRows: 4}"/>
+                                            </el-form-item>
+                                            <el-form-item label="图书价钱">
+                                                <el-input-number v-model="editBookInfo.price" size="small"></el-input-number>
+                                            </el-form-item>
+                                            <el-form-item label="图书库存">
+                                                <el-input-number v-model="editBookInfo.remain" size="small"></el-input-number>
+                                            </el-form-item>
+                                            <el-form-item label="图书类别">
+                                                {{editBookInfo.tid}}
+                                            </el-form-item>
+                                            <el-form-item label="图书图片">
+                                                <el-input value="TODO 上传图片获取返回地址" disabled size="mini"></el-input>
+                                            </el-form-item>
+                                            </el-form>
+                                        </div>
+                                        <span slot="footer">
+                                            <el-button @click="modifyBookInfo(item)" type="primary" size="mini">确认修改</el-button>
+                                            <el-button @click="cancelEditBookInfo" size="mini">取消</el-button>
+                                        </span>
+                                    </el-dialog>
                                 </span>
                                 <span @click="delShopBook(item.bid)"
                                       style="font-size: 1.1rem; cursor: pointer;margin-left: 15px;color: #EB7A67">
@@ -247,6 +284,8 @@
                 uid: this.$cookie.get('uid'),
                 isEditShopInfo: false,
                 isAddNewBook: false,
+                isEditBookInfo: false,
+                tagList: [{tid: 1, name: 'first'}, {tid: 2, name: 'second'}, {tid: 3, name: 'third'}],
                 shopInfo: {
                     uid: 0,
                     sid: 0,
@@ -323,11 +362,23 @@
                     pic: '',
                     remain: '',
                     price: 1
+                },
+                editBookInfo: {
+                    bid: 1,
+                    sid: 1,
+                    tid: [],
+                    bname: '',
+                    author: '',
+                    content: '',
+                    pic: '',
+                    remain: '',
+                    price: 1
                 }
             }
         },
         mounted() {
-            this.sid = this.$route.query.sid;
+            this.sid = this.$route.query.sid
+            //this.getTagList()
             //this.getShopInfo()
             //this.getShopBookInfo()
         },
@@ -380,17 +431,18 @@
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
                 data.append('sid', this.sid)
-                data.append('tid', '')
-                data.append('bname', '')
-                data.append('author', '')
-                data.append('content', '')
-                data.append('pic', '')
-                data.append('remain', '')
-                data.append('price', '')
-                API.addNewBookIntoShop().then(res => {
+                data.append('tid', JSON.stringify(this.newBookInfo.tid))
+                data.append('bname', this.newBookInfo.bname)
+                data.append('author', this.newBookInfo.author)
+                data.append('content', this.newBookInfo.content)
+                data.append('pic', this.newBookInfo.pic)
+                data.append('remain', this.newBookInfo.remain)
+                data.append('price', this.newBookInfo.price)
+                API.addNewBookIntoShop(data).then(res => {
                     if (res.state === 0) {
                         this.$message.success('添加成功')
-                    } else this.$message.error('')
+                        this.getShopBookInfo()
+                    } else this.$message.error('添加失败')
                 }).catch(res => {
                     this.$message.info(res)
                 })
@@ -429,7 +481,7 @@
                 })
             },
             delShopBook: function (bid) {
-                this.$confirm('确认删除？').then(res => {
+                this.$confirm('确认删除？').then(_ => {
                     let data = new FormData()
                     data.append('uid', this.$cookie.get('uid'))
                     data.append('token', this.$cookie.get('token'))
@@ -437,11 +489,9 @@
                     API.delBookInfo().then(res => {
                         if (res.state === 0) {
                             this.$message.success('删除成功')
-                        } else this.$message.error('')
-                    }).catch(res => {
-                        this.$message.info(res)
-                    })
-                }).catch(res => this.$message.info(res))
+                        }
+                    }).catch(_ => {})
+                }).catch(_ => {})
             },
             getOrderList: function () {
                 let data = new FormData()
@@ -496,6 +546,38 @@
             cancelEditShopInfo: function () {
                 this.isEditShopInfo = !this.isEditShopInfo
                 this.editShopInfo = this.shopInfo
+            },
+            beforeEditBookInfo: function (item) {
+                this.isEditBookInfo = !this.isEditBookInfo
+                // TODO 双向绑定
+                this.editBookInfo = item
+            },
+            cancelEditBookInfo: function () {
+                this.isEditBookInfo = !this.isEditBookInfo
+                this.editBookInfo = {
+                    bid: 1,
+                    sid: 1,
+                    tid: [],
+                    bname: '',
+                    author: '',
+                    content: '',
+                    pic: '',
+                    remain: '',
+                    price: 1
+                }
+                this.getShopBookInfo()
+            },
+            getTagList: function () {
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                API.getTagsList(data).then(res => {
+                    if (res.state === 0) {
+                        this.tagList = res.tags
+                    }
+                }).catch(res => {
+                    console.log(res)
+                })
             }
         }
     }

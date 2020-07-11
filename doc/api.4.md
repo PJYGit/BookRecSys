@@ -1,5 +1,19 @@
 # 4#订单
 
+以下状态码：-1为请求错误，-10为身份验证错误
+
+价格计算：固定运费22
+$$
+本类总价=单价 \times 个数 \times VIP比例
+$$
+
+$$
+订单总价=\sum{本类总价}+固定运费（暂定22，发顺丰）
+$$
+
+
+
+---
 # /order/getlist 查看本人所有订单
 
 request:
@@ -8,8 +22,7 @@ request:
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
-type [number]|订单类型筛选|0待支付 1代发货 2待确认收货 3待评价 4已完成 -1已取消
-//这个我就不写分页来恶心人了
+type [number]|订单类型筛选|0待支付 1待发货 2待确认收货 3待评价 4已完成 -1已取消
 
 response:
 
@@ -22,7 +35,7 @@ items[] [list\<elm\>]|订单列表|
 键值|名称|描述
 -|-|-
 cid [number]|订单id|订单id
-type|订单类型|0待支付 1代发货 2待确认收货 3待评价 4已完成 -1已取消
+type|订单类型|0待支付 1待发货 2待确认收货 3待评价 4已完成 -1已取消
 sid [number]|商家id|商家id
 sname|商家名|商家名
 pic|商品图片|有多个的话随便取一个
@@ -51,7 +64,7 @@ response:
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
 cid [number]|订单id|订单id
-type [number]|订单类型|0待支付 1代发货 2待确认收货 3待评价 4已完成 -1已取消
+type [number]|订单类型|0待支付 1待发货 2待确认收货 3待评价 4已完成 -1已取消
 sid [number]|商家id|商家id
 sname|商家名|商家名
 items[] [list\<cfd\>]|商品列表|见下文
@@ -62,7 +75,7 @@ items[] [list\<cfd\>]|商品列表|见下文
 bid [number]|书本id|书本id
 name|书本名|书本名称
 cnt [number]|个数|个数
-pic|书图url|书图
+pic|图片url|图片
 money [number %.2f]|本类总价|本类总价
 
 ---
@@ -75,7 +88,7 @@ request:
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 cid [number]|订单id|订单id
-op|操作类型|pay支付 cancel取消 receive确认收货
+opcode|操作类型|1支付 2取消 3确认收货
 
 response:
 
@@ -93,8 +106,8 @@ request:
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 cid [number]|订单id|订单id
-mark [number]|分数|0-5
-content|评价内容|内容
+mark [number]|打分|int 0-5
+comment|评价内容|内容
 
 response:
 
@@ -112,7 +125,7 @@ request:
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 bid [number]|书本id|书本id
-cnt [number]|分数|0-5
+cnt [number]|个数|个数
 
 response:
 
@@ -131,8 +144,7 @@ request:
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
-type [number]|订单类型筛选|0待支付 1代发货 2待确认收货 3待评价 4已完成 -1已取消
-page [number]|分页|一页20个默认为1
+type [number]|订单类型筛选|0待支付 1待发货 2待确认收货 3待评价 4已完成 -1已取消
 
 response:
 
@@ -167,7 +179,7 @@ request:
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 cid [number]|订单id|订单id
-op|操作类型|cancel取消 sent确认发货
+opcode|操作类型|cancel取消 sent确认发货
 
 response:
 
