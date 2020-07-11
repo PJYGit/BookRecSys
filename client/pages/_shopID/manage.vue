@@ -55,7 +55,65 @@
                     </el-card>
                 </el-col>
                 <el-col :span="16">
+                    <div style="margin: 30px;display: flex;justify-content: space-between;">
+                        <el-card shadow="hover" style="width: 30%; text-align: center">
+                            <div slot="header">
+                                book name
+                                <br/>
+                                <img src="http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg" alt="bookImage">
+                            </div>
+                            <div slot="default">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>author</td>
+                                        <td>
+                                            author
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>content</td>
+                                        <td>
+                                            content
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>sales</td>
+                                        <td>
+                                            sales
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>remain</td>
+                                        <td>
+                                            remain
+                                        </td>
+                                    </tr>
+                                </table>
+                                <p>
+                                    ￥price
+                                </p>
+                                <el-rate
+                                        v-model="shopInfo.mark"
+                                        disabled
+                                        show-score
+                                        text-color="#eb7a67"
+                                        :colors="['#eb7a67','#eb7a67','#eb7a67']"
+                                        style="margin: 25px auto;">
+                                </el-rate>
+                                <p style="font-size: 0.8rem; cursor: pointer;">
+                                    <u>
+                                        修改
+                                    </u>
+                                </p>
+                            </div>
+                        </el-card>
+                        <el-card shadow="hover" style="width: 30%;">
 
+                        </el-card>
+                        <el-card shadow="hover" style="width: 30%;">
+
+                        </el-card>
+                    </div>
                 </el-col>
             </el-row>
         </template>
