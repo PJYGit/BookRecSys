@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderContent {
-    int cid;
-    int bid;
-    int cnt;
+    private int cid;
+    private int bid;
+    private int cnt;
+    private int money;
 }
