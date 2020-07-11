@@ -27,6 +27,7 @@ export default {
     // 个人管理模块
     getUSList: {url: 'user/manage/list'},//获取用户列表
     setUserInfo: {url: 'user/manage/setinfo'},//修改用户信息
+    getSList:{url:'shop/manage/list'},//获取全部店铺列表
 
     // 店铺管理模块
     getShopInfo: {url: '/shop/manage/getinfo'},
