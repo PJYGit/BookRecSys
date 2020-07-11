@@ -96,10 +96,17 @@ public class StoreController {
         return storeService.getStoreManagerInfo(req.getUid(),req.getSid(),isSuper);
     }
 
+    /**
+     * 2.s.2
+     * /shop/manage/setinfo 设置用户/某店信息
+     */
     @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
-    public Response modifyStoreInfo(@RequestBody JSONObject object) {
-        // TODO 未完成，给董老师吧
-        return storeService.updateStoreInfo(object.getIntValue("uid"), object.getString("token"));
+    public ManageSetInfoResponse modifyStoreInfo(@Valid ManageSetInfoRequest req, BindingResult br) {
+        if(br.hasErrors()) return new ManageSetInfoResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new ManageSetInfoResponse(){{setState(-10);}};
+        boolean isSuper = userService.checkUserRole(req.getUid(),1);
+        return storeService.updateStoreInfo(req.getUid(),req.getSid(),isSuper,
+                req.getCode(),req.getContent(),req.getHead(),req.getManagers());
     }
 
     @RequestMapping(value = "/manage/addbook", method = {RequestMethod.POST})

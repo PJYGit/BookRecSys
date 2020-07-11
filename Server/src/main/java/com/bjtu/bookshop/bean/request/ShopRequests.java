@@ -61,4 +61,16 @@ public class ShopRequests {
         @NotNull int sid;
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class ManageSetInfoRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        Integer sid;
+        List<Integer> managers;
+        String content;
+        Integer code;
+        String head;
+    }
+
 }

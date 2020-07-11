@@ -156,4 +156,11 @@ public class ShopResponses {
         double mark;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ManageSetInfoResponse {
+        int state;
+    }
+
 }
