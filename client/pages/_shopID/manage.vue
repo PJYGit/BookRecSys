@@ -24,10 +24,12 @@
                                     <div>
                                         <el-form label-width="80px">
                                             <el-form-item label="店铺名">
-                                                <el-input v-model="editShopInfo.name" size="mini" style="width: 300px;" />
+                                                <el-input v-model="editShopInfo.name" size="mini"
+                                                          style="width: 300px;"/>
                                             </el-form-item>
                                             <el-form-item label="店铺简介">
-                                                <el-input v-model="editShopInfo.content" type="textarea" :autosize="{ minRows: 4}" />
+                                                <el-input v-model="editShopInfo.content" type="textarea"
+                                                          :autosize="{ minRows: 4}"/>
                                             </el-form-item>
                                             <el-form-item label="店铺图片">
                                                 TODO 上传图片获得返回地址
@@ -87,57 +89,65 @@
                     <div>
                         <el-button size="mini" type="primary">添加新图书</el-button>
                     </div>
-                    <div style="margin: 30px;display: flex;justify-content: space-between;">
+                    <div v-for="(item) in shopBookList" :key="item.bid" style="margin: 30px;display: flex;justify-content: space-between;">
                         <el-card shadow="hover" style="width: 30%; text-align: center">
                             <div slot="header">
-                                book name
+                                {{item.bname}}
                                 <br/>
                                 <img src="http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg" alt="bookImage">
                             </div>
                             <div slot="default">
                                 <table style="width: 100%">
                                     <tr>
-                                        <td>author</td>
+                                        <td>作者</td>
                                         <td>
-                                            author
+                                            {{item.author}}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>content</td>
+                                        <td>标签</td>
                                         <td>
-                                            content
+                                            {{item.tid}}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>sales</td>
+                                        <td>简介</td>
                                         <td>
-                                            sales
+                                            {{item.content}}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>remain</td>
+                                        <td>销量</td>
                                         <td>
-                                            remain
+                                            {{item.sales}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>库存</td>
+                                        <td>
+                                            {{item.remain}}
                                         </td>
                                     </tr>
                                 </table>
                                 <p>
-                                    ￥price
+                                    ￥{{item.price}}
                                 </p>
                                 <el-rate
-                                        v-model="shopInfo.mark"
+                                        v-model="item.mark"
                                         disabled
                                         show-score
                                         text-color="#eb7a67"
                                         :colors="['#eb7a67','#eb7a67','#eb7a67']"
                                         style="margin: 25px auto;">
                                 </el-rate>
-                                <span style="font-size: 1.1rem; cursor: pointer; color: #EB7A67">
+                                <span @click="modifyBookInfo"
+                                      style="font-size: 1.1rem; cursor: pointer; color: #EB7A67">
                                     <u>
                                         修改
                                     </u>
                                 </span>
-                                <span style="font-size: 1.1rem; cursor: pointer;margin-left: 15px;color: #EB7A67">
+                                <span @click="delShopBook(item.bid)"
+                                      style="font-size: 1.1rem; cursor: pointer;margin-left: 15px;color: #EB7A67">
                                     <u>
                                         删除
                                     </u>
@@ -228,7 +238,22 @@
                     head: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
                     mark: 4.7
                 },
-                shopBookList: [],
+                shopBookList: [
+                    {
+                        bid: 1,
+                        sid: 1,
+                        tid: [1,2,3],
+                        bname: 'test',
+                        sname: '12313',
+                        author: '123123131',
+                        content: '12313131',
+                        pic: 'adasdasda',
+                        mark: 4.5,
+                        sales: 1,
+                        remain: 1,
+                        price: 1
+                    },
+                ],
                 orderList: [
                     {
                         cid: 1,
@@ -250,7 +275,7 @@
                             }
                         ]
                     },
-                ]
+                ],
             }
         },
         mounted() {
@@ -344,17 +369,19 @@
                 })
             },
             delShopBook: function (bid) {
-                let data = new FormData()
-                data.append('uid', this.$cookie.get('uid'))
-                data.append('token', this.$cookie.get('token'))
-                data.append('bid', bid)
-                API.delBookInfo().then(res => {
-                    if (res.state === 0) {
-                        this.$message.success('删除成功')
-                    } else this.$message.error('')
-                }).catch(res => {
-                    this.$message.info(res)
-                })
+                this.$confirm('确认删除？').then(res => {
+                    let data = new FormData()
+                    data.append('uid', this.$cookie.get('uid'))
+                    data.append('token', this.$cookie.get('token'))
+                    data.append('bid', bid)
+                    API.delBookInfo().then(res => {
+                        if (res.state === 0) {
+                            this.$message.success('删除成功')
+                        } else this.$message.error('')
+                    }).catch(res => {
+                        this.$message.info(res)
+                    })
+                }).catch(res => this.$message.info(res))
             },
             getOrderList: function () {
                 let data = new FormData()
