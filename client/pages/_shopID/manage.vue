@@ -12,11 +12,33 @@
                                 店铺信息
                             </span>
                             <div style="float: right">
-                                <p style="font-size: 1.1rem; cursor: pointer;">
+                                <p style="font-size: 1.1rem; cursor: pointer;" @click="isEditShopInfo=!isEditShopInfo">
                                     <u>
                                         修改
                                     </u>
                                 </p>
+                                <el-dialog
+                                        title="修改店铺信息"
+                                        center
+                                        :visible.sync="isEditShopInfo">
+                                    <div>
+                                        <el-form label-width="80px">
+                                            <el-form-item label="店铺名">
+                                                <el-input v-model="editShopInfo.name" size="mini" style="width: 300px;" />
+                                            </el-form-item>
+                                            <el-form-item label="店铺简介">
+                                                <el-input v-model="editShopInfo.content" type="textarea" :autosize="{ minRows: 4}" />
+                                            </el-form-item>
+                                            <el-form-item label="店铺图片">
+                                                TODO 上传图片获得返回地址
+                                            </el-form-item>
+                                        </el-form>
+                                    </div>
+                                    <span slot="footer">
+                                        <el-button @click="modifyShopInfo" type="primary" size="mini">保存修改</el-button>
+                                        <el-button @click="cancelEditShopInfo" size="mini">取消</el-button>
+                                    </span>
+                                </el-dialog>
                             </div>
                             <br/>
                             <img src="http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg" alt="店铺图片">
@@ -177,7 +199,22 @@
             return {
                 sid: 0,
                 uid: this.$cookie.get('uid'),
+                isEditShopInfo: false,
                 shopInfo: {
+                    uid: 0,
+                    sid: 0,
+                    name: '123',
+                    boss: {
+                        uid: 7,
+                        name: 'test'
+                    },
+                    manager: [],
+                    content: 'asd1qaw',
+                    code: 2,
+                    head: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
+                    mark: 4.7
+                },
+                editShopInfo: {
                     uid: 0,
                     sid: 0,
                     name: '123',
@@ -230,6 +267,7 @@
                 API.getShopInfo(data).then(res => {
                     if (res.state === 0) {
                         this.shopInfo = res
+                        this.editShopInfo = this.shopInfo
                     } else this.$message.error('获取商店消息失败')
                 }).catch(res => {
                     this.$message.info(res)
@@ -354,7 +392,26 @@
                     this.$message.info(res)
                 })
             },
-
+            modifyManager: function () {
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('sid', this.sid)
+                data.append('manager', JSON.stringify(this.shopInfo.manager))
+                data.append('content', this.shopInfo.content)
+                data.append('head', this.shopInfo.head)
+                API.setShopInfo(data).then(res => {
+                    if (res.state === 0) {
+                        this.$message.success('修改成功')
+                    } else this.$message.error('')
+                }).catch(res => {
+                    this.$message.info(res)
+                })
+            },
+            cancelEditShopInfo: function () {
+                this.isEditShopInfo = !this.isEditShopInfo
+                this.editShopInfo = this.shopInfo
+            }
         }
     }
 </script>
