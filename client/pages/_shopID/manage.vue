@@ -87,9 +87,44 @@
                 </el-tab-pane>
                 <el-tab-pane label="店铺书籍管理">
                     <div>
-                        <el-button size="mini" type="primary">添加新图书</el-button>
+                        <el-button @click="isAddNewBook = !isAddNewBook" size="mini" type="primary">添加新图书</el-button>
+                        <el-dialog title="添加图书" center :visible.sync="isAddNewBook">
+                            <div>
+                                <el-form label-width="80px">
+                                    <el-form-item label="书名">
+                                        <el-input v-model="newBookInfo.bname" size="mini"
+                                                  style="width: 300px;"/>
+                                    </el-form-item>
+                                    <el-form-item label="作者">
+                                        <el-input v-model="newBookInfo.author" size="mini"
+                                                  style="width: 300px;"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="图书简介">
+                                        <el-input v-model="newBookInfo.content" type="textarea"
+                                                  :autosize="{ minRows: 4}"/>
+                                    </el-form-item>
+                                    <el-form-item label="图书价钱">
+                                        <el-input-number v-model="newBookInfo.price" size="small"></el-input-number>
+                                    </el-form-item>
+                                    <el-form-item label="图书库存">
+                                        <el-input-number v-model="newBookInfo.remain" size="small"></el-input-number>
+                                    </el-form-item>
+                                    <el-form-item label="图书类别">
+
+                                    </el-form-item>
+                                    <el-form-item label="图书图片">
+                                        <el-input value="TODO 上传图片获取返回地址" disabled size="mini"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                            <span slot="footer">
+                                <el-button @click="addNewBook" type="primary" size="mini">确认添加</el-button>
+                                <el-button @click="isAddNewBook=!isAddNewBook" size="mini">取消</el-button>
+                            </span>
+                        </el-dialog>
                     </div>
-                    <div v-for="(item) in shopBookList" :key="item.bid" style="margin: 30px;display: flex;justify-content: space-between;">
+                    <div v-for="(item) in shopBookList" :key="item.bid"
+                         style="margin: 30px;display: flex;justify-content: space-between;">
                         <el-card shadow="hover" style="width: 30%; text-align: center">
                             <div slot="header">
                                 {{item.bname}}
@@ -145,6 +180,7 @@
                                     <u>
                                         修改
                                     </u>
+                                    <el-dialog title="修改图书信息"></el-dialog>
                                 </span>
                                 <span @click="delShopBook(item.bid)"
                                       style="font-size: 1.1rem; cursor: pointer;margin-left: 15px;color: #EB7A67">
@@ -186,8 +222,8 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
-                                <el-button size="mini" type="primary">发货</el-button>
-                                <el-button size="mini" type="danger">取消订单</el-button>
+                                <el-button @click="operateOrder(true)" size="mini" type="primary">发货</el-button>
+                                <el-button @click="operateOrder(false)" size="mini" type="danger">取消订单</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -210,6 +246,7 @@
                 sid: 0,
                 uid: this.$cookie.get('uid'),
                 isEditShopInfo: false,
+                isAddNewBook: false,
                 shopInfo: {
                     uid: 0,
                     sid: 0,
@@ -242,7 +279,7 @@
                     {
                         bid: 1,
                         sid: 1,
-                        tid: [1,2,3],
+                        tid: [1, 2, 3],
                         bname: 'test',
                         sname: '12313',
                         author: '123123131',
@@ -276,6 +313,17 @@
                         ]
                     },
                 ],
+                newBookInfo: {
+                    bid: 1,
+                    sid: 1,
+                    tid: [],
+                    bname: '',
+                    author: '',
+                    content: '',
+                    pic: '',
+                    remain: '',
+                    price: 1
+                }
             }
         },
         mounted() {
@@ -346,6 +394,18 @@
                 }).catch(res => {
                     this.$message.info(res)
                 })
+                this.isAddNewBook = !this.isAddNewBook
+                this.newBookInfo = {
+                    bid: 1,
+                    sid: 1,
+                    tid: [],
+                    bname: '',
+                    author: '',
+                    content: '',
+                    pic: '',
+                    remain: '',
+                    price: 1
+                }
             },
             modifyBookInfo: function (bid) {
                 let data = new FormData()
@@ -406,18 +466,17 @@
                     this.$message.info(res)
                 })
             },
-            operateOrder: function () {
+            operateOrder: function (isSend, cid) {
                 let data = new FormData()
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
-                data.append('sid', this.$cookie.get('sid'))
+                data.append('cid', cid)
+                data.append('op', isSend ? 'sent' : 'cancel')
                 API.operateOrder().then(res => {
                     if (res.state === 0) {
-
-                    } else this.$message.error('')
-                }).catch(res => {
-                    this.$message.info(res)
-                })
+                        this.$message.success(isSend ? '发送成功' : '取消成功')
+                    } else this.$message.error('未能完成操作')
+                }).catch(_ => {})
             },
             modifyManager: function () {
                 let data = new FormData()
@@ -431,8 +490,7 @@
                     if (res.state === 0) {
                         this.$message.success('修改成功')
                     } else this.$message.error('')
-                }).catch(res => {
-                    this.$message.info(res)
+                }).catch(_ => {
                 })
             },
             cancelEditShopInfo: function () {
