@@ -8,7 +8,7 @@
                 <manage-shop style="margin-left: 40px"></manage-shop>
             </el-tab-pane>
             <el-tab-pane v-if="userRole===2" label="系统管理员管理" name="manager">
-
+                <manage-user :user-role="userRole" :manage-manager="true" style="margin-left: 40px"></manage-user>
             </el-tab-pane>
         </el-tabs>
     </div>

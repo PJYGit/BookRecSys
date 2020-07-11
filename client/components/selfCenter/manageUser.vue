@@ -125,6 +125,10 @@
         props:{
             userRole:{
                 type:Number,
+            },
+            manageManager:{
+                type:Boolean,
+                default:false
             }
         },
 
@@ -166,7 +170,14 @@
                     }
                     this.userList = res.list;
                     this.pagesize=res.pagesize;
-
+                    if(this.manageManager===true){
+                        this.userList=[];
+                        res.list.forEach(item=>{
+                            if(item.role===1){
+                                this.userList.push(item);
+                            }
+                        })
+                    }
                 }).catch(msg => {
                     alert(msg)
                 })
@@ -218,7 +229,7 @@
                         alert("修改账户状态失败");
                         return;
                     }
-                    alert("修改账户状态成功");
+                    alert("修改账户状态成功,请刷新以更新列表");
                     this.updateUser=false;
                     this.updateUserMsg={};
                 }).catch(msg => {
