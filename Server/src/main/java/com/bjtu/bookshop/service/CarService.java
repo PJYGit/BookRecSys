@@ -114,7 +114,7 @@ public class CarService {
         }
 
         for (OrderContent content : orderItem.getContentList()) {
-            carMapper.deleteCarInfoWithUIDAndBID(orderItem.getUid(), content.getBid());
+            carMapper.deleteCarInfoWithUIDAndBID(orderItem.getInfo().getUid(), content.getBid());
         }
 
         int cid = orderService.newOrderExecute(orderItem);
