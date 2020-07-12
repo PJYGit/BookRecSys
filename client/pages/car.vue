@@ -23,7 +23,7 @@
                             {{item.cnt}}
                         </span>
                         <el-button @click="createOrder(index)" size="mini" type="primary" style="margin-left: 20%">
-                            创建订单
+                            结算
                         </el-button>
                     </div>
                 </el-card>
