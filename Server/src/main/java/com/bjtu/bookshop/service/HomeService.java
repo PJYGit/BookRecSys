@@ -90,4 +90,8 @@ public class HomeService {
 
         return new SearchResponse(0, pList);
     }
+
+    public double getCvt() {
+        return homeMapper.getCvt();
+    }
 }
