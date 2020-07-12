@@ -85,4 +85,8 @@ public interface StoreMapper {
 
     @Select("select * from book_type")
     List<BookTag> getTagList();
+
+    @Insert("insert into store_info(name, boss, content, code, head, mark) " +
+            "values (#{name},#{boss},#{content},#{code},#{head},#{mark})")
+    void insertShop(StoreInfo newInfo);
 }

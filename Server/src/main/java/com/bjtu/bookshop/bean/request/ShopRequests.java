@@ -124,4 +124,13 @@ public class ShopRequests {
     public static class TagListRequest {
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class NewShopRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull String name;
+        @NotNull String content;
+    }
+
 }

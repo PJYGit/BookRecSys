@@ -31,6 +31,7 @@
 * /shop/manage/delbook 删除书
 * /shop/manage/setbookinfo 设置书信息
 * /shop/manage/getuser 手机取用户
+* /shop/manage/new 开店
 
 # 3#购物车
 * /car/getlist 查看我的购物车

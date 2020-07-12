@@ -202,4 +202,11 @@ public class ShopResponses {
         List<BookTag> tags;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class NewShopResponse {
+        int state;
+    }
+
 }
