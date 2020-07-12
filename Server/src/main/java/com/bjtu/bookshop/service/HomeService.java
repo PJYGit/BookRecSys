@@ -32,11 +32,20 @@ public class HomeService {
 
     /** 6.1 body **/
     public TopResponse getTop() {
-        List<HardBook> topList = homeMapper.getList();
+        List<HardBook> topList = homeMapper.getTopList();
         for(HardBook e: topList){
             e.trans();
         }
         return new TopResponse(0, topList);
+    }
+
+    /** 6.1.b body **/
+    public NewResponse getNew() {
+        List<HardBook> newList = homeMapper.getNewList();
+        for(HardBook e: newList){
+            e.trans();
+        }
+        return new NewResponse(0, newList);
     }
 
     /** 6.2 body **/

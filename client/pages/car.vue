@@ -4,8 +4,12 @@
             <MyTitle></MyTitle>
         </template>
 
-        <el-button @click="removeCarInfo" type="danger" size="small" style="position: relative; margin: 20px; left: 75%;">删除勾选订单</el-button>
-        <el-button @click="createAllOrder" type="primary" size="small" style="position: relative; margin: 20px; left: 76%;right: 10%">结算所有勾选物品</el-button>
+        <el-button @click="removeCarInfo" type="danger" size="small"
+                   style="position: relative; margin: 20px; left: 75%;">删除勾选订单
+        </el-button>
+        <el-button @click="createAllOrder" type="primary" size="small"
+                   style="position: relative; margin: 20px; left: 76%;right: 10%">结算所有勾选物品
+        </el-button>
         <div v-for="(item, index) in carList" :key="item.bid">
             <div class="car-item">
                 <el-card shadow="hover">
@@ -22,14 +26,24 @@
                         <span style="margin-left: 10%;color: #eb7a67; font-size: 1.1rem">
                             {{item.cnt}}
                         </span>
-                        <el-button @click="createOrder(index)" size="mini" type="primary" style="margin-left: 20%">
-                            创建订单
+                        <el-button @click="chooseAddress = true" size="mini" type="primary" style="margin-left: 20%">
+                            结算
                         </el-button>
                     </div>
                 </el-card>
+
             </div>
         </div>
-
+        <el-dialog
+                title="请选择收货地址"
+                :visible.sync="chooseAddress"
+                width="60%">
+            <address-list :is-shopping="1" ref="getAddress"></address-list>
+            <span slot="footer" class="dialog-footer">
+                        <el-button @click="chooseAddress = false">取 消</el-button>
+                        <el-button type="primary" @click="createOrder(index)">确 定</el-button>
+                    </span>
+        </el-dialog>
     </FlowBoard>
 </template>
 
@@ -37,10 +51,11 @@
     import FlowBoard from "../components/board/FlowBoard";
     import MyTitle from "../components/base/myTitle";
     import API from "../api";
+    import AddressList from "../components/addressList";
 
     export default {
         name: "car",
-        components: {MyTitle, FlowBoard},
+        components: {AddressList, MyTitle, FlowBoard},
         data() {
             return {
                 carList: [
@@ -56,6 +71,7 @@
                 submitCarList: [],
                 checkCarList: [],
                 modifyCarList: [],
+                chooseAddress: false
             }
         },
         mounted() {
@@ -74,7 +90,7 @@
                 })
             },
 
-            initCheckCarList: function() {
+            initCheckCarList: function () {
                 let length = this.carList.length
                 for (let i = 0; i < length; i++) {
                     this.checkCarList[i] = false
@@ -104,8 +120,9 @@
                     let buy = []
                     buy.push(this.carList[index])
                     let data = new FormData();
-                    data.append('uid', this.$cookie.get("uid"))
-                    data.append('token', this.$cookie.get("token"))
+                    data.append('uid', this.$cookie.get("uid"));
+                    data.append('token', this.$cookie.get("token"));
+                    data.append('address',this.$refs.getAddress.returnAddressContent());
                     for (let i = 0; i < buy.length; i++)
                         data.append('buy', JSON.stringify(buy[i]))
                     API.submitCarOrder(data).then(res => {
@@ -113,6 +130,7 @@
                             this.$message.success('创建订单成功');
                         else
                             this.$message.error('创建订单失败');
+                        this.chooseAddress = !this.chooseAddress
                     }).catch(res => {
                         console.log(res)
                     })
@@ -140,6 +158,7 @@
             removeCarInfo: function () {
                 if (this.submitCarList.length === 0) this.$message.info('未勾选订单')
                 else {
+                    // this.newCarList = this.submitCarList.filter(item => )
                     let data = new FormData();
                     data.append('uid', this.$cookie.get("uid"))
                     data.append('token', this.$cookie.get("token"))

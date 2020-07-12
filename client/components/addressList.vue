@@ -218,7 +218,7 @@
                 });
                 data.append('address',"");
 
-                console.log(data);
+
                 API.changeMsg(data).then(res=>{
                     if (res.state) {
                         alert("添加失败");

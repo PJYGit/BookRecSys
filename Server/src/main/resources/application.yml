@@ -3,8 +3,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://39.106.160.119:3306/book_shop?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
-    username: book_remote
-    password: ZBw046vGX7D0eB3o
+    url: jdbc:mysql://local_host:3306/book_shop?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Hongkong
+    username: book_local
+    password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+config-string:
+  picture-path: c:\pic\
