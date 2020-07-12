@@ -107,7 +107,7 @@ public class StoreController {
     }
 
     /**
-     * 2.s.2
+     * 2.s.3
      * /shop/manage/setinfo 设置用户/某店信息
      */
     @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
@@ -120,7 +120,7 @@ public class StoreController {
     }
 
     /**
-     * 2.s.3
+     * 2.s.4
      * /shop/manage/addbook 添加书
      */
     @RequestMapping(value = "/manage/addbook", method = {RequestMethod.POST})
@@ -134,7 +134,7 @@ public class StoreController {
     }
 
     /**
-     * 2.s.4
+     * 2.s.5
      * /shop/manage/delbook 删除书
      */
     @RequestMapping(value = "/manage/delbook", method = {RequestMethod.POST})
@@ -147,7 +147,7 @@ public class StoreController {
     }
 
     /**
-     * 2.s.5
+     * 2.s.6
      * /shop/manage/setbookinfo 设置书信息
      */
     @RequestMapping(value = "/manage/setbookinfo", method = {RequestMethod.POST})
@@ -162,7 +162,7 @@ public class StoreController {
     }
 
     /**
-     * 2.s.6
+     * 2.s.7
      * /shop/manage/getuser 手机取用户
      */
     @RequestMapping(value = "/manage/getuser", method = {RequestMethod.POST})
@@ -171,6 +171,18 @@ public class StoreController {
         if(! userService.checkUserToken(req)) return new ManageGetUserResponse(){{setState(-10);}};
 
         return storeService.getUserInfo(req.getPhone());
+    }
+
+    /**
+     * 2.s.7
+     * /shop/manage/new 新建商铺
+     */
+    @RequestMapping(value = "/manage/new", method = {RequestMethod.POST})
+    public NewShopResponse newShop(@Valid NewShopRequest req, BindingResult br) {
+        if(br.hasErrors()) return new NewShopResponse(){{setState(-1);}};
+        if(! userService.checkUserToken(req)) return new NewShopResponse(){{setState(-10);}};
+
+        return storeService.newShop(req.getUid(),req.getName(),req.getContent());
     }
 
 }

@@ -204,6 +204,17 @@ public class StoreService {
         return new ManageGetUserResponse(0,reg.getUid(),info.getNickname());
     }
 
+    /** 2.s.8 body **/
+    public NewShopResponse newShop(int uid, String name, String content) {
+        StoreInfo info = getShop(uid, null, true);
+        if(info != null) return new NewShopResponse(){{setState(-11);}};
+
+        StoreInfo newInfo = new StoreInfo(-1,name,uid,content,1,"",5);
+        storeMapper.insertShop(newInfo);
+
+        return new NewShopResponse(0);
+    }
+
     public StoreInfo getShop(int uid, Integer sid,boolean isSuper){
         if(sid != null){
             StoreInfo info = storeMapper.getStoreInfoWithSID(sid);
@@ -215,7 +226,6 @@ public class StoreService {
             return storeMapper.getStoreInfoWithBoss(uid);
         }
     }
-
 
 
 }
