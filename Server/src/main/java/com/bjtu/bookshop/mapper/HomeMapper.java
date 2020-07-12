@@ -45,4 +45,14 @@ public interface HomeMapper {
     default List<HardBook> getTypeBooks(int tid, int page){
         return getTypeBooks(tid,(page - 1) * 10,true);
     }
+
+    @Select("select i.bid,i.sid,null as innerTid, null as tid, " +
+            "i.name as bname, s.name as sname,author,i.content,i.pic,5.0 as mark, " +
+            "sales,remain,price*0.01 as price from book_info as i " +
+            "left join book_tag as t on i.bid=t.bid " +
+            "left join store_info as s on i.sid=s.sid " +
+            "where price >= #{lowerP} and price <= #{upperP} " +
+            "and i.name like concat('%',#{word},'%') ${whereAddition} " +
+            "group by(i.bid) order by ${orderByPart} limit 100")
+    List<HardBook> getSearchBooks(String word, String whereAddition, String orderByPart, int lowerP, int upperP);
 }
