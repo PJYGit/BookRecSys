@@ -167,7 +167,7 @@ items[] [list\<elm\>]|订单列表|
 键值|名称|描述
 -|-|-
 cid [number]|订单id|订单id
-type|订单类型|0待支付 1代发货 2待确认收货 3待评价 4已完成 -1已取消
+type|订单类型|0待支付 1待发货 2待确认收货 3待评价 4已完成 -1已取消
 items[] [list\<mmp\>]|商品列表|见下文
 money [number %.2f]|订单总价|订单总价
 
@@ -180,7 +180,7 @@ cnt [number]|个数|个数
 pic|书图url|书图
 
 ---
-# /shop/manage/operate 确认发货/取消
+# /order/manage/operate 确认发货/取消
 
 request:
 
@@ -189,7 +189,7 @@ request:
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 cid [number]|订单id|订单id
-opcode|操作类型|cancel取消 sent确认发货
+opcode|操作类型|1取消 2确认发货
 
 response:
 
@@ -198,7 +198,7 @@ response:
 state [number]|返回码|0 为正常，-1 为失败
 
 ---
-# /shop/manage/setinfo 修改价格
+# /order/manage/setinfo 修改价格
 
 request:
 
