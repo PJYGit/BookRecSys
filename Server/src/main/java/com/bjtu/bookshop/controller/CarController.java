@@ -75,8 +75,11 @@ public class CarController {
         if (!userService.checkUserToken(req)) return new setListResponse() {{
             setState(-10);
         }};
+        if (!req.trans()) return new setListResponse() {{
+            setState(-100);
+        }};
 
-        return carService.setCarInfo(req.getUid(), req.getCar());
+        return carService.setCarInfo(req.getUid(), req.getInnerCar());
     }
 
     /**
@@ -91,7 +94,10 @@ public class CarController {
         if (!userService.checkUserToken(req)) return new submitResponse() {{
             setState(-10);
         }};
+        if (!req.trans()) return new submitResponse() {{
+            setState(-100);
+        }};
 
-        return carService.submitCarInfo(req.getUid(), req.getAddress(), req.getBuy());
+        return carService.submitCarInfo(req.getUid(), req.getAddress(), req.getInnerBuy());
     }
 }
