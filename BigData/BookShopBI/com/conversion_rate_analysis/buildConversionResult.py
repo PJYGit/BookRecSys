@@ -13,15 +13,15 @@ def get_result(start, end, output):
     dt = start + "-" + end
 
     # 删除作业成功的标志文件和作业的日志文件
-    shell = HADOOP_PATH + "hadoop fs -rm -rf " + output + "/_SUCCESS"
+    shell = HADOOP_PATH + "hadoop fs -rm -f " + output + "/_SUCCESS"
     os.system(shell)
-    shell = HADOOP_PATH + "hadoop fs -rm " + output + "/_logs"
-    os.system(shell)
+    # shell = HADOOP_PATH + "hadoop fs -rm " + output + "/_logs"
+    # os.system(shell)
 
     # 将临时结果加载到中间结果表
     hql = "load data inpath '" + output + "' overwrite into table conversion_middle_result partition (dt=' + dt + ')"
     HiveUtil.execute_shell(hql)
 
     # 对中间结果进行汇总，并写入到最终结果表
-    hql = "insert into table conversion_result partition (dt='" + start + "-" + end + "') select process,count(process),count(distinct(uuid)) from conversion_middle_result where dt = " + dt + " group by process"
+    hql = "insert into table conversion_result partition (dt='" + start + "-" + end + "') select process,count(process),count(distinct(uuid)) from conversion_middle_result group by process"
     HiveUtil.execute_shell(hql)
