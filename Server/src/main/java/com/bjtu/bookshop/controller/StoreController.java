@@ -1,14 +1,11 @@
 package com.bjtu.bookshop.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bjtu.bookshop.bean.request.ShopRequests.*;
 import com.bjtu.bookshop.bean.response.ShopResponses.*;
-import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.service.StoreService;
 import com.bjtu.bookshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,8 +31,12 @@ public class StoreController {
      */
     @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
     public GetInfoResponse getShopInfo(@Valid GetInfoRequest req, BindingResult br) {
-        if(br.hasErrors()) return new GetInfoResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new GetInfoResponse(){{setState(-10);}};
+        if (br.hasErrors()) return new GetInfoResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new GetInfoResponse() {{
+            setState(-10);
+        }};
         return storeService.getStoreInfo(req.getSid());
     }
 
@@ -45,8 +46,12 @@ public class StoreController {
      */
     @RequestMapping(value = "/booklist", method = {RequestMethod.POST})
     public BookListResponse getShopBookList(@Valid BookListRequest req, BindingResult br) {
-        if(br.hasErrors()) return new BookListResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new BookListResponse(){{setState(-10);}};
+        if (br.hasErrors()) return new BookListResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new BookListResponse() {{
+            setState(-10);
+        }};
         return storeService.getBookList(req.getSid());
     }
 
@@ -56,8 +61,12 @@ public class StoreController {
      */
     @RequestMapping(value = "/getbookinfo", method = {RequestMethod.POST})
     public BookInfoResponse getShopBookInfo(@Valid BookInfoRequest req, BindingResult br) {
-        if(br.hasErrors()) return new BookInfoResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new BookInfoResponse(){{setState(-10);}};
+        if (br.hasErrors()) return new BookInfoResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new BookInfoResponse() {{
+            setState(-10);
+        }};
         return storeService.getBookInfo(req.getBid());
     }
 
@@ -67,8 +76,12 @@ public class StoreController {
      */
     @RequestMapping(value = "/search", method = {RequestMethod.POST})
     public SearchResponse searchShop(@Valid SearchRequest req, BindingResult br) {
-        if(br.hasErrors()) return new SearchResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new SearchResponse(){{setState(-10);}};
+        if (br.hasErrors()) return new SearchResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new SearchResponse() {{
+            setState(-10);
+        }};
         return storeService.searchStore(req.getWord());
     }
 
@@ -78,7 +91,9 @@ public class StoreController {
      */
     @RequestMapping(value = "/tags", method = {RequestMethod.POST})
     public TagListResponse listTag(@Valid TagListRequest req, BindingResult br) {
-        if(br.hasErrors()) return new TagListResponse(){{setState(-1);}};
+        if (br.hasErrors()) return new TagListResponse() {{
+            setState(-1);
+        }};
         return storeService.listTag();
     }
 
@@ -88,10 +103,16 @@ public class StoreController {
      */
     @RequestMapping(value = "/manage/list", method = {RequestMethod.POST})
     public ManageListResponse getStoreList(@Valid ManageListRequest req, BindingResult br) {
-        if(br.hasErrors()) return new ManageListResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new ManageListResponse(){{setState(-10);}};
-        if(! userService.checkUserRole(req.getUid(),1)) return new ManageListResponse(){{setState(-11);}};
-        return storeService.getStoreList( req.getPage() == null ? 1 : req.getPage());
+        if (br.hasErrors()) return new ManageListResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new ManageListResponse() {{
+            setState(-10);
+        }};
+        if (!userService.checkUserRole(req.getUid(), 1)) return new ManageListResponse() {{
+            setState(-11);
+        }};
+        return storeService.getStoreList(req.getPage() == null ? 1 : req.getPage());
     }
 
     /**
@@ -100,10 +121,14 @@ public class StoreController {
      */
     @RequestMapping(value = "/manage/getinfo", method = {RequestMethod.POST})
     public ManageGetInfoResponse getStoreManagerInfo(@Valid ManageGetInfoRequest req, BindingResult br) {
-        if(br.hasErrors()) return new ManageGetInfoResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new ManageGetInfoResponse(){{setState(-10);}};
-        boolean isSuper = userService.checkUserRole(req.getUid(),1);
-        return storeService.getStoreManagerInfo(req.getUid(),req.getSid(),isSuper);
+        if (br.hasErrors()) return new ManageGetInfoResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new ManageGetInfoResponse() {{
+            setState(-10);
+        }};
+        boolean isSuper = userService.checkUserRole(req.getUid(), 1);
+        return storeService.getStoreManagerInfo(req.getUid(), req.getSid(), isSuper);
     }
 
     /**
@@ -112,11 +137,15 @@ public class StoreController {
      */
     @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
     public ManageSetInfoResponse modifyStoreInfo(@Valid ManageSetInfoRequest req, BindingResult br) {
-        if(br.hasErrors()) return new ManageSetInfoResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new ManageSetInfoResponse(){{setState(-10);}};
-        boolean isSuper = userService.checkUserRole(req.getUid(),1);
-        return storeService.updateStoreInfo(req.getUid(),req.getSid(),isSuper,
-                req.getCode(),req.getContent(),req.getHead(),req.getManagers());
+        if (br.hasErrors()) return new ManageSetInfoResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new ManageSetInfoResponse() {{
+            setState(-10);
+        }};
+        boolean isSuper = userService.checkUserRole(req.getUid(), 1);
+        return storeService.updateStoreInfo(req.getUid(), req.getSid(), isSuper,
+                req.getCode(), req.getContent(), req.getHead(), req.getManagers());
     }
 
     /**
@@ -125,12 +154,16 @@ public class StoreController {
      */
     @RequestMapping(value = "/manage/addbook", method = {RequestMethod.POST})
     public ManageAddBookResponse addBookIntoStore(@Valid ManageAddBookRequest req, BindingResult br) {
-        if(br.hasErrors()) return new ManageAddBookResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new ManageAddBookResponse(){{setState(-10);}};
-        boolean isSuper = userService.checkUserRole(req.getUid(),1);
-        return storeService.addBook(req.getUid(),req.getSid(),isSuper,
-                req.getTid(),req.getBname(),req.getAuthor(),req.getContent(),
-                req.getPic(),req.getRemain(),req.getPrice());
+        if (br.hasErrors()) return new ManageAddBookResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new ManageAddBookResponse() {{
+            setState(-10);
+        }};
+        boolean isSuper = userService.checkUserRole(req.getUid(), 1);
+        return storeService.addBook(req.getUid(), req.getSid(), isSuper,
+                req.getTid(), req.getBname(), req.getAuthor(), req.getContent(),
+                req.getPic(), req.getRemain(), req.getPrice());
     }
 
     /**
@@ -139,11 +172,15 @@ public class StoreController {
      */
     @RequestMapping(value = "/manage/delbook", method = {RequestMethod.POST})
     public ManageDelBookResponse delBookInStore(@Valid ManageDelBookRequest req, BindingResult br) {
-        if(br.hasErrors()) return new ManageDelBookResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new ManageDelBookResponse(){{setState(-10);}};
-        boolean isSuper = userService.checkUserRole(req.getUid(),1);
+        if (br.hasErrors()) return new ManageDelBookResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new ManageDelBookResponse() {{
+            setState(-10);
+        }};
+        boolean isSuper = userService.checkUserRole(req.getUid(), 1);
 
-        return storeService.delBook(req.getUid(),isSuper,req.getBid());
+        return storeService.delBook(req.getUid(), isSuper, req.getBid());
     }
 
     /**
@@ -152,13 +189,17 @@ public class StoreController {
      */
     @RequestMapping(value = "/manage/setbookinfo", method = {RequestMethod.POST})
     public ManageSetBookResponse modifyBookInfoInStore(@Valid ManageSetBookRequest req, BindingResult br) {
-        if(br.hasErrors()) return new ManageSetBookResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new ManageSetBookResponse(){{setState(-10);}};
-        boolean isSuper = userService.checkUserRole(req.getUid(),1);
+        if (br.hasErrors()) return new ManageSetBookResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new ManageSetBookResponse() {{
+            setState(-10);
+        }};
+        boolean isSuper = userService.checkUserRole(req.getUid(), 1);
 
-        return storeService.updateBookInfo(req.getUid(),isSuper,req.getBid(),
-                req.getTid(),req.getBname(),req.getAuthor(),req.getContent(),
-                req.getPic(),req.getRemain(),req.getPrice());
+        return storeService.updateBookInfo(req.getUid(), isSuper, req.getBid(),
+                req.getTid(), req.getBname(), req.getAuthor(), req.getContent(),
+                req.getPic(), req.getRemain(), req.getPrice());
     }
 
     /**
@@ -167,8 +208,12 @@ public class StoreController {
      */
     @RequestMapping(value = "/manage/getuser", method = {RequestMethod.POST})
     public ManageGetUserResponse getUserInfo(@Valid ManageGetUserRequest req, BindingResult br) {
-        if(br.hasErrors()) return new ManageGetUserResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new ManageGetUserResponse(){{setState(-10);}};
+        if (br.hasErrors()) return new ManageGetUserResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new ManageGetUserResponse() {{
+            setState(-10);
+        }};
 
         return storeService.getUserInfo(req.getPhone());
     }
@@ -179,10 +224,13 @@ public class StoreController {
      */
     @RequestMapping(value = "/manage/new", method = {RequestMethod.POST})
     public NewShopResponse newShop(@Valid NewShopRequest req, BindingResult br) {
-        if(br.hasErrors()) return new NewShopResponse(){{setState(-1);}};
-        if(! userService.checkUserToken(req)) return new NewShopResponse(){{setState(-10);}};
+        if (br.hasErrors()) return new NewShopResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new NewShopResponse() {{
+            setState(-10);
+        }};
 
-        return storeService.newShop(req.getUid(),req.getName(),req.getContent());
+        return storeService.newShop(req.getUid(), req.getName(), req.getContent());
     }
-
 }

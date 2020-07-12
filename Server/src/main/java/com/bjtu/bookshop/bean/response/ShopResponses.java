@@ -55,10 +55,10 @@ public class ShopResponses {
         int remain;
         double price;
 
-        public void trans(){
-            if(innerTid == null) {
+        public void trans() {
+            if (innerTid == null) {
                 tid = new ArrayList<Integer>();
-            }else {
+            } else {
                 tid = Arrays.stream(innerTid.split(","))
                         .map(Integer::parseInt)
                         .collect(Collectors.toList());
@@ -78,7 +78,7 @@ public class ShopResponses {
         @Data
         @AllArgsConstructor
         @NoArgsConstructor
-        public static class elm{
+        public static class elm {
             int sid;
             String name;
             String pic;
@@ -177,5 +177,4 @@ public class ShopResponses {
     public static class NewShopResponse {
         int state;
     }
-
 }
