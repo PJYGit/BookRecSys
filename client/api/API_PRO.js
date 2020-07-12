@@ -5,6 +5,11 @@ export default {
     baseURL: 'http://39.106.160.119:9000/',
 
     method: 'post',
+    // 主页模块
+    getTopBook: {url: '/home/top'},
+    getRecommendBook: {url: '/home/person'},
+
+
     //登录模块接口
     userLogin: {url: 'user/login'},
     userRegister: {url: 'user/register'},

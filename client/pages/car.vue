@@ -13,17 +13,16 @@
                     </el-checkbox>
                     <div style="">
                         <img :src="item.pic" alt="bookImage" style="display: inline-block"/>
-                        <span style="margin-left: 5%">
+                        <span style="margin-left: 10%;color: #eb7a67;font-size: 1.2rem">
                             {{item.bname}}
                         </span>
-                        <span style="margin-left: 10%">
+                        <span style="margin-left: 10%;color: #eb7a67; font-size: 1.1rem">
                             {{item.sname}}
                         </span>
-                        <div style="margin-left: 10%; display: inline-block">
-                            <el-input-number v-model="item.cnt" size="mini"/>
-                        </div>
-                        <el-button @click="addBook(index)" size="mini" type="primary" style="margin-left: 5%">更新数量</el-button>
-                        <el-button @click="createOrder(index)" size="mini" type="primary" style="margin-left: 15%">
+                        <span style="margin-left: 10%;color: #eb7a67; font-size: 1.1rem">
+                            {{item.cnt}}
+                        </span>
+                        <el-button @click="createOrder(index)" size="mini" type="primary" style="margin-left: 20%">
                             创建订单
                         </el-button>
                     </div>
@@ -50,15 +49,7 @@
                         bname: "null",
                         sid: 1,
                         sname: "null",
-                        pic: "http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg",
-                        cnt: 2
-                    },
-                    {
-                        bid: 2,
-                        bname: "null",
-                        sid: 1,
-                        sname: "null",
-                        pic: "http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg",
+                        pic: "",
                         cnt: 2
                     },
                 ],
@@ -77,7 +68,7 @@
                 data.append('uid', this.$cookie.get("uid"))
                 data.append('token', this.$cookie.get("token"))
                 API.getCarList(data).then(res => {
-                    this.carList = res.list
+                    this.carList = res.items
                 }).catch(res => {
                     console.log(res)
                 })
@@ -89,23 +80,6 @@
                     this.checkCarList[i] = false
                     this.modifyCarList[i] = false
                 }
-            },
-
-            addBook: function (index) {
-                let data = new FormData();
-                data.append('uid', this.$cookie.get("uid"))
-                data.append('token', this.$cookie.get("token"))
-                data.append('bid', this.carList[index].bid)
-                data.append('cid', this.carList[index].sid)
-                data.append('cnt', this.carList[index].cnt)
-                API.modifyCarBookCnt(data).then(res => {
-                    if (res.state === 0)
-                        this.$message.success('创建订单成功');
-                    else
-                        this.$message.error('创建订单失败');
-                }).catch(res => {
-                    console.log(res)
-                })
             },
 
             addToSubmitList: function (index) {
@@ -132,7 +106,8 @@
                     let data = new FormData();
                     data.append('uid', this.$cookie.get("uid"))
                     data.append('token', this.$cookie.get("token"))
-                    data.append('buy', JSON.stringify(buy))
+                    for (let i = 0; i < buy.length; i++)
+                        data.append('buy', JSON.stringify(buy[i]))
                     API.submitCarOrder(data).then(res => {
                         if (res.state === 0)
                             this.$message.success('创建订单成功');
