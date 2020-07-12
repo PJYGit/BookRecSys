@@ -48,5 +48,6 @@ export default {
     //订单模块
     getOList:{url:'order/getlist'},
     getOrderDetail:{url:'order/getinfo'},
+    setOState:{url:'order/operate'},
 
 }

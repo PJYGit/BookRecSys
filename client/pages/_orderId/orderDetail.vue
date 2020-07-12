@@ -19,14 +19,14 @@
             <div style="margin-left: 5px;margin-top: 5px;line-height: 40px">
                 进行状态：
                 <span v-if="orderMsg.type===0">待付款</span>
-                <el-button round size="small" v-if="orderMsg.type===0" class="buttonClass">
-                    付款</el-button>
+                <el-button round size="small" v-if="orderMsg.type===0" class="buttonClass"
+                           @click="setOrderState(1)">付款</el-button>
                 <span v-if="orderMsg.type===1">待发货</span>
-                <el-button round size="small" v-if="orderMsg.type===0||orderMsg.type===1" class="buttonClass">
-                    取消订单</el-button>
+                <el-button round size="small" v-if="orderMsg.type===0||orderMsg.type===1" class="buttonClass"
+                           @click="setOrderState(2)">取消订单</el-button>
                 <span v-if="orderMsg.type===2">待确认收货</span>
-                <el-button round size="small" v-if="orderMsg.type===2" class="buttonClass">
-                    确认收货</el-button>
+                <el-button round size="small" v-if="orderMsg.type===2" class="buttonClass"
+                           @click="setOrderState(3)">确认收货</el-button>
                 <span v-if="orderMsg.type===3">待评价</span>
                 <el-button round size="small" v-if="orderMsg.type===3" class="buttonClass">
                     评价</el-button>
@@ -138,8 +138,41 @@
                 }).catch(msg => {
                     alert(msg)
                 })
+            },
+
+            setOrderState(opcode){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('cid',this.orderId);
+                data.append('opcode',opcode);
+
+                API.setOState(data).then(res=>{
+                    if (res.state === -114514) {
+                        alert("支付失败，账户余额不足！");
+                        return;
+                    }else if(res.state){
+                        if(opcode===1){
+                            alert("支付失败");
+                            return
+                        }else if(opcode===2){
+                            alert("取消订单失败");
+                            return
+                        }else if(opcode===3){
+                            alert("确认收货失败");
+                            return
+                        }
+                        alert("未知错误！");
+                        return;
+                    }
+                    this.getOrderMsg();
+                }).catch(msg => {
+                    alert(msg)
+                })
             }
-        }
+        },
+
+
     }
 </script>
 

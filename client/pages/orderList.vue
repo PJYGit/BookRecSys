@@ -83,29 +83,7 @@
                     text: '已取消',
                     value: -1
                 }],
-                orderList: [
-                    {
-                        cid: 1,
-                        type: 0,
-                        sname:"hhhh",
-                        items: [
-                            {
-                                bid: 1,
-                                name: 'test',
-                                cnt: 5,
-                                pic: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                                money: 123
-                            },
-                            {
-                                bid: 2,
-                                name: 'asdada',
-                                cnt: 3,
-                                pic: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                                money: 11223
-                            }
-                        ]
-                    },
-                ],
+                orderList: [],
             }
         },
 
@@ -128,7 +106,7 @@
                 let data = new FormData();
                 data.append('uid',this.uid);
                 data.append('token',this.token);
-                data.append('type',1);
+                data.append('type',0);
 
                 API.getOList(data).then(res=>{
                     if (res.state) {
