@@ -41,13 +41,27 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
-    public Response getOrderInfo(@RequestBody JSONObject object) {
-        return orderService.getOrderInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("cid"));
+    public getInfoResponse getOrderInfo(@Valid getInfoRequest req, BindingResult br) {
+        if (br.hasErrors()) return new getInfoResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new getInfoResponse() {{
+            setState(-10);
+        }};
+
+        return orderService.getOrderInfo(req.getCid());
     }
 
     @RequestMapping(value = "/operate", method = {RequestMethod.POST})
-    public Response operateOrder(@RequestBody JSONObject object) {
-        return orderService.operateOrder(object.getIntValue("uid"), object.getString("token"), object.getIntValue("cid"), object.getIntValue("op"));
+    public operateResponse operateOrder(@Valid operateRequest req, BindingResult br) {
+        if (br.hasErrors()) return new operateResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new operateResponse() {{
+            setState(-10);
+        }};
+
+        return orderService.operateOrder(req.getUid(), req.getCid(), req.getOpcode());
     }
 
     @RequestMapping(value = "/comment", method = {RequestMethod.POST})
