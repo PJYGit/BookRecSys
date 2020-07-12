@@ -8,7 +8,7 @@
 <!--        <el-button @click="removeCarInfo" type="danger" size="small"-->
 <!--                   style="position: relative; margin: 20px; left: 75%;">删除勾选订单-->
 <!--        </el-button>-->
-        <el-button @click="createAllOrder" type="primary" size="small"
+        <el-button @click="chooseAddress2=true" type="primary" size="small"
                    style="position: relative; margin: 20px; left: 76%;right: 10%">结算所有勾选物品
         </el-button>
         <div v-for="(item, index) in carList" :key="item.bid">
@@ -45,6 +45,16 @@
                 <el-button type="primary" @click="createOrder">确 定</el-button>
             </span>
         </el-dialog>
+        <el-dialog
+                title="请选择收货地址"
+                :visible.sync="chooseAddress2"
+                width="60%">
+            <address-list :is-shopping="1" ref="getAddress2"></address-list>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="chooseAddress2 = false">取 消</el-button>
+                <el-button type="primary" @click="createAllOrder">确 定</el-button>
+            </span>
+        </el-dialog>
     </FlowBoard>
 </template>
 
@@ -73,7 +83,8 @@
                 submitCarList: [],
                 checkCarList: [],
                 modifyCarList: [],
-                chooseAddress: false
+                chooseAddress: false,
+                chooseAddress2:false,
             }
         },
         mounted() {
@@ -149,7 +160,7 @@
                     data.append('token', this.$cookie.get("token"))
                     for (let i = 0; i < this.submitCarList.length; i++)
                         data.append('buy', JSON.stringify(this.submitCarList[i]))
-                    data.append('address',this.$refs.getAddress.returnAddressContent());
+                    data.append('address',this.$refs.getAddress2.returnAddressContent());
                     API.submitCarOrder(data).then(res => {
                         if (res.state === 0)
                             this.$message.success('创建订单成功');
@@ -158,6 +169,7 @@
                     }).catch(res => {
                         console.log(res)
                     })
+                    this.chooseAddress2=false;
                 }
             },
 
