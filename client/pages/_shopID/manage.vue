@@ -251,7 +251,7 @@
                             <template slot-scope="scope">
                                 <el-tag v-if="scope.row.type===0" type="warning">待付款</el-tag>
                                 <el-tag v-if="scope.row.type===1" type="info">待发货</el-tag>
-                                <el-tag v-if="scope.row.type===2" type="info">待确认发货</el-tag>
+                                <el-tag v-if="scope.row.type===2" type="info">待确认收货</el-tag>
                                 <el-tag v-if="scope.row.type===3">待评价</el-tag>
                                 <el-tag v-if="scope.row.type===4" type="success">已完成</el-tag>
                                 <el-tag v-if="scope.row.type===-1" type="danger">已取消</el-tag>
