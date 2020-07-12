@@ -21,6 +21,9 @@ public interface OrderMapper {
     @Select("select * from order_info where uid = #{uid} and type = #{type}")
     List<OrderInfo> getAllOrderWithUIDAndType(int uid, int type);
 
+    @Select("select * from order_info where uid = #{uid}")
+    List<OrderInfo> getAllOrderWithUID(int uid);
+
     @Select("select * from order_info where cid = #{cid}")
     OrderInfo getOrderInfoWithCID(int cid);
 

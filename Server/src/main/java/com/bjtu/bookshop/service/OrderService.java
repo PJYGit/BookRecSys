@@ -146,7 +146,13 @@ public class OrderService {
     public getListResponse getAllOrderList(int uid, int type) {
         List<getListResponse.elm> elmList = new LinkedList<>();
 
-        List<OrderInfo> orderInfoList = orderMapper.getAllOrderWithUIDAndType(uid, type);
+        List<OrderInfo> orderInfoList;
+        if (type == 999) {
+            orderInfoList = orderMapper.getAllOrderWithUID(uid);
+        } else {
+            orderInfoList = orderMapper.getAllOrderWithUIDAndType(uid, type);
+        }
+
         for (OrderInfo orderInfo : orderInfoList) {
             List<getListResponse.elm.smp> smpList = new LinkedList<>();
 
