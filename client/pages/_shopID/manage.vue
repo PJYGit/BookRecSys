@@ -148,7 +148,7 @@
                                         <td>标签</td>
                                         <td>
                                             <span v-for="each in item.tid" :key="each">
-                                                {{tagList.filter(i => i.tid===each)[0] == null ?
+                                                {{tagList.filter(i => i.tid===each)[0] === null ?
                                                 "加载中" : tagList.filter(i => i.tid===each)[0].name}}
                                             </span>
                                         </td>
