@@ -145,7 +145,7 @@ cid [number]|订单号|订单号
 
 ---
 4.sub#订单管理
-# /shop/manage/getlist 取商铺订单
+# /order/manage/getlist 取商铺订单
 
 request:
 
@@ -153,7 +153,8 @@ request:
 -|-|-
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
-type [number]|订单类型筛选|0待支付 1待发货 2待确认收货 3待评价 4已完成 -1已取消
+sid|商铺id|商铺id
+type [number]|订单类型筛选|0待支付 1待发货 2待确认收货 3待评价 4已完成 -1已取消 9全部
 
 response:
 
@@ -168,6 +169,7 @@ items[] [list\<elm\>]|订单列表|
 cid [number]|订单id|订单id
 type|订单类型|0待支付 1代发货 2待确认收货 3待评价 4已完成 -1已取消
 items[] [list\<mmp\>]|商品列表|见下文
+money [number %.2f]|订单总价|订单总价
 
 其中mmp： 
 键值|名称|描述
@@ -176,7 +178,6 @@ bid [number]|书本id|书本id
 name|书本名|书本名称
 cnt [number]|个数|个数
 pic|书图url|书图
-money [number %.2f]|本类总价|本类总价
 
 ---
 # /shop/manage/operate 确认发货/取消
@@ -197,7 +198,7 @@ response:
 state [number]|返回码|0 为正常，-1 为失败
 
 ---
-# /shop/manage/setinfo 修改价格/修改产品列表
+# /shop/manage/setinfo 修改价格
 
 request:
 
@@ -206,14 +207,7 @@ request:
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 cid [number]|订单id|订单id
-list[] [list\<elm\>]|订单内容|订单内容
-
-其中 elm：
-键值|名称|描述
--|-|-
-bid [number]|书本id|书本id
-cnt [number]|个数|个数
-money [number %.2f]|本类总价|本类总价
+money [number %.2f]|总价|总价
 
 response:
 
