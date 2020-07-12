@@ -64,6 +64,31 @@
                 </el-table-column>
             </el-table>
         </div>
+
+        <el-dialog title="评价订单" :visible.sync="commentOrder">
+            <div v-for="(item,index) in orderMsg.items" :key="item.bid">
+                <div>
+                    图书名称：{{item.name}}
+                </div>
+                <el-rate
+                        v-model="comment[index].mark"
+                        show-score
+                        text-color="#eb7a67"
+                        :colors="['#eb7a67','#eb7a67','#eb7a67']"
+                        style="margin-left: 10px;float: left">
+                </el-rate>
+                <el-input
+                        type="textarea"
+                        :rows="3"
+                        placeholder="请输入评价"
+                        v-model="comment[index].comment">
+                </el-input>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="commentOrder = false">取 消</el-button>
+                <el-button type="primary" @click="commentOrder = false">确 定</el-button>
+            </div>
+        </el-dialog>
     </flow-board>
 </template>
 
@@ -80,38 +105,9 @@
                 orderId:0,
                 uid:Cookies.get('uid'),
                 token:Cookies.get('token'),
-                orderMsg:{
-                    cid:10000000,
-                    type:1,
-                    sid:99999,
-                    sname:'first',
-                    address:"北京市北京交通大学",
-                    items:[{
-                        bid:1,
-                        name:'图书1',
-                        cnt:5,
-                        pic:'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                        money:300.00,
-                    },{
-                        bid:2,
-                        name:'图书1',
-                        cnt:2,
-                        pic:'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                        money:300.00,
-                    },{
-                        bid:3,
-                        name:'图书1',
-                        cnt:1,
-                        pic:'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                        money:300.00,
-                    },{
-                        bid:4,
-                        name:'图书1',
-                        cnt:9,
-                        pic:'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                        money:300.00,
-                    },],
-                },
+                orderMsg:{},
+                commentOrder:false,
+                comment:[],
 
             }
         },

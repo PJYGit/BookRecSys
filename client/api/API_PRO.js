@@ -8,6 +8,7 @@ export default {
     // 主页模块
     getTopBook: {url: '/home/top'},
     getRecommendBook: {url: '/home/person'},
+    getNew:{url:'home/new'},
     getTag:{url:'shop/tags'},
 
 

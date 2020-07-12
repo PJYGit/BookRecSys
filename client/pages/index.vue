@@ -13,9 +13,9 @@
                 </el-aside>
                 <el-main>
                     <my-search style="margin-top: 2px"></my-search>
-<!--                    <homeshow :title="'新书上架'" :book-list="bookList"-->
-<!--                              style="margin-top: 10px;margin-right: 4px"></homeshow>-->
-                    <homeshow :title="'图书推荐'" :book-list="recommendBook"
+                    <homeshow :title="'新书上架'" :book-list="newBookList"
+                              style="margin-top: 10px;margin-right: 4px"></homeshow>
+                    <homeshow v-if="recommendBook.length!==0" :title="'图书推荐'" :book-list="recommendBook"
                               style="margin-top: 10px;margin-right: 4px"></homeshow>
                     <homeshow :title="'图书Top榜'" :book-list="topNBooks"
                               style="margin-top: 10px;margin-right: 4px"></homeshow>
@@ -47,13 +47,15 @@
                 bookList: [],
                 topNBooks: [],
                 recommendBook:[],
+                newBookList:[],
             }
         },
 
         mounted() {
-            console.log(Cookies.get('vipRate'));
             this.getTopNBook();
-            this.getRecommendBook()
+            this.getRecommendBook();
+            this.getNewBook();
+
         },
 
         methods: {
@@ -61,7 +63,7 @@
             getTopNBook: function () {
                 API.getTopBook().then(res => {
                     if (res.state === 0) {
-                        this.topNBooks = res.list
+                        this.topNBooks = res.list;
                     } else this.$message.error('获取TOP图书榜失败')
                 }).catch(_ => {})
             },
@@ -77,6 +79,14 @@
                         } else this.$message.error('获取推荐图书榜失败')
                     }).catch(_ => {})
                 }
+            },
+
+            getNewBook(){
+                API.getNew().then(res => {
+                    if (res.state === 0) {
+                        this.newBookList = res.list
+                    } else this.$message.error('获取新书榜图书失败')
+                }).catch(_ => {})
             }
         },
 
