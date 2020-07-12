@@ -10,7 +10,7 @@ from com.utils.py_env import HADOOP_PATH, PROJECT_LIB_DIR
 
 if __name__ == '__main__':
     # 远程连接数据库读取preference信息，存入本地
-    shell = "mysql -h 39.106.160.119 -P 3306 -u book_remote -pZBw046vGX7D0eB3o --execute=\"select * from bx_book_ratings;\" book_shop > /home/files/bx_book_ratings.csv"
+    shell = "mysql -h 39.106.160.119 -P 3306 -u book_remote -pBUu8Tix56N8do3Yosb --execute=\"select * from bx_book_ratings;\" book_shop > /home/files/bx_book_ratings.csv"
     os.system(shell)
     # 删除第一行数据库表键值信息
     shell = "sed -i '1d' /home/files/bx_book_ratings.csv"
@@ -35,5 +35,5 @@ if __name__ == '__main__':
     modifyOutput()
 
     # 将结果写入远程数据库
-    shell = "mysql -h 39.106.160.119 -P 3306 -u book_remote -pZBw046vGX7D0eB3o -N -e \"use book_shop;load data local infile '/home/files/out.csv' into table bx_user_view fields terminated by ',';\""
+    shell = "mysql -h 39.106.160.119 -P 3306 -u book_remote -pBUu8Tix56N8do3Yosb -N -e \"use book_shop;load data local infile '/home/files/out.csv' overwrite into table bx_user_view fields terminated by ',';\""
     os.system(shell)
