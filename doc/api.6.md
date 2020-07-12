@@ -4,17 +4,14 @@
 
 request:
 
-键值|名称|描述
--|-|-
-uid [number]|用户 id|系统内唯一标志符，用于后续操作
-token|验证串|和 uid 一起做身份验证
+empty
 
 response:
 
 键值|名称|描述
 -|-|-
 state [number]|返回码|0 为正常，-1 为失败
-list\<elm\>|书本列表|用户信息列表
+list[] [list\<elm\>]|书本列表|用户信息列表
 
 其中 elm:
 
@@ -35,7 +32,16 @@ price[number]|价格|价格
 
 ## /home/person 给本用户分析推荐的书
 
-全部同上
+request:
+
+键值|名称|描述
+-|-|-
+uid [number]|用户 id|系统内唯一标志符，用于后续操作
+token|验证串|和 uid 一起做身份验证
+
+response:
+
+同上
 
 ## /home/types 图书类别
 
