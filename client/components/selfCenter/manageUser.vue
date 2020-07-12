@@ -104,7 +104,7 @@
                                 v-for="item in roleList"
                                 :key="item.value"
                                 :label="item.label"
-                                :value="item.value" style="min-height: 20px;margin-bottom: 20px">
+                                :value="item.value">
                         </el-option>
                     </el-select>
                 </el-form-item>
@@ -240,8 +240,4 @@
 
 <style scoped>
     @import "../../assets/tableStyle.css";
-    /*>>> .el-select-dropdown .el-scrollbar .el-scrollbar__wrap
-    {
-        overflow: scroll!important;
-    }*/
 </style>
