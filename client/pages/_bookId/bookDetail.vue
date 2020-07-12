@@ -54,7 +54,7 @@
 
                         <div style="margin-top: 20px">
                             <el-button icon="el-icon-shopping-cart-2" style="background-color: #eb7a67;color: white;border: solid 1px #ef9585;font-size: 20px" @click="addToCar">加入购物车</el-button>
-                            <el-button style="color: #eb7a67;border: solid 1px #ef9585;font-size: 18px">立即购买</el-button>
+                            <el-button style="color: #eb7a67;border: solid 1px #ef9585;font-size: 18px" @click="chooseAddress=true">立即购买</el-button>
                         </div>
                     </el-main>
                 </el-container>
@@ -116,6 +116,17 @@
             </el-col>
         </el-row>
 
+        <el-dialog
+                title="请选择收货地址"
+                :visible.sync="chooseAddress"
+                width="60%">
+            <address-list :is-shopping="1" ref="getAddress"></address-list>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="chooseAddress = false">取 消</el-button>
+                <el-button type="primary" @click="buyOneBook">确 定</el-button>
+            </span>
+        </el-dialog>
+
     </FlowBoard>
 </template>
 
@@ -127,9 +138,10 @@
     import EvaluList from "../../components/evaluList";
     import Cookies from 'js-cookie';
     import API from '../../api';
+    import AddressList from "../../components/addressList";
     export default {
         name: "bookDetail",
-        components: {EvaluList, AlsoLike, FlowBoard, MyFooter, MyTitle},
+        components: {AddressList, EvaluList, AlsoLike, FlowBoard, MyFooter, MyTitle},
         filters: {
             ellipsis (value) {
                 if (!value) return '';
@@ -146,6 +158,7 @@
                 token:Cookies.get('token'),
                 buyNum:1,
                 activeName:'first',
+                chooseAddress:false,
                 bookId:'',
                 bookItem: {
                     price:5,
@@ -232,6 +245,28 @@
                 data.append('sid',this.bookItem.sid);
 
                 API.addToShoppingCar(data).then(res=>{
+                    if (res.state) {
+                        alert("加购失败");
+                        return;
+                    }
+                    alert("加购成功");
+
+                }).catch(msg => {
+                    alert(msg)
+                })
+            },
+
+            buyOneBook(){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('bid',this.bookItem.bid);
+                data.append('cnt',this.buyNum);
+                data.append('address',this.$refs.getAddress.returnAddressContent());
+                //console.log(this.$refs.getAddress.returnAddressContent());
+
+                API.buyOnlyBook(data).then(res=>{
+
                     if (res.state) {
                         alert("加购失败");
                         return;
