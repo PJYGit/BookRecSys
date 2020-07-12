@@ -24,6 +24,7 @@
 </template>
 
 <script>
+    import API from "../../api";
     export default {
         name: "classfyMenu",
         props:{
@@ -40,32 +41,12 @@
                     tid:1,
                     name:"有书推荐",
                     cnt:300,
-                },{
-                    tid:2,
-                    name:"文学",
-                    cnt:2000,
-                },{
-                    tid:3,
-                    name:"教辅",
-                    cnt:250,
-                },{
-                    tid:4,
-                    name:"社会科学",
-                    cnt:250,
-                },{
-                    tid:5,
-                    name:"童书",
-                    cnt:250,
-                },{
-                    tid:6,
-                    name:"艺术",
-                    cnt:250,
-                },{
-                    tid:7,
-                    name:"生活",
-                    cnt:250,
-                },]
+                }]
             }
+        },
+
+        mounted(){
+            this.getClassfyMenu();
         },
 
         methods:{
@@ -76,6 +57,19 @@
                 }
 
             },
+
+            getClassfyMenu(){
+                API.getTag().then(res => {
+                    console.log(res);
+                    if (res.state) {
+                        alert("获取图书类别失败");
+                        return;
+                    }
+                    this.menuList = res.tags;
+                }).catch(msg=>{
+                    alert(msg);
+                })
+            }
         },
     }
 </script>

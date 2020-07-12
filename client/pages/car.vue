@@ -31,19 +31,19 @@
                         </el-button>
                     </div>
                 </el-card>
-                <el-dialog
-                        title="请选择收货地址"
-                        :visible.sync="chooseAddress"
-                        width="60%">
-                    <address-list :is-shopping="1" ref="getAddress"></address-list>
-                    <span slot="footer" class="dialog-footer">
+
+            </div>
+        </div>
+        <el-dialog
+                title="请选择收货地址"
+                :visible.sync="chooseAddress"
+                width="60%">
+            <address-list :is-shopping="1" ref="getAddress"></address-list>
+            <span slot="footer" class="dialog-footer">
                         <el-button @click="chooseAddress = false">取 消</el-button>
                         <el-button type="primary" @click="createOrder(index)">确 定</el-button>
                     </span>
-                </el-dialog>
-            </div>
-        </div>
-
+        </el-dialog>
     </FlowBoard>
 </template>
 
@@ -120,8 +120,8 @@
                     let buy = []
                     buy.push(this.carList[index])
                     let data = new FormData();
-                    data.append('uid', this.$cookie.get("uid"))
-                    data.append('token', this.$cookie.get("token"))
+                    data.append('uid', this.$cookie.get("uid"));
+                    data.append('token', this.$cookie.get("token"));
                     data.append('address',this.$refs.getAddress.returnAddressContent());
                     for (let i = 0; i < buy.length; i++)
                         data.append('buy', JSON.stringify(buy[i]))

@@ -8,6 +8,7 @@ export default {
     // 主页模块
     getTopBook: {url: '/home/top'},
     getRecommendBook: {url: '/home/person'},
+    getTag:{url:'shop/tags'},
 
 
     //登录模块接口
