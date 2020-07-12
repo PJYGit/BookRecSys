@@ -104,4 +104,11 @@ public class OrderResponses {
             }
         }
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class manageOperateResponse {
+        int state;
+    }
 }

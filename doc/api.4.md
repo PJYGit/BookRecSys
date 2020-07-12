@@ -195,7 +195,7 @@ response:
 
 键值|名称|描述
 -|-|-
-state [number]|返回码|0 为正常，-1 为失败
+state [number]|返回码|0 为正常，-1 为失败，-777非法操作
 
 ---
 # /order/manage/setinfo 修改价格
