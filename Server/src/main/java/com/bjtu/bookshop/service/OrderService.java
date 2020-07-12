@@ -107,9 +107,9 @@ public class OrderService {
     }
 
     public OrderItem newOrderCreate(int uid, String address, int bid, int cnt) {
-        return newOrderCreate(uid, address, new LinkedList<BookItem>() {{
-            new BookItem(bid, cnt);
-        }});
+        List<BookItem> list = new LinkedList<>();
+        list.add(new BookItem(bid, cnt));
+        return newOrderCreate(uid, address, list);
     }
 
     public int newOrderCheck(OrderItem orderItem) {
