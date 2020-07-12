@@ -56,4 +56,11 @@ public class OrderResponses {
             double money;
         }
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class operateResponse {
+        int state;
+    }
 }

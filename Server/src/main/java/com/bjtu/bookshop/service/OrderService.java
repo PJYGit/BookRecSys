@@ -3,6 +3,8 @@ package com.bjtu.bookshop.service;
 import com.bjtu.bookshop.bean.db.BookInfo;
 import com.bjtu.bookshop.bean.db.OrderContent;
 import com.bjtu.bookshop.bean.db.OrderInfo;
+import com.bjtu.bookshop.bean.db.UserInfo;
+import com.bjtu.bookshop.bean.response.OrderResponses.*;
 import com.bjtu.bookshop.bean.response.OrderResponses.getInfoResponse;
 import com.bjtu.bookshop.bean.response.OrderResponses.getListResponse;
 import com.bjtu.bookshop.mapper.BookMapper;
@@ -51,12 +53,11 @@ public class OrderService {
      *
      * CHECK
      * 	  书的存量 -114
-     * 	  用户余额 -514
+     * 	  用户余额 -114514
      *
      * EXEC
      * 	  订单记录
      * 	  存量和销量修改
-     * 	  用户钱包修改
      *
      * CREATE
      *     接收 uid address List<BookItem>
@@ -118,7 +119,7 @@ public class OrderService {
 
         // 用户余额
         if (orderItem.getInfo().getMoney() > userMapper.getUserInfoWithUID(orderItem.getInfo().getUid()).getMoney()) {
-            return -514;
+            return -114514;
         }
 
         return 0;
@@ -133,8 +134,6 @@ public class OrderService {
         for (OrderContent orderContent : orderItem.getContentList()) {
             bookMapper.updateBookSalesAndRemain(orderContent.getBid(), orderContent.getCnt());
         }
-
-        userMapper.updateUserMoney(orderItem.getInfo().getUid(), orderItem.getInfo().getMoney());
 
         // TODO test
         return orderItem.getInfo().getCid();
@@ -196,11 +195,29 @@ public class OrderService {
         );
     }
 
-    public Response operateOrder(int uid, String token, int cid, int op) {
-        if (isTokenValid(uid, token)) {
-            orderMapper.updateOrderInfoCode(uid, cid, op);
-            return new StateResponse(Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+    public operateResponse operateOrder(int uid, int cid, int opcode) {
+        OrderInfo orderInfo = orderMapper.getOrderInfoWithCID(cid);
+        UserInfo userInfo = userMapper.getUserInfoWithUID(uid);
+
+        if (orderInfo.getType() == 0 && opcode == 1) {
+            if (userInfo.getMoney() < orderInfo.getMoney()) {
+                return new operateResponse(-114514);
+            }
+            userMapper.updateUserMoney(uid, orderInfo.getMoney());
+            orderMapper.updateOrderInfoType(cid, 1);
+            return new operateResponse(0);
+        }
+
+        if ((orderInfo.getType() == 0 || orderInfo.getType() == 1) && opcode == 2) {
+
+            return new operateResponse(0);
+        }
+
+        if (orderInfo.getType() == 2 && opcode == 3) {
+            return new operateResponse(0);
+        }
+
+        return new operateResponse(-777);
     }
 
     public Response commentOrder(int uid, String token, int cid, int mark, String comment) {
