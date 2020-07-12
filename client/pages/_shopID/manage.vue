@@ -117,6 +117,7 @@
                                         </el-select>
                                     </el-form-item>
                                     <el-form-item label="图书图片">
+                                        <input type="file" id="newBookInfo" @change="imageUpload('newBookInfo')"/>
                                         <el-input v-model="uploadImageURL" disabled size="mini"></el-input>
                                     </el-form-item>
                                 </el-form>
@@ -218,6 +219,7 @@
                                                 </el-select>
                                             </el-form-item>
                                             <el-form-item label="图书图片">
+                                                <input type="file" id="editBookInfo" @change="imageUpload('editBookInfo')"/>
                                                 <el-input v-model="uploadImageURL" disabled size="mini"></el-input>
                                             </el-form-item>
                                             </el-form>
@@ -691,7 +693,8 @@
                 })
             },
             imageUpload: function (id) {
-                this.uploadImage = document.getElementById(id).files[0]
+                let files = document.getElementById(id).files
+                this.uploadImage = files[files.length - 1]
                 let data = new FormData()
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
