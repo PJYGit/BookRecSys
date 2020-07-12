@@ -1,15 +1,11 @@
 package com.bjtu.bookshop.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.bjtu.bookshop.bean.request.OrderRequests.*;
-import com.bjtu.bookshop.bean.response.CarResponses;
 import com.bjtu.bookshop.bean.response.OrderResponses.*;
-import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.service.OrderService;
 import com.bjtu.bookshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -77,7 +73,14 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/create", method = {RequestMethod.POST})
-    public Response createOrderWithOneBook(@RequestBody JSONObject object) {
-        return orderService.createOneBookOrder(object.getIntValue("uid"), object.getString("token"), object.getIntValue("bid"), object.getIntValue("cnt"));
+    public createResponse createOrderWithOneBook(@Valid createRequest req, BindingResult br) {
+        if (br.hasErrors()) return new createResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new createResponse() {{
+            setState(-10);
+        }};
+
+        return orderService.createOneBookOrder(req.getUid(), req.getAddress(), req.getBid(), req.getCnt());
     }
 }

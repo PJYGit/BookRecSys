@@ -48,4 +48,14 @@ public class OrderRequests {
             @NotNull String comment;
         }
     }
+
+    @Data
+    @AllArgsConstructor
+    public static class createRequest implements CommonRequests.UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull String address;
+        @NotNull int bid;
+        @NotNull int cnt;
+    }
 }

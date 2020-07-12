@@ -70,4 +70,12 @@ public class OrderResponses {
     public static class commentResponse {
         int state;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class createResponse {
+        int state;
+        int cid;
+    }
 }

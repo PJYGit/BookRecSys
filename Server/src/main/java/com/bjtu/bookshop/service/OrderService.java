@@ -6,14 +6,10 @@ import com.bjtu.bookshop.bean.db.OrderInfo;
 import com.bjtu.bookshop.bean.db.UserInfo;
 import com.bjtu.bookshop.bean.request.OrderRequests.commentRequest;
 import com.bjtu.bookshop.bean.response.OrderResponses.*;
-import com.bjtu.bookshop.bean.response.OrderResponses.getInfoResponse;
-import com.bjtu.bookshop.bean.response.OrderResponses.getListResponse;
 import com.bjtu.bookshop.mapper.BookMapper;
 import com.bjtu.bookshop.mapper.OrderMapper;
 import com.bjtu.bookshop.mapper.StoreMapper;
 import com.bjtu.bookshop.mapper.UserMapper;
-import com.bjtu.bookshop.response.Response;
-import com.bjtu.bookshop.response.StateResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -108,6 +104,12 @@ public class OrderService {
         );
 
         return new OrderItem(orderInfo, contentList);
+    }
+
+    public OrderItem newOrderCreate(int uid, String address, int bid, int cnt) {
+        return newOrderCreate(uid, address, new LinkedList<BookItem>() {{
+            new BookItem(bid, cnt);
+        }});
     }
 
     public int newOrderCheck(OrderItem orderItem) {
@@ -251,9 +253,13 @@ public class OrderService {
         return new commentResponse(0);
     }
 
-    public Response createOneBookOrder(int uid, String token, int bid, int cnt) {
+    public createResponse createOneBookOrder(int uid, String address, int bid, int cnt) {
+        OrderItem orderItem = newOrderCreate(uid, address, bid, cnt);
 
+        int check = newOrderCheck(orderItem);
+        if (check != 0) return new createResponse(check, -1);
+
+        int cid = newOrderExecute(orderItem);
+        return new createResponse(0, cid);
     }
-
-
 }
