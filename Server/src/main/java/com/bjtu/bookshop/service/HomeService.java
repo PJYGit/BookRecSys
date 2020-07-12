@@ -4,6 +4,7 @@ import com.bjtu.bookshop.bean.db.UserAddress;
 import com.bjtu.bookshop.bean.db.UserInfo;
 import com.bjtu.bookshop.bean.db.UserLogin;
 import com.bjtu.bookshop.bean.db.UserReg;
+import com.bjtu.bookshop.bean.middle.HardBook;
 import com.bjtu.bookshop.bean.request.CommonRequests.UserAuthorization;
 import com.bjtu.bookshop.bean.request.UserRequests.SetInfoRequest;
 import com.bjtu.bookshop.bean.response.HomeResponses.*;
@@ -29,8 +30,8 @@ public class HomeService {
     }
 
     public TopResponse getTop() {
-        List<TopResponse.elm> topList = homeMapper.getList();
-        for(TopResponse.elm e: topList){
+        List<HardBook> topList = homeMapper.getList();
+        for(HardBook e: topList){
             e.trans();
         }
         return new TopResponse(0, topList);

@@ -6,6 +6,7 @@ import java.util.List;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bjtu.bookshop.bean.db.*;
+import com.bjtu.bookshop.bean.middle.HardBook;
 import com.bjtu.bookshop.bean.middle.SimpleUser;
 import com.bjtu.bookshop.bean.response.ShopResponses.*;
 import com.bjtu.bookshop.bean.response.UserResponses;
@@ -50,9 +51,9 @@ public class StoreService {
 
     /** 2.2 body **/
     public BookListResponse getBookList (int sid) {
-        List<BookListResponse.book> bookInfos = bookMapper.getBookListBySid(sid);
+        List<HardBook> bookInfos = bookMapper.getBookListBySid(sid);
         if(bookInfos == null) return new BookListResponse(){{setState(-11);}};
-        for( BookListResponse.book elm : bookInfos){
+        for( HardBook elm : bookInfos){
             elm.trans();
         }
         return new BookListResponse(0, bookInfos);
@@ -60,7 +61,7 @@ public class StoreService {
 
     /** 2.3 body **/
     public BookInfoResponse getBookInfo(int bid) {
-        BookListResponse.book bookInfo = bookMapper.getBookByBid(bid);
+        HardBook bookInfo = bookMapper.getBookByBid(bid);
         if(bookInfo == null) return new BookInfoResponse(){{setState(-11);}};
         bookInfo.trans();
         return new BookInfoResponse(0,bookInfo.getBid(),bookInfo.getSid(),bookInfo.getInnerTid(),

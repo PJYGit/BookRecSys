@@ -1,6 +1,7 @@
 package com.bjtu.bookshop.bean.response;
 
 import com.bjtu.bookshop.bean.db.BookTag;
+import com.bjtu.bookshop.bean.middle.HardBook;
 import com.bjtu.bookshop.bean.middle.SimpleUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,39 +19,7 @@ public class HomeResponses {
     @NoArgsConstructor
     public static class TopResponse {
         int state;
-        List<elm> list;
-
-        @Data
-        @AllArgsConstructor
-        @NoArgsConstructor
-        public static class elm{
-            int bid;
-            int sid;
-            String innerTid;
-            List<Integer> tid;
-            String bname;
-            String sname;
-            String author;
-            String content;
-            String pic;
-            double mark;
-            int sales;
-            int remain;
-            double price;
-
-            public void trans(){
-                if(innerTid == null) {
-                    tid = new ArrayList<Integer>();
-                }else {
-                    tid = Arrays.stream(innerTid.split(","))
-                            .map(Integer::parseInt)
-                            .collect(Collectors.toList());
-                }
-
-            }
-
-        }
-
+        List<HardBook> list;
     }
 
 }
