@@ -32,7 +32,7 @@
                     {{item.name}}
                 </div>
                 <div class="tableCell">
-                    {{item.boss.name}}
+                    {{item.bossname}}
                 </div>
                 <div class="tableCell">
                     {{item.content | message}}
@@ -53,24 +53,65 @@
                     <el-tag type="danger" v-if="item.code===3">封禁</el-tag>
                 </div>
                 <div class="tableCell">
-                    <el-button type="text" style="font-size: 16px" v-if="item.code===1">审核</el-button>
-                    <el-button type="text" style="font-size: 16px" v-if="item.code===2">封禁</el-button>
-                    <el-button type="text" style="font-size: 16px" v-if="item.code===3">解封</el-button>
+                    <el-button type="text" style="font-size: 16px" v-if="item.code===1" @click="checkingShop(item)">审核</el-button>
+                    <el-button type="text" style="font-size: 16px" v-if="item.code===2" @click="setShopState(item)">封禁</el-button>
+                    <el-button type="text" style="font-size: 16px" v-if="item.code===3" @click="checkingShop(item)">解封</el-button>
                 </div>
 
             </div>
         </div>
-        <!--<el-pagination
+
+        <el-dialog title="审核商店信息" :visible.sync="checkShop">
+            <el-form :inline="true" :model="shopMsg" label-width="130px" style="font-size: 16px">
+                <el-form-item label="商店编码">
+                    {{shopMsg.sid}}
+                </el-form-item>
+                <el-form-item label="商店名称">
+                    {{shopMsg.name}}
+                </el-form-item>
+            </el-form>
+            <el-form :inline="true" :model="shopMsg" label-width="130px">
+                <el-form-item label="店主编码">
+                    {{shopMsg.bossid}}
+                </el-form-item>
+                <el-form-item label="店主名称">
+                    {{shopMsg.bossname}}
+                </el-form-item>
+            </el-form>
+            <el-form :model="shopMsg" label-width="130px">
+                <el-form-item label="店铺简介">
+                    {{shopMsg.content}}
+                </el-form-item>
+                <el-form-item label="店内书本评分">
+                    <el-rate
+                            v-model="shopMsg.mark"
+                            disabled
+                            show-score
+                            text-color="#eb7a67"
+                            :colors="['#eb7a67','#eb7a67','#eb7a67']"
+                            style="margin-top: 10px">
+                    </el-rate>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="updateUser = false">取 消</el-button>
+                <el-button type="primary" @click="setShopState(shopMsg)">通过审核</el-button>
+            </div>
+        </el-dialog>
+
+        <el-pagination
                 layout="prev, pager, next"
                 :current-page.sync="currentPage"
                 :page-count="pagesize"
-                @current-change="getUserList" style="margin-top: 20px;float: right;margin-right: 20px">
-        </el-pagination>-->
+                @current-change="getShopList" style="margin-top: 20px;float: right;margin-right: 20px">
+        </el-pagination>
     </div>
 </template>
 
 <script>
     import EvaluList from "../evaluList";
+    import API from "../../api";
+    import Cookies from 'js-cookie';
     export default {
         name: "manageShop",
         components: {EvaluList},
@@ -85,48 +126,84 @@
         },
         data(){
             return{
-                shopList:[{
-                    sid:1,
-                    name:"有书自营",
-                    boss:{
-                        uid:1,
-                        name:"店主1",
-                    },
-                    content:'店铺介绍介绍介绍店铺介绍介绍介绍店铺介绍介绍介绍店铺介绍介绍介绍店铺介绍介绍介绍',
-                    //head:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1594294678581&di=0f148dc1c6aeac2f1c3ba6cc1d7c0560&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F86%2F10%2F01300000184180121920108394217.jpg',
-                    head:'http://imgpub.chuangkit.com/design/2019/10/18/494287150_thumb',
-                    code:1,
-                    mark:4.7,
-                },{
-                    sid:2,
-                    name:"有书自营",
-                    boss:{
-                        uid:1,
-                        name:"店主1",
-                    },
-                    content:'店铺介绍介绍介绍店铺介绍介绍介绍店铺介绍介绍介绍店铺介绍介绍介绍店铺介绍介绍介绍',
-                    //head:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1594294678581&di=0f148dc1c6aeac2f1c3ba6cc1d7c0560&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F86%2F10%2F01300000184180121920108394217.jpg',
-                    head:'http://imgpub.chuangkit.com/design/2019/10/18/494287150_thumb',
-                    code:2,
-                    mark:4.7,
-                },{
-                    sid:3,
-                    name:"有书自营",
-                    boss:{
-                        uid:1,
-                        name:"店主1",
-                    },
-                    content:'店铺介绍介绍介绍店铺介绍介绍介绍店铺介绍介绍介绍店铺介绍介绍介绍店铺介绍介绍介绍',
-                    //head:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1594294678581&di=0f148dc1c6aeac2f1c3ba6cc1d7c0560&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F86%2F10%2F01300000184180121920108394217.jpg',
-                    head:'http://imgpub.chuangkit.com/design/2019/10/18/494287150_thumb',
-                    code:3,
-                    mark:4.7,
-                }],
+                token:Cookies.get('token'),
+                uid:Cookies.get('uid'),
+                shopList:[],
+                pagesize:0,
+                currentPage:1,
+                checkShop:false,
+                shopMsg:{},
             }
+        },
+
+        mounted(){
+            this.getShopList();
+        },
+
+        methods:{
+            getShopList(){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('page',this.currentPage);
+
+                API.getSList(data).then(res=>{
+                    if (res.state) {
+                        alert("获取店铺列表失败");
+                        return;
+                    }
+                    this.shopList = res.shops;
+                    this.pagesize=res.pageCnt;
+
+                }).catch(msg => {
+                    alert(msg)
+                })
+            },
+
+            checkingShop(item){
+                this.checkShop=true;
+                this.shopMsg=item;
+            },
+
+            setShopState(msg){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('sid',msg.sid);
+
+                if(msg.code===2){
+                    msg.code=3;
+                }else{
+                    msg.code=2;
+                }
+
+                data.append('code',msg.code);
+
+                API.setShopInfo(data).then(res=>{
+                    if (res.state) {
+                        alert("修改店铺信息失败");
+                        return;
+                    }
+
+                    alert("修改店铺信息成功");
+                    this.checkShop=false;
+                }).catch(msg => {
+                    alert(msg)
+                })
+            },
+
+
         }
     }
 </script>
 
 <style scoped>
     @import "../../assets/tableStyle.css";
+    >>> .el-form-item__label{
+        font-size: 16px;
+    }
+
+    >>> .el-form-item__content{
+        font-size: 16px;
+    }
 </style>

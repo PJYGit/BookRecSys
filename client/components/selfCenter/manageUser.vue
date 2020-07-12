@@ -125,6 +125,10 @@
         props:{
             userRole:{
                 type:Number,
+            },
+            manageManager:{
+                type:Boolean,
+                default:false
             }
         },
 
@@ -159,14 +163,20 @@
                 data.append('page',this.currentPage);
 
                 API.getUSList(data).then(res=>{
-                    console.log(res);
                     if (res.state) {
                         alert("获取用户列表失败");
                         return;
                     }
                     this.userList = res.list;
                     this.pagesize=res.pagesize;
-
+                    if(this.manageManager===true){
+                        this.userList=[];
+                        res.list.forEach(item=>{
+                            if(item.role===1){
+                                this.userList.push(item);
+                            }
+                        })
+                    }
                 }).catch(msg => {
                     alert(msg)
                 })
@@ -187,7 +197,6 @@
                 data.append('baned',item.baned);
 
                 API.setUserInfo(data).then(res=>{
-                    console.log(res);
                     if (res.state) {
                         alert("修改账户状态失败");
                         return;
@@ -213,12 +222,11 @@
                 data.append('role',this.updateUserMsg.role);
 
                 API.setUserInfo(data).then(res=>{
-                    console.log(res);
                     if (res.state) {
                         alert("修改账户状态失败");
                         return;
                     }
-                    alert("修改账户状态成功");
+                    alert("修改账户状态成功,请刷新以更新列表");
                     this.updateUser=false;
                     this.updateUserMsg={};
                 }).catch(msg => {

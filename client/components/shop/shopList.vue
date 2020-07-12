@@ -24,11 +24,8 @@
                         </div>
                     </el-col>
                     <el-col :span="4" style="line-height: 74px">
-                        <div @click="toShopManage(item.sid)" v-if="isUser===0" style="margin-left: 50%;cursor: pointer">
+                        <div @click="toShop(item.sid)" v-if="isUser===0" style="margin-left: 50%;cursor: pointer">
                             进店逛逛 >>
-                        </div>
-                        <div @click="toShopManage(item.sid)" v-if="isUser!==0" style="margin-left: 50%;cursor: pointer">
-                            进入店铺 >>
                         </div>
                     </el-col>
                 </el-row>
@@ -93,9 +90,9 @@
             }
         },
         methods: {
-            toShopManage: function (sid) {
-                let link = this.$router.resolve({ path: '/' + sid + '/manage',
-                    query: { sid: sid }});
+            toShop(sid){
+                let link = this.$router.resolve({ path: `/shopBookList`,
+                    query: { sid: sid}});
                 window.open(link.href, '_blank');
             }
         }

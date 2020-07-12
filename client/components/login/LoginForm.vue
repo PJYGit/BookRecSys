@@ -67,9 +67,21 @@
                 this.$message.error('登录失败');
             },
             doLoginSuccess : function(data){
-                console.log(data);
                 this.$cookie.set("uid",data.uid);
                 this.$cookie.set("token",data.token);
+
+                let fd = new FormData();
+                fd.append('uid',data.uid);
+                fd.append('token',data.token);
+                API.userGetInfo(fd).then(res=>{
+                    if (res.state) {
+                        return;
+                    }
+
+                    this.$cookie.set("vipRate",res.vipRate);
+                }).catch(msg => {
+                    alert(msg)
+                });
                 this.$router.push('/');
             },
             checkAndSubmit : function(){
