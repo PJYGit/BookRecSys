@@ -53,7 +53,7 @@
                         </div>
 
                         <div style="margin-top: 20px">
-                            <el-button icon="el-icon-shopping-cart-2" style="background-color: #eb7a67;color: white;border: solid 1px #ef9585;font-size: 20px">加入购物车</el-button>
+                            <el-button icon="el-icon-shopping-cart-2" style="background-color: #eb7a67;color: white;border: solid 1px #ef9585;font-size: 20px" @click="addToCar">加入购物车</el-button>
                             <el-button style="color: #eb7a67;border: solid 1px #ef9585;font-size: 18px">立即购买</el-button>
                         </div>
                     </el-main>
@@ -61,8 +61,8 @@
 
                 <el-container style="margin-bottom: 20px;margin-left: 10%;padding-top: 40px">
                     <el-tabs v-model="activeName" type="card" style="margin-bottom: 20px">
-                        <el-tab-pane label="图书详情" name="first">
-                            <div style="font-size: 20px;margin-left: 10px;margin-top: 20px">
+                        <el-tab-pane label="图书详情" name="first" style="min-width: 700px">
+                            <div style="font-size: 20px;margin-left: 10px;margin-top: 20px;">
                                 图书信息
                             </div>
                             <el-divider></el-divider>
@@ -125,7 +125,8 @@
     import FlowBoard from "../../components/board/FlowBoard";
     import AlsoLike from "../../components/AlsoLike";
     import EvaluList from "../../components/evaluList";
-    import Cookies from 'js-cookie'
+    import Cookies from 'js-cookie';
+    import API from '../../api';
     export default {
         name: "bookDetail",
         components: {EvaluList, AlsoLike, FlowBoard, MyFooter, MyTitle},
@@ -141,23 +142,12 @@
         data(){
             return{
                 rate:Cookies.get('vipRate'),
+                uid:Cookies.get('uid'),
+                token:Cookies.get('token'),
                 buyNum:1,
                 activeName:'first',
                 bookId:'',
-                bookItem: {
-                    bid:1,
-                    sid:1,
-                    tid:[],
-                    bname:'图书1',
-                    sname:'有书专卖',
-                    author:'作者1',
-                    content:'这是一个内容简介简介这是一个内容简介简介这是一个内容简介简介这是一个内容简介简介这是一个内容简介简介这是一个这是一个内容简介简介这是一个个内容简介简介这是一个这是一个内容简介简介这是一个',
-                    pic:'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg',
-                    mark:3.4,
-                    sales:300,
-                    remain:23,
-                    price:20.00,
-                },
+                bookItem: {},
 
                 thisBookList:[{
                     bid:1,
@@ -200,7 +190,7 @@
 
         mounted(){
             this.bookId = this.$route.query.bid;
-            //console.log(this.bookId)
+            this.setBookMsg();
         },
 
         methods:{
@@ -208,6 +198,45 @@
                 let link = this.$router.resolve({ path: `/shopBookList`,
                     query: { sid: this.bookItem.sid }});
                 window.open(link.href, '_blank');
+            },
+
+            setBookMsg(){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('bid',this.bookItem.bid);
+
+                API.getBookDetail(data).then(res=>{
+                    if (res.state) {
+                        alert("获取图书详情失败");
+                        return;
+                    }
+                    this.bookItem=res;
+                    this.evaluateList=[];
+                    console.log(res);
+                }).catch(msg => {
+                    alert(msg)
+                })
+            },
+
+            addToCar(){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('bid',this.bookItem.bid);
+                data.append('cnt',this.buyNum);
+                data.append('sid',this.bookItem.sid);
+
+                API.addToShoppingCar(data).then(res=>{
+                    if (res.state) {
+                        alert("加购失败");
+                        return;
+                    }
+                    alert("加购成功");
+
+                }).catch(msg => {
+                    alert(msg)
+                })
             }
         },
 
