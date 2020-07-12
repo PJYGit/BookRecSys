@@ -31,7 +31,7 @@
 
             <div :class="{'grayLine': (index % 2 === 0)}" style="display: table-row" v-for="(item,index) in addressList" :key="item.index">
                 <div v-if="isShopping===1" class="tableCell">
-                    <el-radio v-model="addressId" :label="item.aid">
+                    <el-radio v-model="addressId" :label="index">
                         {{''}}
                     </el-radio>
                 </div>
@@ -131,9 +131,9 @@
                 type:Number,
                 default:0,
             },
-            addressList:{
+            /*addressList:{
                 type: Array,
-            }
+            }*/
         },
 
         data(){
@@ -145,13 +145,19 @@
                 deleteAddress:false,
                 chooseId:-1,
                 defaultAddress:0,
+                choosedAddress:'',
                 newAddress:{
                     selected:0,
                 },
                 updateAddress:{},
                 token:Cookies.get("token"),
                 uid:Cookies.get("uid"),
+                addressList:[],
             }
+        },
+
+        mounted(){
+            this.getAddressMsg();
         },
 
         methods:{
@@ -165,7 +171,6 @@
                 this.changeAddress=true;
             },
             updateAddr(){
-                console.log(this.defaultAddress);
                 if(this.chooseId!==-1){
                     this.addressList[this.chooseId]=this.updateAddress;
 
@@ -262,6 +267,30 @@
                 }
 
             },
+
+            getAddressMsg(){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+
+                API.userGetInfo(data).then(res=>{
+                    if (res.state) {
+                        return;
+                    }
+                    this.addressList = res.address;
+                    for(let i=0;i<this.addressList.length;i++){
+                        if(this.addressList[i].selected===1){
+                            this.addressId=i;
+                        }
+                    }
+                }).catch(msg => {
+                    alert(msg)
+                })
+            },
+
+            returnAddressContent(){
+                return this.addressList[parseInt(this.addressId)].content;
+            }
         }
     }
 </script>
