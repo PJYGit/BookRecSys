@@ -55,11 +55,15 @@
 <script>
     import FlowBoard from "../components/board/FlowBoard";
     import MyTitle from "../components/base/myTitle";
+    import API from "../api";
+    import Cookies from 'js-cookie';
     export default {
         name: "orderList",
         components: {MyTitle, FlowBoard},
         data(){
             return{
+                uid:Cookies.get('uid'),
+                token:Cookies.get('token'),
                 filterList:[{
                     text: '待付款',
                     value: 0
@@ -105,6 +109,10 @@
             }
         },
 
+        mounted(){
+            this.getMyOrderList();
+        },
+
         methods:{
             filterTag(value, row) {
                 return row.type === value;
@@ -114,7 +122,25 @@
                 let link = this.$router.resolve({ path: `/`+this.cid+`/orderDetail`,
                     query: { cid: cid }});
                 window.open(link.href, '_blank');
-            }
+            },
+
+            getMyOrderList(){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('type',1);
+
+                API.getOList(data).then(res=>{
+                    if (res.state) {
+                        alert("获取订单列表失败");
+                        return;
+                    }
+                    this.orderList = res.items;
+
+                }).catch(msg => {
+                    alert(msg)
+                })
+            },
         }
     }
 </script>

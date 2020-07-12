@@ -43,5 +43,10 @@ export default {
     operateOrder: {url: '/order/manage/operate'},
 
     // 图片上传
-    uploadImage: {url: '/pic/upload'}
+    uploadImage: {url: '/pic/upload'},
+
+    //订单模块
+    getOList:{url:'order/getlist'},
+    getOrderDetail:{url:'order/getinfo'},
+
 }

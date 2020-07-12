@@ -70,11 +70,16 @@
 <script>
     import FlowBoard from "../../components/board/FlowBoard";
     import MyTitle from "../../components/base/myTitle";
+    import API from "../../api";
+    import Cookies from 'js-cookie';
     export default {
         name: "orderDetail",
         components: {MyTitle, FlowBoard},
         data(){
             return{
+                orderId:0,
+                uid:Cookies.get('uid'),
+                token:Cookies.get('token'),
                 orderMsg:{
                     cid:10000000,
                     type:1,
@@ -110,6 +115,31 @@
 
             }
         },
+
+        mounted(){
+            this.orderId = this.$route.query.cid;
+            this.getOrderMsg();
+        },
+
+        methods:{
+            getOrderMsg(){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('cid',this.orderId);
+
+                API.getOrderDetail(data).then(res=>{
+                    if (res.state) {
+                        alert("获取订单列表失败");
+                        return;
+                    }
+                    this.orderMsg = res;
+
+                }).catch(msg => {
+                    alert(msg)
+                })
+            }
+        }
     }
 </script>
 
