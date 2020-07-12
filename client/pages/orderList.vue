@@ -29,11 +29,14 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="状态">
+                <el-table-column label="状态"
+                                 :filters="filterList"
+                                 :filter-method="filterTag"
+                                 filter-placement="bottom-end">
                     <template slot-scope="scope">
                         <el-tag v-if="scope.row.type===0" type="warning">待付款</el-tag>
                         <el-tag v-if="scope.row.type===1" type="info">待发货</el-tag>
-                        <el-tag v-if="scope.row.type===2" type="info">待确认发货</el-tag>
+                        <el-tag v-if="scope.row.type===2" type="info">待确认收货</el-tag>
                         <el-tag v-if="scope.row.type===3">待评价</el-tag>
                         <el-tag v-if="scope.row.type===4" type="success">已完成</el-tag>
                         <el-tag v-if="scope.row.type===-1" type="danger">已取消</el-tag>
@@ -41,7 +44,7 @@
                 </el-table-column>
                 <el-table-column label="">
                     <template slot-scope="scope">
-                        <el-button type="text">查看详情</el-button>
+                        <el-button type="text" style="color: #EB7A67">查看详情</el-button>
                     </template>
                 </el-table-column></el-table>
         </el-container>
@@ -56,6 +59,25 @@
         components: {MyTitle, FlowBoard},
         data(){
             return{
+                filterList:[{
+                    text: '待付款',
+                    value: 0
+                },{
+                    text: '待发货',
+                    value: 1
+                },{
+                    text: '待确认收货',
+                    value: 2
+                },{
+                    text: '待评价',
+                    value: 3
+                },{
+                    text: '已完成',
+                    value: 4
+                },{
+                    text: '已取消',
+                    value: -1
+                }],
                 orderList: [
                     {
                         cid: 1,
@@ -80,10 +102,32 @@
                     },
                 ],
             }
+        },
+
+        methods:{
+            filterTag(value, row) {
+                return row.type === value;
+            },
         }
     }
 </script>
 
 <style scoped>
+    >>> .el-table th > .cell.highlight{
+        color: #EB7A67;
+    }
+</style>
+<style>
+    .el-scrollbar{
+        padding-bottom: 21px;
+    }
 
+    .el-checkbox__input.is-checked .el-checkbox__inner{
+        background-color: #ef9585;
+        border-color: #ef9585;
+    }
+
+    .el-checkbox__input.is-checked + .el-checkbox__label{
+        color: #ef9585;
+    }
 </style>

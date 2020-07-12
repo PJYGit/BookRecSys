@@ -336,7 +336,7 @@ uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 uid|店主id|店主id
 sid|商店id|商店id
-manager[] [list\<user\>]|管理员|管理员
+managers[] [list\<int\>]|管理员id|管理员id
 content|商店简介|
 code|商店状态|1审核中2正常3封禁
 head|商店头像url

@@ -43,7 +43,7 @@
                                 </el-dialog>
                             </div>
                             <br/>
-                            <img src="http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg" alt="店铺图片">
+                            <img :src="shopInfo.pic" alt="店铺图片">
                         </div>
                         <div>
                             <table style="width: 100%">
@@ -96,7 +96,7 @@
                                                   style="width: 300px;"/>
                                     </el-form-item>
                                     <el-form-item label="作者">
-                                        <el-input v-model="newBookInfo.author" size="mini"
+                                        <el-input v-model="newBookInfo.auther" size="mini"
                                                   style="width: 300px;"></el-input>
                                     </el-form-item>
                                     <el-form-item label="图书简介">
@@ -111,7 +111,8 @@
                                     </el-form-item>
                                     <el-form-item label="图书类别">
                                         <el-select v-model="newBookInfo.tid" multiple size="mini">
-                                            <el-option v-for="item in this.tagList" :key="item.tid" :value="item.tid" :label="item.name" />
+                                            <el-option v-for="item in tagList" :key="item.tid" :value="item.tid"
+                                                       :label="item.name"/>
                                         </el-select>
                                     </el-form-item>
                                     <el-form-item label="图书图片">
@@ -125,27 +126,28 @@
                             </span>
                         </el-dialog>
                     </div>
-                    <div v-for="(item) in shopBookList" :key="item.bid"
-                         style="margin: 30px;display: flex;justify-content: space-between;">
-                        <el-card shadow="hover" style="width: 30%; text-align: center">
+                    <div
+                            style="margin: 30px;display: flex;justify-content: space-between;">
+                        <el-card v-for="(item) in shopBookList" :key="item.bid" shadow="hover"
+                                 style="width: 30%; text-align: center">
                             <div slot="header">
                                 {{item.bname}}
                                 <br/>
-                                <img src="http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg" alt="bookImage">
+                                <img :src="item.pic" alt="bookImage">
                             </div>
                             <div slot="default">
                                 <table style="width: 100%">
                                     <tr>
                                         <td>作者</td>
                                         <td>
-                                            {{item.author}}
+                                            {{item.auther}}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>标签</td>
                                         <td>
                                             <span v-for="each in item.tid" :key="each">
-                                                {{tagList.filter(i => i.tid===each)[0].name}}
+                                                tagList.filter(i => i.tid===each)[0].name
                                             </span>
                                         </td>
                                     </tr>
@@ -180,7 +182,7 @@
                                         style="margin: 25px auto;">
                                 </el-rate>
                                 <span
-                                      style="font-size: 1.1rem; cursor: pointer; color: #EB7A67">
+                                        style="font-size: 1.1rem; cursor: pointer; color: #EB7A67">
                                     <u @click="beforeEditBookInfo(item)">
                                         修改
                                     </u>
@@ -192,7 +194,7 @@
                                                       style="width: 300px;"/>
                                             </el-form-item>
                                             <el-form-item label="作者">
-                                                <el-input v-model="editBookInfo.author" size="mini"
+                                                <el-input v-model="editBookInfo.auther" size="mini"
                                                           style="width: 300px;"></el-input>
                                             </el-form-item>
                                             <el-form-item label="图书简介">
@@ -200,13 +202,18 @@
                                                           :autosize="{ minRows: 4}"/>
                                             </el-form-item>
                                             <el-form-item label="图书价钱">
-                                                <el-input-number v-model="editBookInfo.price" size="small"></el-input-number>
+                                                <el-input-number v-model="editBookInfo.price"
+                                                                 size="small"></el-input-number>
                                             </el-form-item>
                                             <el-form-item label="图书库存">
-                                                <el-input-number v-model="editBookInfo.remain" size="small"></el-input-number>
+                                                <el-input-number v-model="editBookInfo.remain"
+                                                                 size="small"></el-input-number>
                                             </el-form-item>
                                             <el-form-item label="图书类别">
-                                                {{editBookInfo.tid}}
+                                                <el-select v-model="editBookInfo.tid" multiple size="mini">
+                                                    <el-option v-for="item in tagList" :key="item.tid" :value="item.tid"
+                                                               :label="item.name"/>
+                                                </el-select>
                                             </el-form-item>
                                             <el-form-item label="图书图片">
                                                 <el-input value="TODO 上传图片获取返回地址" disabled size="mini"></el-input>
@@ -214,7 +221,8 @@
                                             </el-form>
                                         </div>
                                         <span slot="footer">
-                                            <el-button @click="modifyBookInfo(item)" type="primary" size="mini">确认修改</el-button>
+                                            <el-button @click="modifyBookInfo(item.bid)" type="primary"
+                                                       size="mini">确认修改</el-button>
                                             <el-button @click="cancelEditBookInfo" size="mini">取消</el-button>
                                         </span>
                                     </el-dialog>
@@ -230,7 +238,34 @@
                     </div>
                 </el-tab-pane>
                 <el-tab-pane v-if="parseInt(this.uid)===shopInfo.boss.uid" label="店铺管理员管理">
-
+                    <el-button @click="isAddNewManager=!isAddNewManager" size="mini" type="primary">添加新管理员</el-button>
+                    <el-dialog title="添加管理员" center :visible.sync="isAddNewManager">
+                        <el-form label-width="80px">
+                            <el-form-item label="手机号">
+                                <el-input v-model="newManagerUrn" size="mini" style="width: 300px;"></el-input>
+                                <el-button @click="getUserInfo(newManagerUrn)" type="primary" size="mini"
+                                           style="margin-left: 10px;">确认成员
+                                </el-button>
+                            </el-form-item>
+                            <el-form-item label="用户名">
+                                <el-input v-model="newManagerInfo.name" disabled size="mini"
+                                          style="width: 300px;"></el-input>
+                            </el-form-item>
+                        </el-form>
+                        <span slot="footer">
+                            <el-button @click="modifyManager" type="primary" size="mini">确认添加</el-button>
+                            <el-button @click="isAddNewManager=!isAddNewManager" size="mini">取消</el-button>
+                        </span>
+                    </el-dialog>
+                    <el-table :data="shopInfo.manager">
+                        <el-table-column label="管理员ID" prop="uid"></el-table-column>
+                        <el-table-column label="管理员名字" prop="name"></el-table-column>
+                        <el-table-column label="操作">
+                            <template slot-scope="scope">
+                                <el-button @click="delManager(scope.row.uid)" size="mini" type="danger">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
                 </el-tab-pane>
                 <el-tab-pane label="店铺订单管理">
                     <el-table :data="orderList">
@@ -251,7 +286,7 @@
                             <template slot-scope="scope">
                                 <el-tag v-if="scope.row.type===0" type="warning">待付款</el-tag>
                                 <el-tag v-if="scope.row.type===1" type="info">待发货</el-tag>
-                                <el-tag v-if="scope.row.type===2" type="info">待确认发货</el-tag>
+                                <el-tag v-if="scope.row.type===2" type="info">待确认收货</el-tag>
                                 <el-tag v-if="scope.row.type===3">待评价</el-tag>
                                 <el-tag v-if="scope.row.type===4" type="success">已完成</el-tag>
                                 <el-tag v-if="scope.row.type===-1" type="danger">已取消</el-tag>
@@ -259,8 +294,8 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
-                                <el-button @click="operateOrder(true)" size="mini" type="primary">发货</el-button>
-                                <el-button @click="operateOrder(false)" size="mini" type="danger">取消订单</el-button>
+                                <el-button @click="operateOrder(true)" size="mini" type="primary">确认发货</el-button>
+                                <el-button @click="operateOrder(false)" size="mini" type="danger">取消</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -285,7 +320,8 @@
                 isEditShopInfo: false,
                 isAddNewBook: false,
                 isEditBookInfo: false,
-                tagList: [{tid: 1, name: 'first'}, {tid: 2, name: 'second'}, {tid: 3, name: 'third'}],
+                isAddNewManager: false,
+                tagList: [{tid: 1, name: 'first'}],
                 shopInfo: {
                     uid: 0,
                     sid: 0,
@@ -294,7 +330,9 @@
                         uid: 7,
                         name: 'test'
                     },
-                    manager: [],
+                    manager: [
+                        {uid: 18, name: 'testmdf'}
+                    ],
                     content: 'asd1qaw',
                     code: 2,
                     head: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
@@ -321,7 +359,7 @@
                         tid: [1, 2, 3],
                         bname: 'test',
                         sname: '12313',
-                        author: '123123131',
+                        auther: '123123131',
                         content: '12313131',
                         pic: 'adasdasda',
                         mark: 4.5,
@@ -357,7 +395,7 @@
                     sid: 1,
                     tid: [],
                     bname: '',
-                    author: '',
+                    auther: '',
                     content: '',
                     pic: '',
                     remain: '',
@@ -368,19 +406,22 @@
                     sid: 1,
                     tid: [],
                     bname: '',
-                    author: '',
+                    auther: '',
                     content: '',
                     pic: '',
                     remain: '',
                     price: 1
-                }
+                },
+                newManagerInfo: {},
+                newManagerUrn: ''
             }
         },
         mounted() {
             this.sid = this.$route.query.sid
-            //this.getTagList()
-            //this.getShopInfo()
-            //this.getShopBookInfo()
+            this.getTagList()
+            this.getShopInfo()
+            this.getShopBookInfo()
+            this.getOrderList()
         },
         methods: {
             getShopInfo: function () {
@@ -402,7 +443,7 @@
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
                 data.append('sid', this.sid)
-                API.getShopBookInfo().then(res => {
+                API.getShopBookInfo(data).then(res => {
                     if (res.state === 0) {
                         this.shopBookList = res.books
                     } else this.$message.error('获取商店书本信息失败')
@@ -415,12 +456,13 @@
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
                 data.append('sid', this.sid)
-                data.append('manager', JSON.stringify(this.shopInfo.manager))
+                for (let i = 0; i < this.shopInfo.manager.length; i++)
+                    data.append('managers', JSON.stringify(this.shopInfo.manager[i].uid))
                 data.append('content', this.shopInfo.content)
                 data.append('head', this.shopInfo.head)
                 API.setShopInfo(data).then(res => {
                     if (res.state === 0) {
-                        this.$message.success('修改成功')
+                        this.$message.success('添加成功')
                     } else this.$message.error('')
                 }).catch(res => {
                     this.$message.info(res)
@@ -431,9 +473,10 @@
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
                 data.append('sid', this.sid)
-                data.append('tid', JSON.stringify(this.newBookInfo.tid))
+                for (let i = 0; i < this.newBookInfo.tid.length; i++)
+                    data.append('tid', JSON.stringify(this.newBookInfo.tid[i]))
                 data.append('bname', this.newBookInfo.bname)
-                data.append('author', this.newBookInfo.author)
+                data.append('auther', this.newBookInfo.auther)
                 data.append('content', this.newBookInfo.content)
                 data.append('pic', this.newBookInfo.pic)
                 data.append('remain', this.newBookInfo.remain)
@@ -452,7 +495,7 @@
                     sid: 1,
                     tid: [],
                     bname: '',
-                    author: '',
+                    auther: '',
                     content: '',
                     pic: '',
                     remain: '',
@@ -465,16 +508,18 @@
                 data.append('token', this.$cookie.get('token'))
                 data.append('sid', this.sid)
                 data.append('bid', bid)
-                data.append('tid', '')
-                data.append('bname', '')
-                data.append('author', '')
-                data.append('content', '')
-                data.append('pic', '')
-                data.append('remain', '')
-                data.append('price', '')
-                API.setBookInfo().then(res => {
+                for (let i = 0; i < this.editBookInfo.tid.length; i++)
+                    data.append('tid', JSON.stringify(this.editBookInfo.tid[i]))
+                data.append('bname', this.editBookInfo.bname)
+                data.append('author', this.editBookInfo.auther)
+                data.append('content', this.editBookInfo.content)
+                data.append('pic', this.editBookInfo.pic)
+                data.append('remain', this.editBookInfo.remain)
+                data.append('price', this.editBookInfo.price)
+                API.setBookInfo(data).then(res => {
                     if (res.state === 0) {
                         this.$message.success('修改成功')
+                        this.isEditBookInfo = !this.isEditBookInfo
                     } else this.$message.error('')
                 }).catch(res => {
                     this.$message.info(res)
@@ -486,31 +531,23 @@
                     data.append('uid', this.$cookie.get('uid'))
                     data.append('token', this.$cookie.get('token'))
                     data.append('bid', bid)
-                    API.delBookInfo().then(res => {
+                    API.delBookInfo(data).then(res => {
                         if (res.state === 0) {
                             this.$message.success('删除成功')
                         }
-                    }).catch(_ => {})
-                }).catch(_ => {})
+                    }).catch(_ => {
+                    })
+                }).catch(_ => {
+                })
             },
             getOrderList: function () {
                 let data = new FormData()
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
                 data.append('sid', this.$cookie.get('sid'))
-                API.addNewBookIntoShop().then(res => {
+                API.getShopOrder(data).then(res => {
                     if (res.state === 0) {
-
-                    } else this.$message.error('')
-                }).catch(res => {
-                    this.$message.info(res)
-                })
-            },
-            getShopOrder: function () {
-
-                API.getShopOrder().then(res => {
-                    if (res.state === 0) {
-
+                        this.orderList = res.list
                     } else this.$message.error('')
                 }).catch(res => {
                     this.$message.info(res)
@@ -522,26 +559,34 @@
                 data.append('token', this.$cookie.get('token'))
                 data.append('cid', cid)
                 data.append('op', isSend ? 'sent' : 'cancel')
-                API.operateOrder().then(res => {
+                API.operateOrder(data).then(res => {
                     if (res.state === 0) {
                         this.$message.success(isSend ? '发送成功' : '取消成功')
                     } else this.$message.error('未能完成操作')
-                }).catch(_ => {})
-            },
-            modifyManager: function () {
-                let data = new FormData()
-                data.append('uid', this.$cookie.get('uid'))
-                data.append('token', this.$cookie.get('token'))
-                data.append('sid', this.sid)
-                data.append('manager', JSON.stringify(this.shopInfo.manager))
-                data.append('content', this.shopInfo.content)
-                data.append('head', this.shopInfo.head)
-                API.setShopInfo(data).then(res => {
-                    if (res.state === 0) {
-                        this.$message.success('修改成功')
-                    } else this.$message.error('')
                 }).catch(_ => {
                 })
+            },
+            modifyManager: function () {
+                if (this.newManagerInfo === {} || this.newManagerInfo.name === '') {
+                    this.$message.error('未获得用户姓名')
+                } else {
+                    this.shopInfo.manager.push(this.newManagerInfo)
+                    let data = new FormData()
+                    data.append('uid', this.$cookie.get('uid'))
+                    data.append('token', this.$cookie.get('token'))
+                    data.append('sid', this.sid)
+                    for (let i = 0; i < this.shopInfo.manager.length; i++)
+                        data.append('managers', JSON.stringify(this.shopInfo.manager[i].uid))
+                    data.append('content', this.shopInfo.content)
+                    data.append('head', this.shopInfo.head)
+                    API.setShopInfo(data).then(res => {
+                        if (res.state === 0) {
+                            this.$message.success('修改成功')
+                            this.isAddNewManager = !this.isAddNewManager
+                        } else this.$message.error('')
+                    }).catch(_ => {
+                    })
+                }
             },
             cancelEditShopInfo: function () {
                 this.isEditShopInfo = !this.isEditShopInfo
@@ -549,7 +594,7 @@
             },
             beforeEditBookInfo: function (item) {
                 this.isEditBookInfo = !this.isEditBookInfo
-                // TODO 双向绑定
+                // TODO 双向绑定fix
                 this.editBookInfo = item
             },
             cancelEditBookInfo: function () {
@@ -559,7 +604,7 @@
                     sid: 1,
                     tid: [],
                     bname: '',
-                    author: '',
+                    auther: '',
                     content: '',
                     pic: '',
                     remain: '',
@@ -575,6 +620,55 @@
                     if (res.state === 0) {
                         this.tagList = res.tags
                     }
+                }).catch(res => {
+                    console.log(res)
+                })
+            },
+            delManager: function (uid) {
+                this.editShopInfo.manager = this.shopInfo.manager.filter(item => item.uid !== uid)
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('sid', this.sid)
+                for (let i = 0; i < this.editShopInfo.manager.length; i++)
+                    data.append('managers', JSON.stringify(this.editShopInfo.manager[i].uid))
+                data.append('content', this.shopInfo.content)
+                data.append('head', this.shopInfo.head)
+                API.setShopInfo(data).then(res => {
+                    if (res.state === 0) {
+                        this.$message.success('删除成功')
+                        this.getShopBookInfo()
+                    } else this.$message.info('未知错误发生')
+                }).catch(res => {
+                    console.log(res)
+                })
+                this.editBookInfo = {
+                    bid: 1,
+                    sid: 1,
+                    tid: [],
+                    bname: '',
+                    auther: '',
+                    content: '',
+                    pic: '',
+                    remain: '',
+                    price: 1
+                }
+            },
+            getUserInfo: function (urn) {
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('phone', urn)
+                API.searchTargetUserInfo(data).then(res => {
+                    if (res.state === 0) {
+                        if (res.list !== null) {
+                            let data = res.list[0]
+                            this.newManagerInfo.name = data.nickname
+                            this.newManagerInfo.uid = data.uid
+                            // todo 需要点一下才能出现用户姓名
+                            this.$message.success('获取用户信息成功')
+                        } else this.$message.error('未搜索到用户')
+                    } else this.$message.error('获取用户信息失败')
                 }).catch(res => {
                     console.log(res)
                 })
