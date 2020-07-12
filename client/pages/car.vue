@@ -4,10 +4,11 @@
             <MyTitle></MyTitle>
         </template>
 
-        <el-button @click="removeCarInfo" type="danger" size="small"
-                   style="position: relative; margin: 20px; left: 75%;">删除勾选订单
-        </el-button>
-        <el-button @click="createAllOrder" type="primary" size="small"
+<!--        TODO 不想写了，心态爆炸-->
+<!--        <el-button @click="removeCarInfo" type="danger" size="small"-->
+<!--                   style="position: relative; margin: 20px; left: 75%;">删除勾选订单-->
+<!--        </el-button>-->
+        <el-button @click="chooseAddress2=true" type="primary" size="small"
                    style="position: relative; margin: 20px; left: 76%;right: 10%">结算所有勾选物品
         </el-button>
         <div v-for="(item, index) in carList" :key="item.bid">
@@ -40,9 +41,19 @@
                 width="60%">
             <address-list :is-shopping="1" ref="getAddress"></address-list>
             <span slot="footer" class="dialog-footer">
-                        <el-button @click="chooseAddress = false">取 消</el-button>
-                        <el-button type="primary" @click="createOrder(index)">确 定</el-button>
-                    </span>
+                <el-button @click="chooseAddress = false">取 消</el-button>
+                <el-button type="primary" @click="createOrder">确 定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog
+                title="请选择收货地址"
+                :visible.sync="chooseAddress2"
+                width="60%">
+            <address-list :is-shopping="1" ref="getAddress2"></address-list>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="chooseAddress2 = false">取 消</el-button>
+                <el-button type="primary" @click="createAllOrder">确 定</el-button>
+            </span>
         </el-dialog>
     </FlowBoard>
 </template>
@@ -68,10 +79,12 @@
                         cnt: 2
                     },
                 ],
+                carIndex: 0,
                 submitCarList: [],
                 checkCarList: [],
                 modifyCarList: [],
-                chooseAddress: false
+                chooseAddress: false,
+                chooseAddress2:false,
             }
         },
         mounted() {
@@ -100,6 +113,7 @@
 
             addToSubmitList: function (index) {
                 this.checkCarList[index] = !this.checkCarList[index]
+                this.carIndex = index
                 console.log(this.carList[index])
                 if (this.checkCarList[index]) {
                     this.submitCarList.push(this.carList[index])
@@ -114,11 +128,12 @@
                 }
             },
 
-            createOrder: function (index) {
+            createOrder: function () {
                 if (this.submitCarList.length === 0) this.$message.info('未勾选订单')
                 else {
                     let buy = []
-                    buy.push(this.carList[index])
+                    buy.push(this.carList[this.carIndex])
+                    buy.push("")
                     let data = new FormData();
                     data.append('uid', this.$cookie.get("uid"));
                     data.append('token', this.$cookie.get("token"));
@@ -143,7 +158,9 @@
                     let data = new FormData();
                     data.append('uid', this.$cookie.get("uid"))
                     data.append('token', this.$cookie.get("token"))
-                    data.append('buy', JSON.stringify(this.submitCarList))
+                    for (let i = 0; i < this.submitCarList.length; i++)
+                        data.append('buy', JSON.stringify(this.submitCarList[i]))
+                    data.append('address',this.$refs.getAddress2.returnAddressContent());
                     API.submitCarOrder(data).then(res => {
                         if (res.state === 0)
                             this.$message.success('创建订单成功');
@@ -152,13 +169,16 @@
                     }).catch(res => {
                         console.log(res)
                     })
+                    this.chooseAddress2=false;
                 }
             },
 
             removeCarInfo: function () {
                 if (this.submitCarList.length === 0) this.$message.info('未勾选订单')
                 else {
-                    // this.newCarList = this.submitCarList.filter(item => )
+                    this.newCarList = this.carList.filter(item => {
+
+                    })
                     let data = new FormData();
                     data.append('uid', this.$cookie.get("uid"))
                     data.append('token', this.$cookie.get("token"))

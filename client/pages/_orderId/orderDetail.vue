@@ -28,8 +28,8 @@
                 <el-button round size="small" v-if="orderMsg.type===2" class="buttonClass"
                            @click="setOrderState(3)">确认收货</el-button>
                 <span v-if="orderMsg.type===3">待评价</span>
-                <el-button round size="small" v-if="orderMsg.type===3" class="buttonClass">
-                    评价</el-button>
+                <el-button round size="small" v-if="orderMsg.type===3" class="buttonClass"
+                           @click="commentOrder=true">评价</el-button>
                 <span v-if="orderMsg.type===4">已完成</span>
                 <span v-if="orderMsg.type===-1" style="color: red">已取消</span>
             </div>
@@ -64,6 +64,31 @@
                 </el-table-column>
             </el-table>
         </div>
+
+        <el-dialog title="评价订单" :visible.sync="commentOrder">
+            <div v-for="(item,index) in orderMsg.items" :key="item.bid" style="margin-bottom: 20px">
+                <div style="font-size: 16px;margin-bottom: 10px">
+                    图书名称：{{item.name}}
+                </div>
+                <el-rate
+                        v-model="commentList[index].mark"
+                        show-score
+                        text-color="#eb7a67"
+                        :colors="['#eb7a67','#eb7a67','#eb7a67']"
+                        style="margin-left: 10px;float: left">
+                </el-rate>
+                <el-input
+                        type="textarea"
+                        :rows="3"
+                        placeholder="请输入评价"
+                        v-model="commentList[index].comment">
+                </el-input>
+            </div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="commentOrder = false">取 消</el-button>
+                <el-button type="primary" @click="commentBook">确 定</el-button>
+            </div>
+        </el-dialog>
     </flow-board>
 </template>
 
@@ -80,38 +105,9 @@
                 orderId:0,
                 uid:Cookies.get('uid'),
                 token:Cookies.get('token'),
-                orderMsg:{
-                    cid:10000000,
-                    type:1,
-                    sid:99999,
-                    sname:'first',
-                    address:"北京市北京交通大学",
-                    items:[{
-                        bid:1,
-                        name:'图书1',
-                        cnt:5,
-                        pic:'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                        money:300.00,
-                    },{
-                        bid:2,
-                        name:'图书1',
-                        cnt:2,
-                        pic:'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                        money:300.00,
-                    },{
-                        bid:3,
-                        name:'图书1',
-                        cnt:1,
-                        pic:'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                        money:300.00,
-                    },{
-                        bid:4,
-                        name:'图书1',
-                        cnt:9,
-                        pic:'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                        money:300.00,
-                    },],
-                },
+                orderMsg:{},
+                commentOrder:true,
+                commentList:[],
 
             }
         },
@@ -134,7 +130,14 @@
                         return;
                     }
                     this.orderMsg = res;
-
+                    for(let i=0;i<this.orderMsg.items.length;i++){
+                        let temp={
+                            bid:this.orderMsg.items[i].bid,
+                            mark:0,
+                            comment:'',
+                        };
+                        this.commentList.push(temp);
+                    }
                 }).catch(msg => {
                     alert(msg)
                 })
@@ -166,6 +169,29 @@
                         return;
                     }
                     this.getOrderMsg();
+                }).catch(msg => {
+                    alert(msg)
+                })
+            },
+
+            commentBook(){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('cid',this.orderId);
+
+                this.commentList.forEach(item => {
+                    data.append('items',JSON.stringify({'bid':item.bid,'mark':item.mark,
+                        'comment':item.comment}));
+                });
+
+                API.CMOrder(data).then(res=>{
+                    if (res.state) {
+                        alert("提交评价失败");
+                        return;
+                    }
+                    alert("评价成功！");
+                    this.commentOrder=false;
                 }).catch(msg => {
                     alert(msg)
                 })

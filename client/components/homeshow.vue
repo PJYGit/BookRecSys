@@ -2,7 +2,7 @@
     <div style="border: solid 1px #ef9585;padding: 20px;border-radius:4px;overflow: hidden;">
         <div style="margin-left: 15px;overflow: hidden;display: flex;align-items: center">
             <div style="font-size: 28px;font-weight: 500;float: left">{{this.title}}</div>
-            <div style="margin-left: 25px;color: #068CF0;float: left;">更多>></div>
+            <!--<div style="margin-left: 25px;color: #068CF0;float: left;">更多>></div>-->
         </div>
         <div style="width: 100%;margin-top: 25px">
             <!--<div v-for="item in BookList" :key="item.bid">

@@ -1,8 +1,10 @@
 package com.bjtu.bookshop.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -16,6 +18,15 @@ public class Config {
                         .allowCredentials(false)
                         .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
                         .allowedOrigins("*");
+            }
+
+            @Value("${config-string.picture-path}")
+            private String picturePrefix;
+
+            @Override
+            public void addResourceHandlers(ResourceHandlerRegistry registry) {
+                registry.addResourceHandler("/pictures/**")
+                        .addResourceLocations("file:" + picturePrefix);
             }
         };
     }

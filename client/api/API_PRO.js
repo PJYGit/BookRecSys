@@ -8,6 +8,7 @@ export default {
     // 主页模块
     getTopBook: {url: '/home/top'},
     getRecommendBook: {url: '/home/person'},
+    getNew:{url:'home/new'},
     getTag:{url:'shop/tags'},
 
 
@@ -56,6 +57,7 @@ export default {
     getOList:{url:'order/getlist'},
     getOrderDetail:{url:'order/getinfo'},
     setOState:{url:'order/operate'},
+    CMOrder:{url:'order/comment'},
 
     //图书模块
     getBookDetail:{url:'shop/getbookinfo'},

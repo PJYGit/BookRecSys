@@ -129,7 +129,7 @@
                         </el-dialog>
                     </div>
                     <div
-                            style="margin: 30px;display: flex;justify-content: space-between;">
+                            style="margin: 30px;display: flex;justify-content: space-around;">
                         <el-card v-for="(item) in shopBookList" :key="item.bid" shadow="hover"
                                  style="width: 30%; text-align: center">
                             <div slot="header">
@@ -550,6 +550,7 @@
                     API.delBookInfo(data).then(res => {
                         if (res.state === 0) {
                             this.$message.success('删除成功')
+                            this.getShopBookInfo()
                         }
                     }).catch(_ => {
                     })
