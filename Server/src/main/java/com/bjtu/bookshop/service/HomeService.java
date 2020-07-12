@@ -60,4 +60,25 @@ public class HomeService {
         for(HardBook b:pList) b.trans();
         return new TypeBookResponse(0,pList, pageCnt);
     }
+
+    /** 6.5 body **/
+    public SearchResponse getSearchBooks(Integer tid, String word, Double rangemin, Double rangemax, Integer order) {
+
+        String whereAddition = "";
+        String OrderByPart = "-sales";
+        int lowerP = 0;
+        int upperP = 999999999;
+
+        if(tid != null) whereAddition = " and tid = " + tid + " ";
+        if(rangemin != null) lowerP = (int) Math.round(rangemin * 100);
+        if(rangemax != null) upperP = (int) Math.round(rangemax * 100);
+        if(order != null){
+            if(order == 1) OrderByPart = "-price";
+            if(order == 2) OrderByPart = "price";
+        }
+
+        List<HardBook> pList = homeMapper.getSearchBooks(word,whereAddition,OrderByPart,lowerP,upperP);
+
+        return new SearchResponse(0, pList);
+    }
 }
