@@ -1,5 +1,5 @@
 <template>
-    <flow-board>
+    <flow-board v-loading="loading">
         <template v-slot:header>
             <my-title></my-title>
         </template>
@@ -25,6 +25,7 @@
                 uid:Cookies.get('uid'),
                 token:Cookies.get('token'),
                 myShop:[],
+                loading:false,
             }
         },
 
@@ -35,6 +36,7 @@
 
         methods:{
             searchShop(){
+                this.loading=true;
                 let fd = new FormData();
                 fd.append('uid',this.uid);
                 fd.append('token',this.token);
@@ -44,11 +46,12 @@
                     console.log(res);
                     if (res.state) {
                         alert("获取店铺列表失败");
+                        this.loading=false;
                         return;
                     }
 
                     this.myShop = res.shops;
-
+                    this.loading=false;
                 }).catch(msg => {
                     alert(msg)
                 })

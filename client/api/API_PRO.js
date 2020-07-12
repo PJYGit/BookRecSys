@@ -36,6 +36,7 @@ export default {
     getShopBaseInfo:{url:'shop/getinfo'},
     getShopBookInfo: {url:'shop/booklist'},
     getTagsList: {url: 'shop/tags'},
+    newMyShop:{url:'shop/manage/new'},
 
     //个人中心模块
     changeMsg: {url: 'user/setinfo'},

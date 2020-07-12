@@ -702,7 +702,7 @@
                 data.append('pic', this.uploadImage)
                 API.uploadImage(data).then(res => {
                     if (res.state === 0) {
-                        this.uploadImageURL = res.url
+                        this.uploadImageURL = "http://39.106.160.119:9000/pictures/"+res.url
                     }
                 }).catch(_ => {
                 })

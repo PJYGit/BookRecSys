@@ -1,15 +1,20 @@
 <template>
     <div style="text-align: center;">
-        <el-upload
+        <!--<el-upload
                 class="avatar-uploader"
                 action="http://39.106.160.119:9000/pic/upload"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
-                disabled style="">
-            <img v-if="userInfo.head" :src="userInfo.head" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
+                style="">-->
+        <el-image
+                style="width: 200px; height: 200px"
+                :src="userInfo.head"
+                :fit="'contain'"></el-image>
+            <input type="file" id="editUserInfo" @change="uploadImg('editUserInfo')"/>
+            <el-input v-model="userInfo.head" disabled size="mini"></el-input>
+            <!--<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>-->
         <el-form label-width="150px" :model="userInfo" style="text-align: left;margin-top: 20px">
             <el-form-item label="账号">
                 {{userInfo.urn}}
@@ -51,7 +56,31 @@
         },
 
         methods:{
+            uploadImg(id){
+                let files = document.getElementById(id).files
+                this.uploadImage = files[files.length - 1]
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('pic', this.uploadImage)
+                API.uploadImage(data).then(res => {
+                    if (res.state === 0) {
+                        this.userInfo.head= "http://39.106.160.119:9000/pictures/"+res.url
+                    }
+                }).catch(_ => {
+                })
+            },
+
+            excelData(){
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                return data;
+
+            },
+
             handleAvatarSuccess(res) {
+                console.log(res);
                 this.userInfo.head = res;
             },
 

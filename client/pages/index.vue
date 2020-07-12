@@ -11,7 +11,7 @@
                     <classfy-menu :active-index="'0'" :is-main="0"></classfy-menu>
                 </el-aside>
                 <el-main>
-                    <my-search style="margin-top: 2px"></my-search>
+                    <my-search style="margin-top: 2px" @searchMsg="searchBook"></my-search>
                     <homeshow :title="'新书上架'" :book-list="newBookList"
                               style="margin-top: 10px;margin-right: 4px"></homeshow>
                     <homeshow v-if="recommendBook.length!==0" :title="'图书推荐'" :book-list="recommendBook"
@@ -108,7 +108,11 @@
                         this.loading=false;
                     }
                 }).catch(_ => {})
-            }
+            },
+
+            searchBook(cont){
+                this.$router.push({path:"/classfyBookList",query:{tid:'',word: cont}});
+            },
         },
 
     }

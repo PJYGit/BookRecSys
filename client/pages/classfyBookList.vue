@@ -10,7 +10,7 @@
                               style="width: 80%;margin-left: 15%"></classfy-menu>
             </el-col>
             <el-col :span="17" style="margin-left: 50px">
-                <my-search style="margin-top: 2px;margin-bottom: 30px;width: 98%"></my-search>
+                <my-search @searchMsg="searchBook" style="margin-top: 2px;margin-bottom: 30px;width: 98%"></my-search>
                 <filt-price @selecBook="filterBook" style="margin-bottom: 40px;width: 98%"></filt-price>
                 <el-radio-group v-model="order" @change="changeOrder" style="margin-bottom: 20px">
                     <el-radio-button label="0">按销量排序</el-radio-button>
@@ -65,11 +65,12 @@
         mounted() {
             this.activeClassfy=this.$route.query.tid;
             this.searchContent = this.$route.query.word;
-            if(this.activeClassfy===undefined){
-                this.searchBook();
+            if(this.$route.query.word!==undefined){
+                this.searchBook(this.$route.query.word);
             }else{
-                this.changeClassfy(this.$route.query.tid);
+                this.changeClassfy({tid:this.$route.query.tid});
             }
+
         },
 
         methods:{
@@ -103,7 +104,7 @@
             },
 
             changeOrder(){
-                this.searchBook();
+                this.searchBook(this.$route.query.word);
             },
 
             filterBook(min,max){
@@ -112,6 +113,7 @@
                 fd.append('uid',this.uid);
                 fd.append('token',this.token);
                 fd.append('tid',this.activeClassfy);
+                fd.append('word',this.searchContent);
                 fd.append('order',this.order);
                 fd.append('rangemin',min);
                 fd.append('rangemax',max);
@@ -132,21 +134,14 @@
                 })
             },
 
-            searchBook(){
+            searchBook(cont){
+                this.$router.push({path:"/classfyBookList",query:{tid:this.activeClassfy,word: cont}});
                 this.loading=true;
                 let fd = new FormData();
                 fd.append('uid',this.uid);
                 fd.append('token',this.token);
-                if(this.activeClassfy===undefined){
-                    fd.append('tid','');
-                }else{
-                    fd.append('tid',this.activeClassfy);
-                }
-
-                if(this.searchContent!==""){
-                    fd.append('word',this.searchContent);
-                }
-
+                fd.append('tid',this.activeClassfy);
+                fd.append('word',cont);
                 fd.append('order',this.order);
 
                 API.SBook(fd).then(res=>{
@@ -156,6 +151,8 @@
                         this.loading=false;
                         return;
                     }
+                    this.pagesize=1;
+                    this.currentPage=1;
                     this.classfyBookList = res.list;
                     this.loading=false;
                 }).catch(msg => {

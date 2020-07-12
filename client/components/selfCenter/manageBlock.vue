@@ -7,9 +7,9 @@
             <el-tab-pane label="店铺管理" name="shop">
                 <manage-shop style="margin-left: 40px"></manage-shop>
             </el-tab-pane>
-            <el-tab-pane v-if="userRole===2" label="数据统计" name="manager">
-
-            </el-tab-pane>
+            <!--<el-tab-pane label="数据统计" name="data">
+                <data-count style="margin-left: 40px"></data-count>
+            </el-tab-pane>-->
             <el-tab-pane v-if="userRole===2" label="系统管理员管理" name="manager">
                 <manage-user :user-role="userRole" :manage-manager="true" style="margin-left: 40px"></manage-user>
             </el-tab-pane>
@@ -20,6 +20,7 @@
 <script>
     import ManageUser from "./manageUser";
     import ManageShop from "./manageShop";
+    import DataCount from "./dataCount";
     export default {
         name: "manageBlock",
         props:{
@@ -27,7 +28,7 @@
                 type:Number
             }
         },
-        components: {ManageShop, ManageUser},
+        components: {DataCount, ManageShop, ManageUser},
         data(){
             return{
                 activeName:'user',
