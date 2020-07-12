@@ -329,4 +329,13 @@ public class OrderService {
 
         return new manageOperateResponse(-777);
     }
+
+    public manageSetInfoResponse manageSetOrderInfo(int cid, double money) {
+        OrderInfo orderInfo = orderMapper.getOrderInfoWithCID(cid);
+        if (orderInfo.getType() == 0) {
+            orderMapper.updateOrderInfoMoney(cid, (int) (money * 100));
+        }
+
+        return new manageSetInfoResponse(-777);
+    }
 }

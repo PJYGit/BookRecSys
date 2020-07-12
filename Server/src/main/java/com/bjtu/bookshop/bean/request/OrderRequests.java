@@ -76,4 +76,13 @@ public class OrderRequests {
         @NotNull int cid;
         @NotNull int opcode;
     }
+
+    @Data
+    @AllArgsConstructor
+    public static class manageSetInfoRequest implements CommonRequests.UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int cid;
+        @NotNull double money;
+    }
 }
