@@ -138,7 +138,6 @@ public class OrderService {
             bookMapper.updateBookSalesAndRemain(orderContent.getBid(), orderContent.getCnt());
         }
 
-        // TODO test
         return orderItem.getInfo().getCid();
     }
     // ========================================================
@@ -206,8 +205,8 @@ public class OrderService {
 
     public operateResponse operateOrder(int uid, int cid, int opcode) {
         OrderInfo orderInfo = orderMapper.getOrderInfoWithCID(cid);
-        UserInfo userInfo = userMapper.getUserInfoWithUID(uid);
         List<OrderContent> orderContentList = orderMapper.getAllOrderContentWithCID(cid);
+        UserInfo userInfo = userMapper.getUserInfoWithUID(uid);
 
         if (orderInfo.getType() == 0 && opcode == 1) {
             if (userInfo.getMoney() < orderInfo.getMoney()) {
@@ -303,5 +302,31 @@ public class OrderService {
         }
 
         return new manageGetListResponse(0, elmList);
+    }
+
+    public manageOperateResponse manageOperateOrder(int cid, int opcode) {
+        OrderInfo orderInfo = orderMapper.getOrderInfoWithCID(cid);
+        List<OrderContent> orderContentList = orderMapper.getAllOrderContentWithCID(cid);
+        UserInfo userInfo = userMapper.getUserInfoWithUID(orderInfo.getUid());
+
+        if ((orderInfo.getType() == 0 || orderInfo.getType() == 1) && opcode == 1) {
+            for (OrderContent orderContent : orderContentList) {
+                bookMapper.updateBookSalesAndRemain(orderContent.getBid(), -orderContent.getCnt());
+            }
+
+            if (orderInfo.getType() == 1) {
+                userMapper.updateUserMoney(userInfo.getUid(), -orderInfo.getMoney());
+            }
+
+            orderMapper.updateOrderInfoType(cid, -1);
+            return new manageOperateResponse(0);
+        }
+
+        if (orderInfo.getType() == 1 && opcode == 2) {
+            orderMapper.updateOrderInfoType(cid, 1);
+            return new manageOperateResponse(0);
+        }
+
+        return new manageOperateResponse(-777);
     }
 }
