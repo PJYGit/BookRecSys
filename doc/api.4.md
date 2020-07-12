@@ -67,6 +67,7 @@ cid [number]|订单id|订单id
 type [number]|订单类型|0待支付 1待发货 2待确认收货 3待评价 4已完成 -1已取消
 sid [number]|商家id|商家id
 sname|商家名|商家名
+address|地址信息|地址信息
 items[] [list\<cfd\>]|商品列表|见下文
 
 其中cfd： 
@@ -106,6 +107,7 @@ request:
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 cid [number]|订单id|订单id
+bid [number]|书本id|书本id
 mark [number]|打分|int 0-5
 comment|评价内容|内容
 
@@ -132,7 +134,7 @@ response:
 
 键值|名称|描述
 -|-|-
-state [number]|返回码|0 为正常，-1 为失败
+state [number]|返回码|0 为正常，-1 为失败，-114为存量不足，-514为余额不足
 cid [number]|订单号|订单号
 
 ---

@@ -11,9 +11,7 @@ public class OrderInfo {
     private int cid;
     private int uid;
     private int sid;
-    private int state;
+    private int type;
     private int money;
     private String address;
-    private String comment;
-    private int mark;
 }
