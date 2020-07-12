@@ -44,9 +44,10 @@
                 </el-table-column>
                 <el-table-column label="">
                     <template slot-scope="scope">
-                        <el-button type="text" style="color: #EB7A67">查看详情</el-button>
+                        <el-button type="text" style="color: #EB7A67" @click="toOrderDetail(scope.row.cid)">查看详情</el-button>
                     </template>
-                </el-table-column></el-table>
+                </el-table-column>
+            </el-table>
         </el-container>
     </flow-board>
 </template>
@@ -54,11 +55,15 @@
 <script>
     import FlowBoard from "../components/board/FlowBoard";
     import MyTitle from "../components/base/myTitle";
+    import API from "../api";
+    import Cookies from 'js-cookie';
     export default {
         name: "orderList",
         components: {MyTitle, FlowBoard},
         data(){
             return{
+                uid:Cookies.get('uid'),
+                token:Cookies.get('token'),
                 filterList:[{
                     text: '待付款',
                     value: 0
@@ -78,35 +83,41 @@
                     text: '已取消',
                     value: -1
                 }],
-                orderList: [
-                    {
-                        cid: 1,
-                        type: 0,
-                        sname:"hhhh",
-                        items: [
-                            {
-                                bid: 1,
-                                name: 'test',
-                                cnt: 5,
-                                pic: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                                money: 123
-                            },
-                            {
-                                bid: 2,
-                                name: 'asdada',
-                                cnt: 3,
-                                pic: 'http://img3m2.ddimg.cn/81/12/24184692-1_b_3.jpg',
-                                money: 11223
-                            }
-                        ]
-                    },
-                ],
+                orderList: [],
             }
+        },
+
+        mounted(){
+            this.getMyOrderList();
         },
 
         methods:{
             filterTag(value, row) {
                 return row.type === value;
+            },
+
+            toOrderDetail(cid){
+                let link = this.$router.resolve({ path: `/`+this.cid+`/orderDetail`,
+                    query: { cid: cid }});
+                window.open(link.href, '_blank');
+            },
+
+            getMyOrderList(){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('type',0);
+
+                API.getOList(data).then(res=>{
+                    if (res.state) {
+                        alert("获取订单列表失败");
+                        return;
+                    }
+                    this.orderList = res.items;
+
+                }).catch(msg => {
+                    alert(msg)
+                })
             },
         }
     }
