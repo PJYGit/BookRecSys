@@ -32,4 +32,28 @@ public class OrderResponses {
             }
         }
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class getInfoResponse {
+        int state;
+        int cid;
+        int type;
+        int sid;
+        String sname;
+        String address;
+        List<cfd> items;
+
+        @Data
+        @AllArgsConstructor
+        @NoArgsConstructor
+        public static class cfd {
+            int bid;
+            String name;
+            int cnt;
+            String pic;
+            double money;
+        }
+    }
 }

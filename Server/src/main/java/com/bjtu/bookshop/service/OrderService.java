@@ -1,5 +1,6 @@
 package com.bjtu.bookshop.service;
 
+import com.bjtu.bookshop.bean.db.BookInfo;
 import com.bjtu.bookshop.bean.db.OrderContent;
 import com.bjtu.bookshop.bean.db.OrderInfo;
 import com.bjtu.bookshop.bean.response.OrderResponses.*;
@@ -171,11 +172,31 @@ public class OrderService {
         return new getListResponse(0, elmList);
     }
 
-    public Response getOrderInfo(int uid, String token, int cid) {
-        if (isTokenValid(uid, token)) {
-            OrderInfo info = orderMapper.getOrderInfoWithUID(uid, cid);
-            return new ItemResponse<>(info, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+    public getInfoResponse getOrderInfo(int cid) {
+        List<getInfoResponse.cfd> cfdList = new LinkedList<>();
+
+        List<OrderContent> orderContentList = orderMapper.getAllOrderContentWithCID(cid);
+        for (OrderContent orderContent : orderContentList) {
+            BookInfo bookInfo = bookMapper.getBookInfoWithBID(orderContent.getBid());
+            cfdList.add(new getInfoResponse.cfd(
+                    orderContent.getBid(),
+                    bookInfo.getName(),
+                    orderContent.getCnt(),
+                    bookInfo.getPic(),
+                    (double) orderContent.getMoney() / 100.0
+            ));
+        }
+
+        OrderInfo orderInfo = orderMapper.getOrderInfoWithCID(cid);
+        return new getInfoResponse(
+                0,
+                orderInfo.getCid(),
+                orderInfo.getType(),
+                orderInfo.getSid(),
+                storeMapper.getStoreInfoWithSID(orderInfo.getSid()).getName(),
+                orderInfo.getAddress(),
+                cfdList
+        );
     }
 
     public Response operateOrder(int uid, String token, int cid, int op) {

@@ -13,4 +13,12 @@ public class OrderRequests {
         @NotNull String token;
         @NotNull int type;
     }
+
+    @Data
+    @AllArgsConstructor
+    public static class getInfoRequest implements CommonRequests.UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int cid;
+    }
 }

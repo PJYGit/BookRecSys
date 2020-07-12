@@ -41,8 +41,15 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/getinfo", method = {RequestMethod.POST})
-    public Response getOrderInfo(@RequestBody JSONObject object) {
-        return orderService.getOrderInfo(object.getIntValue("uid"), object.getString("token"), object.getIntValue("cid"));
+    public getInfoResponse getOrderInfo(@Valid getInfoRequest req, BindingResult br) {
+        if (br.hasErrors()) return new getInfoResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new getInfoResponse() {{
+            setState(-10);
+        }};
+
+        return orderService.getOrderInfo(req.getCid());
     }
 
     @RequestMapping(value = "/operate", method = {RequestMethod.POST})
