@@ -78,4 +78,30 @@ public class OrderResponses {
         int state;
         int cid;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class manageGetListResponse {
+        int state;
+        List<elm> items;
+
+        @Data
+        @AllArgsConstructor
+        public static class elm {
+            int cid;
+            int type;
+            List<mmp> items;
+            double money;
+
+            @Data
+            @AllArgsConstructor
+            public static class mmp {
+                int bid;
+                String name;
+                int cnt;
+                String pic;
+            }
+        }
+    }
 }

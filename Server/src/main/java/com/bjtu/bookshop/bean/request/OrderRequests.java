@@ -58,4 +58,13 @@ public class OrderRequests {
         @NotNull int bid;
         @NotNull int cnt;
     }
+
+    @Data
+    @AllArgsConstructor
+    public static class manageGetListRequest implements CommonRequests.UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int sid;
+        @NotNull int type;
+    }
 }
