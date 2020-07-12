@@ -200,7 +200,7 @@
 
         mounted(){
             this.bookId = this.$route.query.bid;
-            console.log(this.bookId)
+            //console.log(this.bookId)
         },
 
         methods:{

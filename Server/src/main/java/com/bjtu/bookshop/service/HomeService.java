@@ -4,6 +4,7 @@ import com.bjtu.bookshop.bean.db.UserAddress;
 import com.bjtu.bookshop.bean.db.UserInfo;
 import com.bjtu.bookshop.bean.db.UserLogin;
 import com.bjtu.bookshop.bean.db.UserReg;
+import com.bjtu.bookshop.bean.middle.HardBook;
 import com.bjtu.bookshop.bean.request.CommonRequests.UserAuthorization;
 import com.bjtu.bookshop.bean.request.UserRequests.SetInfoRequest;
 import com.bjtu.bookshop.bean.response.HomeResponses.*;
@@ -28,11 +29,24 @@ public class HomeService {
         this.homeMapper = homeMapper;
     }
 
+    /** 6.1 body **/
     public TopResponse getTop() {
-        List<TopResponse.elm> topList = homeMapper.getList();
-        for(TopResponse.elm e: topList){
+        List<HardBook> topList = homeMapper.getList();
+        for(HardBook e: topList){
             e.trans();
         }
         return new TopResponse(0, topList);
+    }
+
+    /** 6.2 body **/
+    public PersonResponse getPerson(int uid) {
+        List<HardBook> pList = homeMapper.getPerson(uid);
+        for(HardBook e: pList){
+            e.trans();
+            if(e.getBname() == null){
+                e.setBname("查无此书");
+            }
+        }
+        return new PersonResponse(0, pList);
     }
 }

@@ -14,4 +14,13 @@ public class HomeRequests {
     public static class TopRequest{
     }
 
+    @Data
+    @AllArgsConstructor
+    public static class PersonRequest implements UserAuthorization {
+        int uid;
+        String token;
+    }
+
+
+
 }

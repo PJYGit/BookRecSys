@@ -31,9 +31,30 @@ public class HomeController {
      * home/top 销量前n书
      */
     @RequestMapping(value = "/top", method = {RequestMethod.POST})
-    public TopResponse userLogin(@Valid TopRequest req, BindingResult br) {
+    public TopResponse getTop(@Valid TopRequest req, BindingResult br) {
         if (br.hasErrors()) return new TopResponse() {{setState(-1);}};
         return homeService.getTop();
+    }
+
+    /**
+     * 6.2
+     * /home/person 给本用户分析推荐的书
+     */
+    @RequestMapping(value = "/person", method = {RequestMethod.POST})
+    public PersonResponse getPerson(@Valid PersonRequest req, BindingResult br) {
+        if (br.hasErrors()) return new PersonResponse() {{setState(-1);}};
+        if (!userService.checkUserToken(req)) return new PersonResponse() {{setState(-10);}};
+        return homeService.getPerson(req.getUid());
+    }
+
+    /**
+     * 6.3
+     * types 图书类别
+     * 已经迁移
+     */
+    @RequestMapping(value = "/types")
+    public String getTypes() {
+        return "{ state: 0, msg: \"已迁移，详情请查看文档\" }";
     }
 
 }

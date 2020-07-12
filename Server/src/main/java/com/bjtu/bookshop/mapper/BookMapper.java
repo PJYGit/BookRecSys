@@ -5,6 +5,7 @@ import java.util.List;
 import com.bjtu.bookshop.bean.db.BookInfo;
 import com.bjtu.bookshop.bean.db.BookTag;
 
+import com.bjtu.bookshop.bean.middle.HardBook;
 import com.bjtu.bookshop.bean.response.ShopResponses;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -55,7 +56,7 @@ public interface BookMapper {
             "left join book_tag as t on i.bid=t.bid " +
             "left join store_info as s on i.sid=s.sid " +
             "where i.sid = #{sid} group by(i.bid)")
-    List<ShopResponses.BookListResponse.book> getBookListBySid(int sid);
+    List<HardBook> getBookListBySid(int sid);
 
     @Select("select i.bid,i.sid,group_concat(tid) as innerTid,null as tid," +
             "i.name as bname, s.name as sname,author,i.content,i.pic,5 as mark," +
@@ -63,5 +64,5 @@ public interface BookMapper {
             "left join book_tag as t on i.bid=t.bid " +
             "left join store_info as s on i.sid=s.sid " +
             "where i.bid = #{bid} group by(i.bid)")
-    ShopResponses.BookListResponse.book getBookByBid(int bid);
+    HardBook getBookByBid(int bid);
 }

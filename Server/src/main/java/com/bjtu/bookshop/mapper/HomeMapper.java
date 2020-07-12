@@ -2,6 +2,7 @@ package com.bjtu.bookshop.mapper;
 
 import com.bjtu.bookshop.bean.db.BookInfo;
 import com.bjtu.bookshop.bean.db.BookTag;
+import com.bjtu.bookshop.bean.middle.HardBook;
 import com.bjtu.bookshop.bean.response.HomeResponses;
 import com.bjtu.bookshop.bean.response.ShopResponses;
 import org.apache.ibatis.annotations.*;
@@ -19,5 +20,14 @@ public interface HomeMapper {
             "left join book_tag as t on i.bid=t.bid " +
             "left join store_info as s on i.sid=s.sid " +
             "group by(i.bid) order by -sales limit 20")
-    List<HomeResponses.TopResponse.elm> getList();
+    List<HardBook> getList();
+
+    @Select("select v.bid,i.sid,group_concat(tid) as innerTid,null as tid, " +
+            "i.name as bname, s.name as sname,author,i.content,i.pic,5 as mark, " +
+            "sales,remain,price*0.01 as price from bx_user_view as v " +
+            "left join book_info as i on v.bid = i.bid " +
+            "left join book_tag as t on i.bid=t.bid " +
+            "left join store_info as s on i.sid=s.sid " +
+            "where v.uid = #{uid} group by(v.bid) order by v.place")
+    List<HardBook> getPerson(int uid);
 }
