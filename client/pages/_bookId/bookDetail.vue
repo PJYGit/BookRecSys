@@ -164,49 +164,16 @@
                     price:5,
                 },
 
-                thisBookList:[{
-                    bid:1,
-                    pic:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:24,
-                },{
-                    bid:2,
-                    pic:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:24,
-                },{
-                    bid:3,
-                    pic:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:24,
-                },],
+                thisBookList:[],
 
-                evaluateList:[{
-                    cid:1,
-                    sname:"用户1",
-                    mark:5,
-                    content:"这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价",
-                },{
-                    cid:2,
-                    sname:"用户2",
-                    mark:5,
-                    content:"这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价",
-                },{
-                    cid:3,
-                    sname:"用户3",
-                    mark:4,
-                    content:"这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价是一个评价评价这是一个评价评价这是一个评价评价这是一个评价评价",
-                }],
+                evaluateList:[],
             }
         },
 
         mounted(){
             this.bookId = this.$route.query.bid;
-            console.log(this.bookId);
             this.setBookMsg();
+            this.getRecoBook();
         },
 
         methods:{
@@ -263,15 +230,34 @@
                 data.append('bid',this.bookItem.bid);
                 data.append('cnt',this.buyNum);
                 data.append('address',this.$refs.getAddress.returnAddressContent());
-                //console.log(this.$refs.getAddress.returnAddressContent());
 
                 API.buyOnlyBook(data).then(res=>{
-
                     if (res.state) {
                         alert("加购失败");
                         return;
                     }
                     alert("加购成功");
+                    this.buyNum=1;
+
+                }).catch(msg => {
+                    alert(msg)
+                })
+            },
+
+            getRecoBook(){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+                data.append('bid',this.bookId);
+
+                API.getBookDetail(data).then(res=>{
+                    console.log(res);
+
+                    if (res.state) {
+                        alert("获取推荐信息失败");
+                        return;
+                    }
+                    this.thisBookList.push(res);
 
                 }).catch(msg => {
                     alert(msg)
