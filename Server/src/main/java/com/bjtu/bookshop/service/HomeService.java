@@ -29,11 +29,24 @@ public class HomeService {
         this.homeMapper = homeMapper;
     }
 
+    /** 6.1 body **/
     public TopResponse getTop() {
         List<HardBook> topList = homeMapper.getList();
         for(HardBook e: topList){
             e.trans();
         }
         return new TopResponse(0, topList);
+    }
+
+    /** 6.2 body **/
+    public PersonResponse getPerson(int uid) {
+        List<HardBook> pList = homeMapper.getPersion(uid);
+        for(HardBook e: pList){
+            e.trans();
+            if(e.getBname() == null){
+                e.setBname("查无此书");
+            }
+        }
+        return new PersonResponse(0, pList);
     }
 }

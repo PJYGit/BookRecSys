@@ -22,4 +22,12 @@ public class HomeResponses {
         List<HardBook> list;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class PersonResponse {
+        int state;
+        List<HardBook> list;
+    }
+
 }
