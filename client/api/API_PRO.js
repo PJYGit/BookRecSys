@@ -57,6 +57,7 @@ export default {
     getOList:{url:'order/getlist'},
     getOrderDetail:{url:'order/getinfo'},
     setOState:{url:'order/operate'},
+    CMOrder:{url:'order/comment'},
 
     //图书模块
     getBookDetail:{url:'shop/getbookinfo'},
