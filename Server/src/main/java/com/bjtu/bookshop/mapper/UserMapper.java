@@ -90,4 +90,7 @@ public interface UserMapper {
 
     @Select("SELECT * FROM user_login WHERE uid = #{uid}")
     UserLogin getUserLoginInfoWithUID(int uid);
+
+    @Update("update user_info set money = money - #{money} where uid = #{uid}")
+    void updateUserMoney(int uid, int money);
 }
