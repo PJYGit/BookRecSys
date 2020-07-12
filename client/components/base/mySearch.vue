@@ -2,7 +2,15 @@
     <el-container>
     <el-input v-model="searchMsg" placeholder="请输入图书名称/作者/出版社">
     </el-input>
-        <el-button icon="el-icon-search" style="">搜索</el-button>
+        <el-select v-model="value" placeholder="请选择" style="width: 150px;">
+            <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+            </el-option>
+        </el-select>
+        <el-button icon="el-icon-search" @click="searchMessage">搜索</el-button>
     </el-container>
 </template>
 
@@ -12,6 +20,24 @@
         data(){
             return{
                 searchMsg:'',
+                value:1,
+                options:[{
+                    value: 1,
+                    label: '搜索图书'
+                },{
+                    value: 2,
+                    label: '搜索店铺'
+                },]
+            }
+        },
+
+        methods:{
+            searchMessage(){
+                if(this.value===1){
+                    this.$router.push({path:"/classfyBookList",query:{word: this.searchMsg}});
+                }else{
+                    this.$router.push({path:"/searchShopList",query:{word: this.searchMsg}});
+                }
             }
         }
     }
@@ -41,5 +67,6 @@
         border: solid 1px #ef9585;
         border-radius:0 4px 4px 0;
     }
+
 
 </style>

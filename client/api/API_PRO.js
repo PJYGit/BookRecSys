@@ -11,6 +11,9 @@ export default {
     getNew:{url:'home/new'},
     getTag:{url:'shop/tags'},
 
+    //搜索模块
+    SShop:{url:'shop/search'},//搜索店铺
+
 
     //登录模块接口
     userLogin: {url: 'user/login'},

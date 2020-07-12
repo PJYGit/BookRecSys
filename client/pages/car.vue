@@ -133,13 +133,15 @@
                 else {
                     let buy = []
                     buy.push(this.carList[this.carIndex])
-                    buy.push("")
+                    /*buy.push("")*/
                     let data = new FormData();
                     data.append('uid', this.$cookie.get("uid"));
                     data.append('token', this.$cookie.get("token"));
                     data.append('address',this.$refs.getAddress.returnAddressContent());
                     for (let i = 0; i < buy.length; i++)
-                        data.append('buy', JSON.stringify(buy[i]))
+                        /*data.append('buy', JSON.stringify(buy[i]))*/
+                        data.append('buy',JSON.stringify({'bid':buy[i].bid,'cnt':buy[i].cnt}));
+                    data.append('buy',"");
                     API.submitCarOrder(data).then(res => {
                         if (res.state === 0)
                             this.$message.success('创建订单成功');
@@ -153,13 +155,13 @@
             },
 
             createAllOrder: function () {
-                if (this.submitCarList.length === 0) this.$message.info('未勾选订单')
+                if (this.submitCarList.length === 0) this.$message.info('未勾选订单');
                 else {
                     let data = new FormData();
-                    data.append('uid', this.$cookie.get("uid"))
-                    data.append('token', this.$cookie.get("token"))
+                    data.append('uid', this.$cookie.get("uid"));
+                    data.append('token', this.$cookie.get("token"));
                     for (let i = 0; i < this.submitCarList.length; i++)
-                        data.append('buy', JSON.stringify(this.submitCarList[i]))
+                        data.append('buy', JSON.stringify(this.submitCarList[i]));
                     data.append('address',this.$refs.getAddress2.returnAddressContent());
                     API.submitCarOrder(data).then(res => {
                         if (res.state === 0)
@@ -168,7 +170,7 @@
                             this.$message.error('创建订单失败');
                     }).catch(res => {
                         console.log(res)
-                    })
+                    });
                     this.chooseAddress2=false;
                 }
             },

@@ -108,3 +108,21 @@
 
 </style>
 
+<style>
+    .el-scrollbar{
+        padding-bottom: 21px;
+    }
+
+    .el-select .el-input.is-focus .el-input__inner{
+        border-color: #ef9585;
+    }
+
+    .el-select-dropdown__item.selected{
+        color: #ef9585;
+    }
+
+    .el-select .el-input__inner:focus{
+        border-color: #ef9585;
+    }
+</style>
+

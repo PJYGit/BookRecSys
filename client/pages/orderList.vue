@@ -106,7 +106,7 @@
                 let data = new FormData();
                 data.append('uid',this.uid);
                 data.append('token',this.token);
-                data.append('type',999);
+                data.append('type',1);
 
                 API.getOList(data).then(res=>{
                     if (res.state) {
