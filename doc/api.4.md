@@ -67,6 +67,7 @@ cid [number]|订单id|订单id
 type [number]|订单类型|0待支付 1待发货 2待确认收货 3待评价 4已完成 -1已取消
 sid [number]|商家id|商家id
 sname|商家名|商家名
+address|地址信息|地址信息
 items[] [list\<cfd\>]|商品列表|见下文
 
 其中cfd： 
