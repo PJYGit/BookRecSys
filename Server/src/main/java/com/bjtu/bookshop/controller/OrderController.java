@@ -85,7 +85,6 @@ public class OrderController {
     }
 
     // 4.sub
-
     @RequestMapping(value = "/manage/getlist", method = {RequestMethod.POST})
     public manageGetListResponse manageGetAllOrderList(@Valid manageGetListRequest req, BindingResult br) {
         if (br.hasErrors()) return new manageGetListResponse() {{
@@ -96,5 +95,17 @@ public class OrderController {
         }};
 
         return orderService.manageGetAllOrderList(req.getSid(), req.getType());
+    }
+
+    @RequestMapping(value = "/manage/operate", method = {RequestMethod.POST})
+    public manageOperateResponse manageOperateOrder(@Valid manageOperateRequest req, BindingResult br) {
+        if (br.hasErrors()) return new manageOperateResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new manageOperateResponse() {{
+            setState(-10);
+        }};
+
+        return orderService.manageOperateOrder(req.getCid(), req.getOpcode());
     }
 }
