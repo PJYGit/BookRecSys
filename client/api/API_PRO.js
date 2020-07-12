@@ -30,6 +30,9 @@ export default {
     setUserInfo: {url: 'user/manage/setinfo'},//修改用户信息
     getSList:{url:'shop/manage/list'},//获取全部店铺列表
 
+    // 用户管理
+    searchTargetUserInfo: {url: '/user/manage/search'},
+
     // 店铺管理模块
     getShopInfo: {url: '/shop/manage/getinfo'},
     setShopInfo: {url: '/shop/manage/setinfo'},
