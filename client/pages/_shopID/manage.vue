@@ -148,7 +148,7 @@
                                         <td>标签</td>
                                         <td>
                                             <span v-for="each in item.tid" :key="each">
-                                                {{tagList.filter(i => i.tid===each)[0] === null ?
+                                                {{tagList.filter(i => i.tid===each)[0] == null ?
                                                 "加载中" : tagList.filter(i => i.tid===each)[0].name}}
                                             </span>
                                         </td>
@@ -558,7 +558,7 @@
                 let data = new FormData()
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
-                data.append('sid', this.$cookie.get('sid'))
+                data.append('sid', this.sid)
                 API.getShopOrder(data).then(res => {
                     if (res.state === 0) {
                         this.orderList = res.list
