@@ -115,7 +115,7 @@ public class OrderService {
     public int newOrderCheck(OrderItem orderItem) {
         // 书的存量
         for (OrderContent orderContent : orderItem.getContentList()) {
-            if (orderContent.getCid() < bookMapper.getBookByBid(orderContent.getBid()).getRemain()) {
+            if (orderContent.getCnt() > bookMapper.getBookByBid(orderContent.getBid()).getRemain()) {
                 return -114;
             }
         }

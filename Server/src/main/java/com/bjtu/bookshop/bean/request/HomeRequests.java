@@ -25,9 +25,19 @@ public class HomeRequests {
     @AllArgsConstructor
     public static class TypeBookRequest {
         @NotNull int tid;
-        @NotNull int page;
+        Integer page;
     }
 
-
+    @Data
+    @AllArgsConstructor
+    public static class SearchRequest implements UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        Integer tid;
+        @NotNull String word;
+        Double rangemin;
+        Double rangemax;
+        Integer order;
+    }
 
 }
