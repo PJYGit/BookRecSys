@@ -64,7 +64,20 @@ public class HomeController {
     @RequestMapping(value = "/books", method = {RequestMethod.POST})
     public TypeBookResponse getBooks(@Valid TypeBookRequest req, BindingResult br) {
         if (br.hasErrors()) return new TypeBookResponse() {{setState(-1);}};
+        if(req.getPage() == null) req.setPage(1);
         return homeService.getTypeBooks(req.getTid(),req.getPage());
+    }
+
+    /**
+     * 6.5
+     * /home/search 图书搜索
+     */
+    @RequestMapping(value = "/search", method = {RequestMethod.POST})
+    public SearchResponse getSearch(@Valid SearchRequest req, BindingResult br) {
+        if (br.hasErrors()) return new SearchResponse() {{setState(-1);}};
+        if (!userService.checkUserToken(req)) return new SearchResponse() {{setState(-10);}};
+        return homeService.getSearchBooks(req.getTid(),req.getWord(),
+                req.getRangemin(),req.getRangemax(),req.getOrder());
     }
 
 }
