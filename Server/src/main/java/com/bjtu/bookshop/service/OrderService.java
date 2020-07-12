@@ -268,4 +268,40 @@ public class OrderService {
         int cid = newOrderExecute(orderItem);
         return new createResponse(0, cid);
     }
+
+    // 4.sub
+    public manageGetListResponse manageGetAllOrderList(int sid, int type) {
+        List<manageGetListResponse.elm> elmList = new LinkedList<>();
+
+        List<OrderInfo> orderInfoList;
+        if (type == 999) {
+            orderInfoList = orderMapper.getAllOrderWithSID(sid);
+        } else {
+            orderInfoList = orderMapper.getAllOrderWithSIDAndType(sid, type);
+        }
+
+        for (OrderInfo orderInfo : orderInfoList) {
+            List<manageGetListResponse.elm.mmp> mmpList = new LinkedList<>();
+
+            List<OrderContent> orderContentList = orderMapper.getAllOrderContentWithCID(orderInfo.getCid());
+            for (OrderContent orderContent : orderContentList) {
+                BookInfo bookInfo = bookMapper.getBookInfoWithBID(orderContent.getBid());
+                mmpList.add(new manageGetListResponse.elm.mmp(
+                        bookInfo.getBid(),
+                        bookInfo.getName(),
+                        orderContent.getCnt(),
+                        bookInfo.getPic()
+                ));
+            }
+
+            elmList.add(new manageGetListResponse.elm(
+                    orderInfo.getCid(),
+                    orderInfo.getType(),
+                    mmpList,
+                    (double) orderInfo.getMoney() / 100.0
+            ));
+        }
+
+        return new manageGetListResponse(0, elmList);
+    }
 }

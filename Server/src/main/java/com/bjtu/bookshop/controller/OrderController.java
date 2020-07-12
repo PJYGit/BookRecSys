@@ -83,4 +83,18 @@ public class OrderController {
 
         return orderService.createOneBookOrder(req.getUid(), req.getAddress(), req.getBid(), req.getCnt());
     }
+
+    // 4.sub
+
+    @RequestMapping(value = "/manage/getlist", method = {RequestMethod.POST})
+    public manageGetListResponse manageGetAllOrderList(@Valid manageGetListRequest req, BindingResult br) {
+        if (br.hasErrors()) return new manageGetListResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new manageGetListResponse() {{
+            setState(-10);
+        }};
+
+        return orderService.manageGetAllOrderList(req.getSid(), req.getType());
+    }
 }
