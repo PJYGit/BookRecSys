@@ -147,7 +147,9 @@
                 buyNum:1,
                 activeName:'first',
                 bookId:'',
-                bookItem: {},
+                bookItem: {
+                    price:5,
+                },
 
                 thisBookList:[{
                     bid:1,
@@ -190,6 +192,7 @@
 
         mounted(){
             this.bookId = this.$route.query.bid;
+            console.log(this.bookId);
             this.setBookMsg();
         },
 
@@ -204,9 +207,10 @@
                 let data = new FormData();
                 data.append('uid',this.uid);
                 data.append('token',this.token);
-                data.append('bid',this.bookItem.bid);
+                data.append('bid',this.bookId);
 
                 API.getBookDetail(data).then(res=>{
+                    console.log(res);
                     if (res.state) {
                         alert("获取图书详情失败");
                         return;
