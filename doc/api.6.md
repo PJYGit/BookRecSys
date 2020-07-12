@@ -2,6 +2,8 @@
 
 ## /home/top 销量前 n 书
 
+    伴生 /home/new 新书上架
+    
 request:
 
 empty

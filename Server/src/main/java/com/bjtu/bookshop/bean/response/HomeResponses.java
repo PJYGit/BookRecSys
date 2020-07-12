@@ -26,6 +26,14 @@ public class HomeResponses {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
+    public static class NewResponse {
+        int state;
+        List<HardBook> list;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class PersonResponse {
         int state;
         List<HardBook> list;

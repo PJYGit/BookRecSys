@@ -37,6 +37,16 @@ public class HomeController {
     }
 
     /**
+     * 6.1.b
+     * home/new 销量前n书
+     */
+    @RequestMapping(value = "/new", method = {RequestMethod.POST})
+    public NewResponse getNew(@Valid NewRequest req, BindingResult br) {
+        if (br.hasErrors()) return new NewResponse() {{setState(-1);}};
+        return homeService.getNew();
+    }
+
+    /**
      * 6.2
      * /home/person 给本用户分析推荐的书
      */
