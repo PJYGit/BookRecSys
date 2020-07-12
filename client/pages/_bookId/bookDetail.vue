@@ -8,7 +8,11 @@
             <el-col :span="18">
                 <el-container style="margin-top: 30px;margin-bottom: 20px;">
                     <el-aside style="margin-left: 8%;width: 43%">
-                        <img :src="bookItem.pic" style="border: solid 1px #ef9585;width: 470px;margin-left: 20px;margin-top: 25px"/>
+                        <el-image
+                                style="width: 470px; height: 470px;border: solid 1px #ef9585;margin-left: 20px;margin-top: 25px"
+                                :src="bookItem.pic"
+                                fit="contain">
+                        </el-image>
                     </el-aside>
                     <el-main>
                         <div style="font-size: 36px;font-weight: 700">
@@ -61,7 +65,7 @@
 
                 <el-container style="margin-bottom: 20px;margin-left: 10%;padding-top: 40px">
                     <el-tabs v-model="activeName" type="card" style="margin-bottom: 20px">
-                        <el-tab-pane label="图书详情" name="first" style="min-width: 700px">
+                        <el-tab-pane label="图书详情" name="first" style="min-width: 1000px">
                             <div style="font-size: 20px;margin-left: 10px;margin-top: 20px;">
                                 图书信息
                             </div>

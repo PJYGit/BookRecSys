@@ -8,11 +8,11 @@
             <el-col :span="6">
                 <shop-message style="width: 70%;margin-left: 20%"></shop-message>
             </el-col>
-            <el-col :span="17" style="margin-left: 50px">
+            <el-col :span="17" style="margin-left: 50px;">
                 <el-tabs v-model="activeName" type="card">
-                    <el-tab-pane label="图书列表" name="first">
+                    <el-tab-pane label="图书列表" name="first" style="padding-top: 30px">
                         <div v-for="item in shopBookList" :key="item.bid">
-                            <el-col :span="4" style="margin-bottom: 30px">
+                            <el-col :span="4" style="margin-bottom: 40px">
                                 <book :book-item="item"></book>
                             </el-col>
                         </div>

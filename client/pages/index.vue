@@ -63,19 +63,24 @@
             getTopNBook: function () {
                 API.getTopBook().then(res => {
                     if (res.state === 0) {
-                        this.topNBooks = res.list;
+                        if(res.list.length>6){
+                            this.topNBooks = res.list.slice(0,6);
+                        }
                     } else this.$message.error('获取TOP图书榜失败')
                 }).catch(_ => {})
             },
+
             getRecommendBook: function () {
-                //console.log(this.$cookie.get('uid'))
+                console.log(this.$cookie.get('uid'));
                 if(this.$cookie.get('uid')!==null){
                     let data = new FormData();
                     data.append('uid', this.$cookie.get('uid'));
                     data.append('token', this.$cookie.get('token'));
                     API.getRecommendBook(data).then(res => {
                         if (res.state === 0) {
-                            this.recommendBook = res.list
+                            if(res.list.length>6){
+                                this.recommendBook = res.list.slice(0,6);
+                            }
                         } else this.$message.error('获取推荐图书榜失败')
                     }).catch(_ => {})
                 }
@@ -84,7 +89,9 @@
             getNewBook(){
                 API.getNew().then(res => {
                     if (res.state === 0) {
-                        this.newBookList = res.list
+                        if(res.list.length>6){
+                            this.newBookList = res.list.slice(0,6);
+                        }
                     } else this.$message.error('获取新书榜图书失败')
                 }).catch(_ => {})
             }

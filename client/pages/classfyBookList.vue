@@ -35,13 +35,18 @@
     import Book from "../components/base/book";
     import MySearch from "../components/base/mySearch";
     import FiltPrice from "../components/base/filtPrice";
+    import API from "../api"
+    import Cookies from 'js-cookie';
     export default {
         name: "classfyBookList",
         components: {FiltPrice, MySearch, Book, ClassfyMenu, MyTitle, FlowBoard},
         data(){
             return{
-                activeClassfy:'1',
+                activeClassfy:'0',
+                searchContent:'',
                 order:0,
+                uid:Cookies.get('uid'),
+                token:Cookies.get('token'),
                 classfyBookList:[{
                     bid:1,
                     pic:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
@@ -89,26 +94,50 @@
         },
 
         mounted() {
-            this.activeClassfy=this.$route.query.tid.toString();
+            this.activeClassfy=this.$route.query.tid;
+            this.searchContent = this.$route.query.word;
+            this.searchBook();
         },
 
         methods:{
             changeClassfy(item){
-                this.activeClassfy=item.tid.toString();
-                let data={
-                    bid:8,
-                    src:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:'￥24.00',
-                    oldPrice:'￥30.00 '
-                };
-                this.classfyBookList.push(data);
+                this.activeClassfy=item.tid;
+                this.searchContent="";
+                this.searchBook();
             },
 
             changeOrder(){
-                console.log(this.order);
-            }
+                this.searchBook();
+            },
+
+            searchBook(){
+                let fd = new FormData();
+                fd.append('uid',this.uid);
+                fd.append('token',this.token);
+                if(this.activeClassfy===undefined){
+                    fd.append('tid',0);
+                }else{
+                    fd.append('tid',this.activeClassfy);
+                }
+
+                if(this.searchContent!==""){
+                    fd.append('word',this.searchContent);
+                }
+
+                fd.append('order',this.order);
+
+                API.SBook(fd).then(res=>{
+                    console.log(res);
+                    if (res.state) {
+                        alert("获取图书列表失败");
+                        return;
+                    }
+                    this.classfyBookList = res.list;
+
+                }).catch(msg => {
+                    alert(msg)
+                })
+            },
         }
     }
 </script>

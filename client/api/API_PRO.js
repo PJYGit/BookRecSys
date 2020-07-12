@@ -13,6 +13,7 @@ export default {
 
     //搜索模块
     SShop:{url:'shop/search'},//搜索店铺
+    SBook:{url:'home/search'},//图书搜索
 
 
     //登录模块接口

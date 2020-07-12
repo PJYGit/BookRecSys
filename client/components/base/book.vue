@@ -1,10 +1,14 @@
 <template>
     <div style="width: 180px;cursor: pointer;" @click="toDetail">
-        <img :src="bookItem.pic" style="width: 180px;">
-        <div style="font-size: 18px;line-height: 25px;margin-left: 21px;margin-top: 2px;">
-            {{bookItem.bname}}
+        <el-image
+                style="width: 180px; height: 180px"
+                :src="bookItem.pic"
+                fit="contain">
+        </el-image>
+        <div style="font-size: 18px;line-height: 25px;margin-left: 21px;margin-top: 2px;height: 75px;overflow: hidden">
+            {{bookItem.bname | ellipsis}}
         </div>
-        <div style="color: #8c939d;font-size: 15px;line-height: 25px;margin-left: 22px;">
+        <div style="color: #8c939d;font-size: 15px;line-height: 25px;margin-left: 22px;height: 25px;overflow: hidden">
             {{bookItem.author}}
         </div>
         <div style="margin-left: 20px">
@@ -23,6 +27,23 @@
         props:{
             bookItem:{
                 type:Object,
+            }
+        },
+        filters: {
+            ellipsis (value) {
+                if (!value) return '';
+                if (value.length > 50) {
+                    return value.slice(0,50) + '...'
+                }
+                return value;
+            },
+
+            nameFilter (value) {
+                if (!value) return '';
+                if (value.length > 15) {
+                    return value.slice(0,15) + '...'
+                }
+                return value;
             }
         },
         data(){
