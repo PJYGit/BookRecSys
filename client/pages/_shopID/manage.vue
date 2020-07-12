@@ -559,6 +559,7 @@
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
                 data.append('sid', this.sid)
+                data.append('type', 999)
                 API.getShopOrder(data).then(res => {
                     if (res.state === 0) {
                         this.orderList = res.list
