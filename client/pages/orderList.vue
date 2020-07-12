@@ -44,9 +44,10 @@
                 </el-table-column>
                 <el-table-column label="">
                     <template slot-scope="scope">
-                        <el-button type="text" style="color: #EB7A67">查看详情</el-button>
+                        <el-button type="text" style="color: #EB7A67" @click="toOrderDetail(scope.row.cid)">查看详情</el-button>
                     </template>
-                </el-table-column></el-table>
+                </el-table-column>
+            </el-table>
         </el-container>
     </flow-board>
 </template>
@@ -108,6 +109,12 @@
             filterTag(value, row) {
                 return row.type === value;
             },
+
+            toOrderDetail(cid){
+                let link = this.$router.resolve({ path: `/`+this.cid+`/orderDetail`,
+                    query: { cid: cid }});
+                window.open(link.href, '_blank');
+            }
         }
     }
 </script>
