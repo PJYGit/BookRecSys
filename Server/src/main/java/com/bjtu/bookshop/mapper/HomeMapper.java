@@ -29,5 +29,5 @@ public interface HomeMapper {
             "left join book_tag as t on i.bid=t.bid " +
             "left join store_info as s on i.sid=s.sid " +
             "where v.uid = #{uid} group by(v.bid) order by v.place")
-    List<HardBook> getPersion(int uid);
+    List<HardBook> getPerson(int uid);
 }

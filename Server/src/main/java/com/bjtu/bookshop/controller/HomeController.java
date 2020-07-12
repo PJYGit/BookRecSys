@@ -47,4 +47,14 @@ public class HomeController {
         return homeService.getPerson(req.getUid());
     }
 
+    /**
+     * 6.3
+     * types 图书类别
+     * 已经迁移
+     */
+    @RequestMapping(value = "/types")
+    public String getTypes() {
+        return "{ state: 0, msg: \"已迁移，详情请查看文档\" }";
+    }
+
 }

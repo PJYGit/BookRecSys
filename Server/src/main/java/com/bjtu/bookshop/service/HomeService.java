@@ -40,7 +40,7 @@ public class HomeService {
 
     /** 6.2 body **/
     public PersonResponse getPerson(int uid) {
-        List<HardBook> pList = homeMapper.getPersion(uid);
+        List<HardBook> pList = homeMapper.getPerson(uid);
         for(HardBook e: pList){
             e.trans();
             if(e.getBname() == null){
