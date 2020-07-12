@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public class OrderRequests {
     @Data
@@ -29,5 +30,22 @@ public class OrderRequests {
         @NotNull String token;
         @NotNull int cid;
         @NotNull int opcode;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class commentRequest implements CommonRequests.UserAuthorization {
+        @NotNull int uid;
+        @NotNull String token;
+        @NotNull int cid;
+        @NotNull List<cmt> items;
+
+        @Data
+        @AllArgsConstructor
+        public static class cmt {
+            @NotNull int bid;
+            @NotNull int mark;
+            @NotNull String comment;
+        }
     }
 }

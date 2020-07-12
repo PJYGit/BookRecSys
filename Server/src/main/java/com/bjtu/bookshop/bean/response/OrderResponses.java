@@ -63,4 +63,11 @@ public class OrderResponses {
     public static class operateResponse {
         int state;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class commentResponse {
+        int state;
+    }
 }

@@ -44,6 +44,9 @@ public interface BookMapper {
     @Delete("delete from book_tag where bid = #{bid}")
     void deleteBookAllTagWithBID(int bid);
 
+    @Insert("insert into book_comment(cid, bid, uid, mark, content) values(#{cid}, #{bid}, #{uid}, #{mark}, #{content})")
+    void insertBookComment(int cid, int bid, int uid, int mark, String content);
+
     ///////////////////////////////////////////////////
 
     @Select("select i.bid,i.sid,group_concat(tid) as innerTid,null as tid," +

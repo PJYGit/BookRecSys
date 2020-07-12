@@ -4,6 +4,7 @@ import com.bjtu.bookshop.bean.db.BookInfo;
 import com.bjtu.bookshop.bean.db.OrderContent;
 import com.bjtu.bookshop.bean.db.OrderInfo;
 import com.bjtu.bookshop.bean.db.UserInfo;
+import com.bjtu.bookshop.bean.request.OrderRequests.commentRequest;
 import com.bjtu.bookshop.bean.response.OrderResponses.*;
 import com.bjtu.bookshop.bean.response.OrderResponses.getInfoResponse;
 import com.bjtu.bookshop.bean.response.OrderResponses.getListResponse;
@@ -198,6 +199,7 @@ public class OrderService {
     public operateResponse operateOrder(int uid, int cid, int opcode) {
         OrderInfo orderInfo = orderMapper.getOrderInfoWithCID(cid);
         UserInfo userInfo = userMapper.getUserInfoWithUID(uid);
+        List<OrderContent> orderContentList = orderMapper.getAllOrderContentWithCID(cid);
 
         if (orderInfo.getType() == 0 && opcode == 1) {
             if (userInfo.getMoney() < orderInfo.getMoney()) {
@@ -209,33 +211,49 @@ public class OrderService {
         }
 
         if ((orderInfo.getType() == 0 || orderInfo.getType() == 1) && opcode == 2) {
+            for (OrderContent orderContent : orderContentList) {
+                bookMapper.updateBookSalesAndRemain(orderContent.getBid(), -orderContent.getCnt());
+            }
 
+            if (orderInfo.getType() == 1) {
+                userMapper.updateUserMoney(uid, -orderInfo.getMoney());
+            }
+
+            orderMapper.updateOrderInfoType(cid, -1);
             return new operateResponse(0);
         }
 
         if (orderInfo.getType() == 2 && opcode == 3) {
+            orderMapper.updateOrderInfoType(cid, 3);
             return new operateResponse(0);
         }
 
         return new operateResponse(-777);
     }
 
-    public Response commentOrder(int uid, String token, int cid, int mark, String comment) {
-        if (isTokenValid(uid, token)) {
+    public commentResponse commentOrder(int uid, int cid, List<commentRequest.cmt> items) {
+        OrderInfo orderInfo = orderMapper.getOrderInfoWithCID(cid);
 
-            return new StateResponse(Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+        if (orderInfo.getType() != 3) {
+            return new commentResponse(-777);
+        }
+
+        for (commentRequest.cmt cmt : items) {
+            bookMapper.insertBookComment(
+                    cid,
+                    cmt.getBid(),
+                    uid,
+                    cmt.getMark(),
+                    cmt.getComment()
+            );
+        }
+        orderMapper.updateOrderInfoType(cid, 4);
+        return new commentResponse(0);
     }
 
     public Response createOneBookOrder(int uid, String token, int bid, int cnt) {
-        if (isTokenValid(uid, token)) {
-//            orderMapper.addNewOrderIntoOrderInfo(uid, bid, cnt, 0);
 
-            return new StateResponse(Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
     }
 
-    private boolean isTokenValid(int uid, String token) {
-        return false;
-    }
+
 }

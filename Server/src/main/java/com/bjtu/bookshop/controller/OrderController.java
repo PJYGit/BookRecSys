@@ -65,8 +65,15 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/comment", method = {RequestMethod.POST})
-    public Response commentOrder(@RequestBody JSONObject object) {
-        return orderService.commentOrder(object.getIntValue("uid"), object.getString("token"), object.getIntValue("cid"), object.getIntValue("mark"), object.getString("comment"));
+    public commentResponse commentOrder(@Valid commentRequest req, BindingResult br) {
+        if (br.hasErrors()) return new commentResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new commentResponse() {{
+            setState(-10);
+        }};
+
+        return orderService.commentOrder(req.getUid(), req.getCid(), req.getItems());
     }
 
     @RequestMapping(value = "/create", method = {RequestMethod.POST})
