@@ -108,4 +108,16 @@ public class OrderController {
 
         return orderService.manageOperateOrder(req.getCid(), req.getOpcode());
     }
+
+    @RequestMapping(value = "/manage/setinfo", method = {RequestMethod.POST})
+    public manageSetInfoResponse manageSetOrderInfo(@Valid manageSetInfoRequest req, BindingResult br) {
+        if (br.hasErrors()) return new manageSetInfoResponse() {{
+            setState(-1);
+        }};
+        if (!userService.checkUserToken(req)) return new manageSetInfoResponse() {{
+            setState(-10);
+        }};
+
+        return orderService.manageSetOrderInfo(req.getCid(), req.getMoney());
+    }
 }

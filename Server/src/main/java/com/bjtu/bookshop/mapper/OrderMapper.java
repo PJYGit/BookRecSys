@@ -35,6 +35,9 @@ public interface OrderMapper {
     @Update("update order_info set type = #{type} where cid = #{cid}")
     void updateOrderInfoType(int cid, int type);
 
+    @Update("update order_info set money = #{money} where cid = #{cid}")
+    void updateOrderInfoMoney(int cid, int money);
+
     @Select("select * from order_content where cid = #{cid} ")
     List<OrderContent> getAllOrderContentWithCID(int cid);
 }

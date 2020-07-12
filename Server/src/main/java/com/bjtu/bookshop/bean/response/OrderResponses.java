@@ -111,4 +111,11 @@ public class OrderResponses {
     public static class manageOperateResponse {
         int state;
     }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class manageSetInfoResponse {
+        int state;
+    }
 }
