@@ -3,13 +3,12 @@ package com.bjtu.bookshop.service;
 import com.bjtu.bookshop.bean.db.BookInfo;
 import com.bjtu.bookshop.bean.db.OrderContent;
 import com.bjtu.bookshop.bean.db.OrderInfo;
-import com.bjtu.bookshop.bean.response.OrderResponses.*;
+import com.bjtu.bookshop.bean.response.OrderResponses.getInfoResponse;
+import com.bjtu.bookshop.bean.response.OrderResponses.getListResponse;
 import com.bjtu.bookshop.mapper.BookMapper;
 import com.bjtu.bookshop.mapper.OrderMapper;
 import com.bjtu.bookshop.mapper.StoreMapper;
 import com.bjtu.bookshop.mapper.UserMapper;
-import com.bjtu.bookshop.response.ItemResponse;
-import com.bjtu.bookshop.response.ListResponse;
 import com.bjtu.bookshop.response.Response;
 import com.bjtu.bookshop.response.StateResponse;
 import lombok.AllArgsConstructor;
@@ -103,9 +102,7 @@ public class OrderService {
                 sid,
                 0,
                 money,
-                address,
-                "",
-                0
+                address
         );
 
         return new OrderItem(orderInfo, contentList);

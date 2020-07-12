@@ -107,6 +107,7 @@ request:
 uid [number]|用户 id|系统内唯一标志符，用于后续操作
 token|验证串|和 uid 一起做身份验证
 cid [number]|订单id|订单id
+bid [number]|书本id|书本id
 mark [number]|打分|int 0-5
 comment|评价内容|内容
 

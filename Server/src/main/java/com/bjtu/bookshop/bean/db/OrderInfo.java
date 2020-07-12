@@ -14,6 +14,4 @@ public class OrderInfo {
     private int type;
     private int money;
     private String address;
-    private String comment;
-    private int mark;
 }
