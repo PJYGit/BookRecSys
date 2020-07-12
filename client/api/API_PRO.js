@@ -16,6 +16,7 @@ export default {
     modifyCarBookCnt: {url: '/car/addbook'},
     editCarOrder: {url: '/car/setlist'},
     submitCarOrder: {url: '/car/submit'},
+    addToShoppingCar:{url:'car/addbook'},
 
     // 店铺模块
     getShopBaseInfo:{url:'shop/getinfo'},
@@ -49,5 +50,8 @@ export default {
     getOList:{url:'order/getlist'},
     getOrderDetail:{url:'order/getinfo'},
     setOState:{url:'order/operate'},
+
+    //图书模块
+    getBookDetail:{url:'shop/getbookinfo'},
 
 }
