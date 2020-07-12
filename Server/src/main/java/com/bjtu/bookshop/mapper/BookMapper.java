@@ -23,8 +23,8 @@ public interface BookMapper {
     @Delete("delete from book_info where bid = #{bid}")
     void deleteBookWithBID(int bid);
 
-    @Update("update book_info set  where bid = #{bid}")
-    void updateBookInfo(BookInfo info);
+    @Update("update book_info set sales = sales + #{cnt}, remain = remain - #{cnt} where bid = #{bid}")
+    void updateBookSalesAndRemain(int bid, int cnt);
 
     @Select("select * from book_info where bid = #{bid}")
     BookInfo getBookInfoWithBID(int bid);

@@ -2,8 +2,10 @@ package com.bjtu.bookshop.service;
 
 import com.bjtu.bookshop.bean.db.OrderContent;
 import com.bjtu.bookshop.bean.db.OrderInfo;
+import com.bjtu.bookshop.bean.response.OrderResponses.*;
 import com.bjtu.bookshop.mapper.BookMapper;
 import com.bjtu.bookshop.mapper.OrderMapper;
+import com.bjtu.bookshop.mapper.StoreMapper;
 import com.bjtu.bookshop.mapper.UserMapper;
 import com.bjtu.bookshop.response.ItemResponse;
 import com.bjtu.bookshop.response.ListResponse;
@@ -23,12 +25,14 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final BookMapper bookMapper;
     private final UserMapper userMapper;
+    private final StoreMapper storeMapper;
 
     @Autowired
-    public OrderService(OrderMapper orderMapper, BookMapper bookMapper, UserMapper userMapper) {
+    public OrderService(OrderMapper orderMapper, BookMapper bookMapper, UserMapper userMapper, StoreMapper storeMapper) {
         this.orderMapper = orderMapper;
         this.bookMapper = bookMapper;
         this.userMapper = userMapper;
+        this.storeMapper = storeMapper;
     }
 
     // ========================================================
@@ -46,9 +50,8 @@ public class OrderService {
      * 	  EXEC
      *
      * CHECK
-     *    订单生成
-     * 	  书的存量
-     * 	  用户余额
+     * 	  书的存量 -114
+     * 	  用户余额 -514
      *
      * EXEC
      * 	  订单记录
@@ -108,24 +111,64 @@ public class OrderService {
     }
 
     public int newOrderCheck(OrderItem orderItem) {
-        // TODO
         // 书的存量
-        return -114;
-        // 价格计算
-        // return -514;
+        for (OrderContent orderContent : orderItem.getContentList()) {
+            if (orderContent.getCid() < bookMapper.getBookByBid(orderContent.getBid()).getRemain()) {
+                return -114;
+            }
+        }
+
+        // 用户余额
+        if (orderItem.getInfo().getMoney() > userMapper.getUserInfoWithUID(orderItem.getInfo().getUid()).getMoney()) {
+            return -514;
+        }
+
+        return 0;
     }
 
     public int newOrderExecute(OrderItem orderItem) {
-        // TODO
-        return -1;
+        orderMapper.addNewOrderIntoOrderInfo(orderItem.getInfo());
+        for (OrderContent orderContent : orderItem.getContentList()) {
+            orderMapper.addNewOrderIntoOrderContent(orderContent);
+        }
+
+        for (OrderContent orderContent : orderItem.getContentList()) {
+            bookMapper.updateBookSalesAndRemain(orderContent.getBid(), orderContent.getCnt());
+        }
+
+        userMapper.updateUserMoney(orderItem.getInfo().getUid(), orderItem.getInfo().getMoney());
+
+        // TODO test
+        return orderItem.getInfo().getCid();
     }
     // ========================================================
 
-    public Response getAllOrderList(int uid, String token, int type) {
-        if (isTokenValid(uid, token)) {
-            List<OrderInfo> list = orderMapper.getAllOrderWithUIDAndType(uid, type);
-            return new ListResponse<>(list, Response.STATE_SUCCESS);
-        } else return new StateResponse(Response.STATE_FAIL);
+    public getListResponse getAllOrderList(int uid, int type) {
+        List<getListResponse.elm> elmList = new LinkedList<>();
+
+        List<OrderInfo> orderInfoList = orderMapper.getAllOrderWithUIDAndType(uid, type);
+        for (OrderInfo orderInfo : orderInfoList) {
+            List<getListResponse.elm.smp> smpList = new LinkedList<>();
+
+            List<OrderContent> orderContentList = orderMapper.getAllOrderContentWithCID(orderInfo.getCid());
+            for (OrderContent orderContent : orderContentList) {
+                smpList.add(new getListResponse.elm.smp(
+                        bookMapper.getBookInfoWithBID(orderContent.getBid()).getName(),
+                        orderContent.getCnt()
+                ));
+            }
+
+            elmList.add(new getListResponse.elm(
+                    orderInfo.getCid(),
+                    orderInfo.getType(),
+                    orderInfo.getSid(),
+                    storeMapper.getStoreInfoWithSID(orderInfo.getSid()).getName(),
+                    bookMapper.getBookByBid(orderContentList.get(0).getBid()).getPic(),
+                    smpList
+            ));
+        }
+
+        return new getListResponse(0, elmList);
     }
 
     public Response getOrderInfo(int uid, String token, int cid) {
@@ -151,7 +194,7 @@ public class OrderService {
 
     public Response createOneBookOrder(int uid, String token, int bid, int cnt) {
         if (isTokenValid(uid, token)) {
-            orderMapper.addNewOrderIntoOrderInfo(uid, bid, cnt, 0);
+//            orderMapper.addNewOrderIntoOrderInfo(uid, bid, cnt, 0);
 
             return new StateResponse(Response.STATE_SUCCESS);
         } else return new StateResponse(Response.STATE_FAIL);
