@@ -2,6 +2,7 @@ package com.bjtu.bookshop.controller;
 
 import com.bjtu.bookshop.bean.request.OrderRequests.*;
 import com.bjtu.bookshop.bean.response.OrderResponses.*;
+import com.bjtu.bookshop.bean.response.UserResponses;
 import com.bjtu.bookshop.service.OrderService;
 import com.bjtu.bookshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +69,11 @@ public class OrderController {
         if (!userService.checkUserToken(req)) return new commentResponse() {{
             setState(-10);
         }};
-
-        return orderService.commentOrder(req.getUid(), req.getCid(), req.getItems());
+        if (!req.trans()) return new commentResponse() {{
+            setState(-100);
+        }};
+        
+        return orderService.commentOrder(req.getUid(), req.getCid(), req.getInnerItems());
     }
 
     @RequestMapping(value = "/create", method = {RequestMethod.POST})
