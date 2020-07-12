@@ -130,7 +130,9 @@ public class OrderService {
 
     public int newOrderExecute(OrderItem orderItem) {
         orderMapper.addNewOrderIntoOrderInfo(orderItem.getInfo());
+
         for (OrderContent orderContent : orderItem.getContentList()) {
+            orderContent.setCid(orderItem.getInfo().getCid());
             orderMapper.addNewOrderIntoOrderContent(orderContent);
         }
 
