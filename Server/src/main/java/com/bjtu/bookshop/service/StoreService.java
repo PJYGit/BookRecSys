@@ -64,7 +64,7 @@ public class StoreService {
         if(bookInfo == null) return new BookInfoResponse(){{setState(-11);}};
         bookInfo.trans();
         return new BookInfoResponse(0,bookInfo.getBid(),bookInfo.getSid(),bookInfo.getInnerTid(),
-                bookInfo.getTid(),bookInfo.getBname(),bookInfo.getSname(),bookInfo.getAuther(),
+                bookInfo.getTid(),bookInfo.getBname(),bookInfo.getSname(),bookInfo.getAuthor(),
                 bookInfo.getContent(),bookInfo.getPic(),bookInfo.getMark(),bookInfo.getSales(),
                 bookInfo.getRemain(),bookInfo.getPrice());
     }

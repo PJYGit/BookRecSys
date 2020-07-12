@@ -44,7 +44,7 @@ public class ShopResponses {
             List<Integer> tid;
             String bname;
             String sname;
-            String auther;
+            String author;
             String content;
             String pic;
             double mark;
@@ -78,7 +78,7 @@ public class ShopResponses {
         List<Integer> tid;
         String bname;
         String sname;
-        String auther;
+        String author;
         String content;
         String pic;
         double mark;

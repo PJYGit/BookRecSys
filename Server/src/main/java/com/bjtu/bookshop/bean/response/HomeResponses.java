@@ -30,7 +30,7 @@ public class HomeResponses {
             List<Integer> tid;
             String bname;
             String sname;
-            String auther;
+            String author;
             String content;
             String pic;
             double mark;

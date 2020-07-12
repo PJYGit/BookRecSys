@@ -48,7 +48,7 @@ public interface BookMapper {
 
     @Select("select i.bid,i.sid,group_concat(tid) as innerTid,null as tid," +
             "i.name as bname, s.name as sname,author,i.content,i.pic,5 as mark," +
-            "sales,remain,price*0.01 from book_info as i " +
+            "sales,remain,price*0.01 as price from book_info as i " +
             "left join book_tag as t on i.bid=t.bid " +
             "left join store_info as s on i.sid=s.sid " +
             "where i.sid = #{sid} group by(i.bid)")
@@ -56,7 +56,7 @@ public interface BookMapper {
 
     @Select("select i.bid,i.sid,group_concat(tid) as innerTid,null as tid," +
             "i.name as bname, s.name as sname,author,i.content,i.pic,5 as mark," +
-            "sales,remain,price*0.01 from book_info as i " +
+            "sales,remain,price*0.01 as price from book_info as i " +
             "left join book_tag as t on i.bid=t.bid " +
             "left join store_info as s on i.sid=s.sid " +
             "where i.bid = #{bid} group by(i.bid)")
