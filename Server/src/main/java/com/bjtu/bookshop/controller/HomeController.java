@@ -27,6 +27,15 @@ public class HomeController {
     }
 
     /**
+     * 6.
+     * home/cvt 转化率
+     */
+    @RequestMapping(value = "/cvt")
+    public String getCvt() {
+        return "{\"val\": " + homeService.getCvt() + "}";
+    }
+
+    /**
      * 6.1
      * home/top 销量前n书
      */

@@ -63,4 +63,7 @@ public interface HomeMapper {
             "and i.name like concat('%',#{word},'%') ${whereAddition} " +
             "group by(i.bid) order by ${orderByPart} limit 100")
     List<HardBook> getSearchBooks(String word, String whereAddition, String orderByPart, int lowerP, int upperP);
+
+    @Select("select 1.0*val_in/val_all from conversion_result limit 1")
+    double getCvt();
 }
