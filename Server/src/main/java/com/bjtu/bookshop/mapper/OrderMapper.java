@@ -24,8 +24,8 @@ public interface OrderMapper {
     @Select("select * from order_info where cid = #{cid}")
     OrderInfo getOrderInfoWithCID(int cid);
 
-    @Update("update order_info set code = op where uid = #{uid} and cid = #{cid}")
-    void updateOrderInfoCode(int uid, int cid, int op);
+    @Update("update order_info set type = #{type} where cid = #{cid}")
+    void updateOrderInfoType(int cid, int type);
 
     @Select("select * from order_content where cid = #{cid} ")
     List<OrderContent> getAllOrderContentWithCID(int cid);
