@@ -44,7 +44,7 @@ public class KmeansHadoop {
 		//随机的选择 k 个作为簇的中心
 		clustersSeeds = RandomSeedGenerator.buildRandom(conf, seqFilePath, clustersSeeds, k, measure);
 		//调用 KMeansDriver.run 方法执行 K 均值聚类算法
-		KMeansDriver.run(conf, seqFilePath, clustersSeeds, new Path(outPath), 0.01, 10, true, 0.01, false);
+//		KMeansDriver.run(conf, seqFilePath, clustersSeeds, new Path(outPath), 0.01, 10, true, 0.01, false);
 
 		Path outGlobPath = new Path(outPath, "clusters-*-final");
 		Path clusteredPointsPath = new Path(clusteredPoints);

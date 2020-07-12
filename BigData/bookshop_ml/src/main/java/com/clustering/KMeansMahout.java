@@ -64,14 +64,14 @@ public class KMeansMahout {
 		Path canopyOutput = new Path(output, "canopies");
 
 		// 执行Canopy聚类
-		CanopyDriver.run(conf, directoryContainingConvertedInput, canopyOutput, euclideanDistanceMeasure, t1, t2, false,
-				0.0, false);
+//		CanopyDriver.run(conf, directoryContainingConvertedInput, canopyOutput, euclideanDistanceMeasure, t1, t2, false,
+//				0.0, false);
 
 		System.out.println("Running KMeans");
 		// 执行k-means聚类，并使用canopy目录
-		KMeansDriver.run(conf, directoryContainingConvertedInput,
-				new Path(canopyOutput, Cluster.INITIAL_CLUSTERS_DIR + "-final"), output, convergenceDelta,
-				maxIterations, true, 0.0, false);
+//		KMeansDriver.run(conf, directoryContainingConvertedInput,
+//				new Path(canopyOutput, Cluster.INITIAL_CLUSTERS_DIR + "-final"), output, convergenceDelta,
+//				maxIterations, true, 0.0, false);
 
 		System.out.println("run clusterdumper");
 		// 将聚类的结果输出至HDFS
