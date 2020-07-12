@@ -232,6 +232,7 @@
                 data.append('address',this.$refs.getAddress.returnAddressContent());
 
                 API.buyOnlyBook(data).then(res=>{
+                    console.log(res);
                     if (res.state) {
                         alert("加购失败");
                         return;

@@ -66,14 +66,17 @@
                 }).catch(_ => {})
             },
             getRecommendBook: function () {
-                let data = new FormData()
-                data.append('uid', this.$cookie.get('uid'))
-                data.append('token', this.$cookie.get('token'))
-                API.getRecommendBook(data).then(res => {
-                    if (res.state === 0) {
-                        this.recommendBook = res.list
-                    } else this.$message.error('获取推荐图书榜失败')
-                }).catch(_ => {})
+                //console.log(this.$cookie.get('uid'))
+                if(this.$cookie.get('uid')!==null){
+                    let data = new FormData();
+                    data.append('uid', this.$cookie.get('uid'));
+                    data.append('token', this.$cookie.get('token'));
+                    API.getRecommendBook(data).then(res => {
+                        if (res.state === 0) {
+                            this.recommendBook = res.list
+                        } else this.$message.error('获取推荐图书榜失败')
+                    }).catch(_ => {})
+                }
             }
         },
 
