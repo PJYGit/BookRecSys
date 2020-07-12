@@ -6,18 +6,21 @@
         </template>
 
         <template style="padding: 0px; margin: 0px">
-        <ads></ads>
-        <el-container>
-            <el-aside style="margin-top: 20px;margin-left: 30px;width: 20%">
-                <classfy-menu :active-index="'0'" :is-main="0"></classfy-menu>
-            </el-aside>
-            <el-main>
-                <my-search style="margin-top: 2px"></my-search>
-                <homeshow :title="'新书上架'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
-                <homeshow :title="'图书推荐'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
-                <homeshow :title="'图书Top榜'" :book-list="bookList" style="margin-top: 10px;margin-right: 4px"></homeshow>
-            </el-main>
-        </el-container>
+            <ads></ads>
+            <el-container>
+                <el-aside style="margin-top: 20px;margin-left: 30px;width: 20%">
+                    <classfy-menu :active-index="'0'" :is-main="0"></classfy-menu>
+                </el-aside>
+                <el-main>
+                    <my-search style="margin-top: 2px"></my-search>
+<!--                    <homeshow :title="'新书上架'" :book-list="bookList"-->
+<!--                              style="margin-top: 10px;margin-right: 4px"></homeshow>-->
+                    <homeshow :title="'图书推荐'" :book-list="recommendBook"
+                              style="margin-top: 10px;margin-right: 4px"></homeshow>
+                    <homeshow :title="'图书Top榜'" :book-list="topNBooks"
+                              style="margin-top: 10px;margin-right: 4px"></homeshow>
+                </el-main>
+            </el-container>
         </template>
 
     </FlowBoard>
@@ -40,155 +43,72 @@
     export default {
         components: {FlowBoard, MyFooter, MyTitle, Book, ads, Homeshow, MySearch, ClassfyMenu},
         data() {
-            let validateRepeatPassword = (rule, value, cb) => {
-                console.log(value)
-                if (value !== this.register_module.user_pwd) {
-                    cb(new Error('两次输入密码不一致!'))
-                } else {
-                    cb()
-                }
-            }
             return {
-                login_module: {
-                    user_name: '',
-                    user_pwd: '',
-                },
-                register_module: {
-                    user_name: '',
-                    user_phone: '',
-                    user_pwd: '',
-                    user_confirm_pwd: ''
-                },
-                loginRule: {
-                    user_name: [
-                        {required: true, message: '请输入手机号', trigger: 'blur'}
-                    ],
-                    user_pwd: [
-                        {required: true, message: '请输入密码', trigger: 'blur'}
-                    ]
-                },
-                registerRule: {
-                    registerPsw: [
-                        {validate: validateRepeatPassword, trigger: 'blur'}
-                    ]
-                },
-
-                bookList:[{
-                    bid:1,
-                    pic:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:24,
-                },{
-                    bid:1,
-                    pic:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:24,
-                },{
-                    bid:1,
-                    pic:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:24,
-                },{
-                    bid:1,
-                    pic:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:24,
-                },{
-                    bid:1,
-                    pic:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:24,
-                },{
-                    bid:1,
-                    pic:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
-                    bname:"九年级上册历史书",
-                    author:"作者1 作者2等",
-                    price:24,
-                },]
+                bookList: [{
+                    bid: 1,
+                    pic: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    bname: "九年级上册历史书",
+                    author: "作者1 作者2等",
+                    price: 24,
+                }, {
+                    bid: 1,
+                    pic: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    bname: "九年级上册历史书",
+                    author: "作者1 作者2等",
+                    price: 24,
+                }, {
+                    bid: 1,
+                    pic: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    bname: "九年级上册历史书",
+                    author: "作者1 作者2等",
+                    price: 24,
+                }, {
+                    bid: 1,
+                    pic: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    bname: "九年级上册历史书",
+                    author: "作者1 作者2等",
+                    price: 24,
+                }, {
+                    bid: 1,
+                    pic: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    bname: "九年级上册历史书",
+                    author: "作者1 作者2等",
+                    price: 24,
+                }, {
+                    bid: 1,
+                    pic: "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=127724150,3260846456&fm=26&gp=0.jpg",
+                    bname: "九年级上册历史书",
+                    author: "作者1 作者2等",
+                    price: 24,
+                },],
+                topNBooks: [],
+                recommendBook: []
             }
         },
 
         mounted() {
             console.log(Cookies.get('vipRate'));
+            this.getTopNBook()
+            this.getRecommendBook()
         },
 
         methods: {
-            submitForm() {
-                let data = {
-                    type: 'phone',
-                    urn: this.login_module.user_name,
-                    pw: this.login_module.user_pwd
-                };
-                data = qs.stringify(data);
-                API.userLogin(data).then(res => {
+            getTopNBook: function () {
+                API.getTopBook().then(res => {
                     if (res.state === 0) {
-                        Cookies.set("token", res.token);
-                        Cookies.set("uid", res.uid);
-                        let data1 = {
-                            token: res.token,
-                            uid: res.uid,
-                        };
-                        data1 = qs.stringify(data1);
-                        API.userInfo(data1).then(res1 => {
-                            if (res1.state === 0) {
-                                Cookies.set("name", res1.nickname);
-                                Cookies.set("isVIP", res1.isVIP);
-                                Cookies.set("regtime", res1.regtime);
-                            } else {
-                                alert("获取用户名失败")
-                            }
-                        }).catch(msg => {
-                            alert(msg);
-                        });
-                        this.$router.push({path: '/home'});
-                    } else {
-                        this.$alert('密码或用户名错误', '登录失败', {
-                            confirmButtonText: '确认',
-                        })
-                    }
-                }).catch(msg => {
-                    alert(msg);
-                })
+                        this.topNBooks = res.list
+                    } else this.$message.error('获取TOP图书榜失败')
+                }).catch(_ => {})
             },
-            registerUser: function () {
-                let data = {
-                    nickname: this.register_module.user_name,
-                    phone: this.register_module.user_phone,
-                    password: this.register_module.user_pwd
-                }
-                data = qs.stringify(data)
-                API.register(data)
-                    .then(res => {
-                        if (res.state === 0) {
-                            Cookies.set("uid", res.uid)
-                            Cookies.set("token", res.token)
-                            let data1 = {
-                                token: res.token,
-                                uid: res.uid,
-                            };
-                            data1 = qs.stringify(data1);
-                            API.userInfo(data1).then(res1 => {
-                                if (res1.state === 0) {
-                                    Cookies.set("name", res1.nickname);
-                                    Cookies.set("isVIP", res1.isVIP);
-                                    Cookies.set("regtime", res1.regtime);
-                                } else {
-                                    alert("获取用户名失败")
-                                }
-                            }).catch(msg => {
-                                alert(msg);
-                            });
-                            this.$router.push({path: '/home'})
-                        }
-                    })
-                    .catch(res => {
-                        alert(res)
-                    })
+            getRecommendBook: function () {
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                API.getRecommendBook(data).then(res => {
+                    if (res.state === 0) {
+                        this.recommendBook = res.list
+                    } else this.$message.error('获取推荐图书榜失败')
+                }).catch(_ => {})
             }
         },
 
