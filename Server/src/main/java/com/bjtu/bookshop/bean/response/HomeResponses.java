@@ -30,4 +30,13 @@ public class HomeResponses {
         List<HardBook> list;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TypeBookResponse {
+        int state;
+        List<HardBook> list;
+        int pagesize;
+    }
+
 }

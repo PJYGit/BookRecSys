@@ -57,4 +57,14 @@ public class HomeController {
         return "{ state: 0, msg: \"已迁移，详情请查看文档\" }";
     }
 
+    /**
+     * 6.4
+     * /home/books 指定类别的图书列表
+     */
+    @RequestMapping(value = "/books", method = {RequestMethod.POST})
+    public TypeBookResponse getBooks(@Valid TypeBookRequest req, BindingResult br) {
+        if (br.hasErrors()) return new TypeBookResponse() {{setState(-1);}};
+        return homeService.getTypeBooks(req.getTid(),req.getPage());
+    }
+
 }

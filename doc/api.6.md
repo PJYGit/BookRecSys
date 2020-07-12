@@ -81,7 +81,7 @@ mark|分数|分数
 sales|销量|销量
 remain|库存|库存
 
-## /home/serach 图书搜索
+## /home/search 图书搜索
 
 request:
 

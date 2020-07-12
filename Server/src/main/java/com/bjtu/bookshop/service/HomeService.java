@@ -17,6 +17,7 @@ import com.bjtu.bookshop.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,5 +49,15 @@ public class HomeService {
             }
         }
         return new PersonResponse(0, pList);
+    }
+
+    /** 6.4 body **/
+    public TypeBookResponse getTypeBooks(int tid, int page) {
+        int typeCnt = homeMapper.getTypeSize();
+        int pageCnt = (typeCnt + 9 ) / 10;
+        page = Math.min(Math.max(1,page),pageCnt);
+        List<HardBook> pList = homeMapper.getTypeBooks(tid, page);
+        for(HardBook b:pList) b.trans();
+        return new TypeBookResponse(0,pList, pageCnt);
     }
 }
