@@ -32,7 +32,8 @@
                                                           :autosize="{ minRows: 4}"/>
                                             </el-form-item>
                                             <el-form-item label="店铺图片">
-                                                TODO 上传图片获得返回地址
+                                                <input type="file" id="shopImage" @change="imageUpload('shopImage')"/>
+                                                <el-input v-model="uploadImageURL" disabled size="mini"></el-input>
                                             </el-form-item>
                                         </el-form>
                                     </div>
@@ -96,7 +97,7 @@
                                                   style="width: 300px;"/>
                                     </el-form-item>
                                     <el-form-item label="作者">
-                                        <el-input v-model="newBookInfo.auther" size="mini"
+                                        <el-input v-model="newBookInfo.author" size="mini"
                                                   style="width: 300px;"></el-input>
                                     </el-form-item>
                                     <el-form-item label="图书简介">
@@ -116,13 +117,13 @@
                                         </el-select>
                                     </el-form-item>
                                     <el-form-item label="图书图片">
-                                        <el-input value="TODO 上传图片获取返回地址" disabled size="mini"></el-input>
+                                        <el-input v-model="uploadImageURL" disabled size="mini"></el-input>
                                     </el-form-item>
                                 </el-form>
                             </div>
                             <span slot="footer">
                                 <el-button @click="addNewBook" type="primary" size="mini">确认添加</el-button>
-                                <el-button @click="isAddNewBook=!isAddNewBook" size="mini">取消</el-button>
+                                <el-button @click="handleCancelAddNewBook" size="mini">取消</el-button>
                             </span>
                         </el-dialog>
                     </div>
@@ -140,7 +141,7 @@
                                     <tr>
                                         <td>作者</td>
                                         <td>
-                                            {{item.auther}}
+                                            {{item.author}}
                                         </td>
                                     </tr>
                                     <tr>
@@ -194,7 +195,7 @@
                                                       style="width: 300px;"/>
                                             </el-form-item>
                                             <el-form-item label="作者">
-                                                <el-input v-model="editBookInfo.auther" size="mini"
+                                                <el-input v-model="editBookInfo.author" size="mini"
                                                           style="width: 300px;"></el-input>
                                             </el-form-item>
                                             <el-form-item label="图书简介">
@@ -216,7 +217,7 @@
                                                 </el-select>
                                             </el-form-item>
                                             <el-form-item label="图书图片">
-                                                <el-input value="TODO 上传图片获取返回地址" disabled size="mini"></el-input>
+                                                <el-input v-model="uploadImageURL" disabled size="mini"></el-input>
                                             </el-form-item>
                                             </el-form>
                                         </div>
@@ -359,7 +360,7 @@
                         tid: [1, 2, 3],
                         bname: 'test',
                         sname: '12313',
-                        auther: '123123131',
+                        author: '123123131',
                         content: '12313131',
                         pic: 'adasdasda',
                         mark: 4.5,
@@ -395,7 +396,7 @@
                     sid: 1,
                     tid: [],
                     bname: '',
-                    auther: '',
+                    author: '',
                     content: '',
                     pic: '',
                     remain: '',
@@ -406,14 +407,16 @@
                     sid: 1,
                     tid: [],
                     bname: '',
-                    auther: '',
+                    author: '',
                     content: '',
                     pic: '',
                     remain: '',
                     price: 1
                 },
                 newManagerInfo: {},
-                newManagerUrn: ''
+                newManagerUrn: '',
+                uploadImage: {},
+                uploadImageURL: '',
             }
         },
         mounted() {
@@ -459,10 +462,14 @@
                 for (let i = 0; i < this.shopInfo.manager.length; i++)
                     data.append('managers', JSON.stringify(this.shopInfo.manager[i].uid))
                 data.append('content', this.shopInfo.content)
-                data.append('head', this.shopInfo.head)
+                if (this.uploadImageURL === '')
+                    data.append('head', this.shopInfo.head)
+                else
+                    data.append('head', this.uploadImageURL)
                 API.setShopInfo(data).then(res => {
                     if (res.state === 0) {
                         this.$message.success('添加成功')
+                        this.isEditShopInfo = !this.isEditShopInfo
                     } else this.$message.error('')
                 }).catch(res => {
                     this.$message.info(res)
@@ -476,9 +483,12 @@
                 for (let i = 0; i < this.newBookInfo.tid.length; i++)
                     data.append('tid', JSON.stringify(this.newBookInfo.tid[i]))
                 data.append('bname', this.newBookInfo.bname)
-                data.append('auther', this.newBookInfo.auther)
+                data.append('author', this.newBookInfo.author)
                 data.append('content', this.newBookInfo.content)
-                data.append('pic', this.newBookInfo.pic)
+                if (this.uploadImageURL === '')
+                    data.append('pic', this.newBookInfo.pic)
+                else
+                    data.append('pic', this.uploadImageURL)
                 data.append('remain', this.newBookInfo.remain)
                 data.append('price', this.newBookInfo.price)
                 API.addNewBookIntoShop(data).then(res => {
@@ -495,7 +505,7 @@
                     sid: 1,
                     tid: [],
                     bname: '',
-                    auther: '',
+                    author: '',
                     content: '',
                     pic: '',
                     remain: '',
@@ -511,9 +521,12 @@
                 for (let i = 0; i < this.editBookInfo.tid.length; i++)
                     data.append('tid', JSON.stringify(this.editBookInfo.tid[i]))
                 data.append('bname', this.editBookInfo.bname)
-                data.append('author', this.editBookInfo.auther)
+                data.append('author', this.editBookInfo.author)
                 data.append('content', this.editBookInfo.content)
-                data.append('pic', this.editBookInfo.pic)
+                if (this.uploadImageURL === '')
+                    data.append('pic', this.editBookInfo.pic)
+                else
+                    data.append('pic', this.uploadImageURL)
                 data.append('remain', this.editBookInfo.remain)
                 data.append('price', this.editBookInfo.price)
                 API.setBookInfo(data).then(res => {
@@ -590,6 +603,7 @@
             },
             cancelEditShopInfo: function () {
                 this.isEditShopInfo = !this.isEditShopInfo
+                this.uploadImageURL = ''
                 this.editShopInfo = this.shopInfo
             },
             beforeEditBookInfo: function (item) {
@@ -599,12 +613,13 @@
             },
             cancelEditBookInfo: function () {
                 this.isEditBookInfo = !this.isEditBookInfo
+                this.uploadImageURL = ''
                 this.editBookInfo = {
                     bid: 1,
                     sid: 1,
                     tid: [],
                     bname: '',
-                    auther: '',
+                    author: '',
                     content: '',
                     pic: '',
                     remain: '',
@@ -647,7 +662,7 @@
                     sid: 1,
                     tid: [],
                     bname: '',
-                    auther: '',
+                    author: '',
                     content: '',
                     pic: '',
                     remain: '',
@@ -672,7 +687,24 @@
                 }).catch(res => {
                     console.log(res)
                 })
-            }
+            },
+            imageUpload: function (id) {
+                this.uploadImage = document.getElementById(id).files[0]
+                let data = new FormData()
+                data.append('uid', this.$cookie.get('uid'))
+                data.append('token', this.$cookie.get('token'))
+                data.append('pic', this.uploadImage)
+                API.uploadImage(data).then(res => {
+                    if (res.state === 0) {
+                        this.uploadImageURL = res.url
+                    }
+                }).catch(_ => {
+                })
+            },
+            handleCancelAddNewBook: function () {
+                this.isAddNewBook = !this.isAddNewBook
+                this.uploadImageURL = ''
+            },
         }
     }
 </script>
