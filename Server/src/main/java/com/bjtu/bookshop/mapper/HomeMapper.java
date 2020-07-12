@@ -30,4 +30,19 @@ public interface HomeMapper {
             "left join store_info as s on i.sid=s.sid " +
             "where v.uid = #{uid} group by(v.bid) order by v.place")
     List<HardBook> getPerson(int uid);
+
+    @Select("select count(*) from (select * from book_info LIMIT 1000) as t")
+    int getTypeSize();
+
+    @Select("select v.bid,i.sid,group_concat(t.tid) as innerTid,null as tid, " +
+            "i.name as bname, s.name as sname,author,i.content,i.pic,5 as mark, " +
+            "sales,remain,price*0.01 as price from book_tag as v " +
+            "left join book_info as i on v.bid = i.bid " +
+            "left join book_tag as t on i.bid=t.bid " +
+            "left join store_info as s on i.sid=s.sid " +
+            "where v.tid = #{tid} group by(v.bid) order by i.sales limit #{page}, 20")
+    List<HardBook> getTypeBooks(int tid, int page, boolean real);
+    default List<HardBook> getTypeBooks(int tid, int page){
+        return getTypeBooks(tid,(page - 1) * 10,true);
+    }
 }

@@ -17,8 +17,15 @@ public class HomeRequests {
     @Data
     @AllArgsConstructor
     public static class PersonRequest implements UserAuthorization {
-        int uid;
-        String token;
+        @NotNull int uid;
+        @NotNull String token;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class TypeBookRequest {
+        @NotNull int tid;
+        @NotNull int page;
     }
 
 
