@@ -47,9 +47,9 @@
 * /order/create 单书直接创建订单
 
 4.sub#订单管理
-* /shop/manage/getlist 取商铺订单
-* /shop/manage/operate 确认发货/取消
-* /shop/manage/setinfo 修改价格/修改产品列表
+* /order/manage/getlist 取商铺订单
+* /order/manage/operate 确认发货/取消
+* /order/manage/setinfo 修改价格/修改产品列表
 
 # 5#图片上传
 * /pic/upload 上传图片
