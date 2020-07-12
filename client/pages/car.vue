@@ -112,15 +112,15 @@
             },
 
             addToSubmitList: function (index) {
-                this.checkCarList[index] = !this.checkCarList[index]
-                this.carIndex = index
-                console.log(this.carList[index])
+                this.checkCarList[index] = !this.checkCarList[index];
+                this.carIndex = index;
+                console.log(this.carList[index]);
                 if (this.checkCarList[index]) {
-                    this.submitCarList.push(this.carList[index])
+                    this.submitCarList.push(this.carList[index]);
                     console.log(this.submitCarList)
                 } else {
-                    let curBID = this.carList[index].bid
-                    let curSID = this.carList[index].sid
+                    let curBID = this.carList[index].bid;
+                    let curSID = this.carList[index].sid;
                     // 筛选元素
                     this.submitCarList = this.submitCarList.filter(item => {
                         return item.bid !== curBID || item.sid !== curSID
@@ -129,25 +129,27 @@
             },
 
             createOrder: function () {
-                if (this.submitCarList.length === 0) this.$message.info('未勾选订单')
+                if (this.submitCarList.length === 0) this.$message.info('未勾选订单');
                 else {
-                    let buy = []
-                    buy.push(this.carList[this.carIndex])
-                    /*buy.push("")*/
+                    let buy = [];
+                    buy.push(this.carList[this.carIndex]);
+
                     let data = new FormData();
                     data.append('uid', this.$cookie.get("uid"));
                     data.append('token', this.$cookie.get("token"));
                     data.append('address',this.$refs.getAddress.returnAddressContent());
+
                     for (let i = 0; i < buy.length; i++)
-                        /*data.append('buy', JSON.stringify(buy[i]))*/
                         data.append('buy',JSON.stringify({'bid':buy[i].bid,'cnt':buy[i].cnt}));
                     data.append('buy',"");
+
                     API.submitCarOrder(data).then(res => {
                         if (res.state === 0)
                             this.$message.success('创建订单成功');
                         else
                             this.$message.error('创建订单失败');
-                        this.chooseAddress = !this.chooseAddress
+                        this.chooseAddress = !this.chooseAddress;
+                        this.getMyCarList();
                     }).catch(res => {
                         console.log(res)
                     })
@@ -162,12 +164,14 @@
                     data.append('token', this.$cookie.get("token"));
                     for (let i = 0; i < this.submitCarList.length; i++)
                         data.append('buy', JSON.stringify(this.submitCarList[i]));
+                    data.append('buy', "");
                     data.append('address',this.$refs.getAddress2.returnAddressContent());
                     API.submitCarOrder(data).then(res => {
                         if (res.state === 0)
                             this.$message.success('创建订单成功');
                         else
                             this.$message.error('创建订单失败');
+                        this.getMyCarList();
                     }).catch(res => {
                         console.log(res)
                     });

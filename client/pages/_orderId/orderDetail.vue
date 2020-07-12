@@ -81,12 +81,12 @@
                         type="textarea"
                         :rows="3"
                         placeholder="请输入评价"
-                        v-model="commentList[index].comment">
+                        v-model="commentList[index].comment" style="margin-top: 10px">
                 </el-input>
             </div>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="commentOrder = false">取 消</el-button>
-                <el-button type="primary" @click="commentBook">确 定</el-button>
+                <el-button style="color: #ef9585" @click="commentOrder = false">取 消</el-button>
+                <el-button style="background-color: #ef9585" type="primary" @click="commentBook">确 定</el-button>
             </div>
         </el-dialog>
     </flow-board>
@@ -106,7 +106,7 @@
                 uid:Cookies.get('uid'),
                 token:Cookies.get('token'),
                 orderMsg:{},
-                commentOrder:true,
+                commentOrder:false,
                 commentList:[],
 
             }
@@ -185,13 +185,17 @@
                         'comment':item.comment}));
                 });
 
+                data.append('items',"");
+
                 API.CMOrder(data).then(res=>{
+                    console.log(res);
                     if (res.state) {
                         alert("提交评价失败");
                         return;
                     }
                     alert("评价成功！");
                     this.commentOrder=false;
+                    this.getOrderMsg();
                 }).catch(msg => {
                     alert(msg)
                 })
