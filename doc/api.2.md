@@ -101,7 +101,7 @@ sid [number]|商家id|商家id
 tid[]|分类id|分类id数组
 bname|书本名|书本名
 sname|商家名|商家名
-auther|作者|作者
+author|作者|作者
 content|书简介|书简介
 pic|书图片|书图片
 mark[number]|分数|分数
@@ -163,7 +163,7 @@ state [number]|返回码|0 为正常，-1 为失败
 tid[]|分类id|分类id数组
 bname|书本名|书本名
 sname|商家名|商家名
-auther|作者|作者
+author|作者|作者
 content|书简介|书简介
 pic|书图片|书图片
 mark[number]|分数|分数

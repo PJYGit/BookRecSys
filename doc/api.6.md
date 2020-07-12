@@ -22,7 +22,7 @@ sid [number]|商家 id|商家 id
 tid[]|分类 id|分类 id 数组
 bname|书本名|书本名
 sname|商家名|商家名
-auther|作者|作者
+author|作者|作者
 content|书简介|书简介
 pic|书图片|书图片
 mark[number]|分数|分数
@@ -98,7 +98,7 @@ sid [number]|商家 id|商家 id
 tid[]|分类 id|分类 id 数组
 bname|书本名|书本名
 sname|商家名|商家名
-auther|作者|作者
+author|作者|作者
 content|书简介|书简介
 pic|书图片|书图片
 mark|分数|分数
@@ -135,7 +135,7 @@ sid [number]|商家 id|商家 id
 tid[]|分类 id|分类 id 数组
 bname|书本名|书本名
 sname|商家名|商家名
-auther|作者|作者
+author|作者|作者
 content|书简介|书简介
 pic|书图片|书图片
 mark|分数|分数
