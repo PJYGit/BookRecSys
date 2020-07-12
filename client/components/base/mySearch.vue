@@ -34,7 +34,11 @@
         methods:{
             searchMessage(){
                 if(this.value===1){
-                    this.$router.push({path:"/classfyBookList",query:{word: this.searchMsg}});
+                    if(this.$route.query.tid!==undefined){
+                        this.$router.push({path:"/classfyBookList",query:{tid:this.$route.query.tid,word: this.searchMsg}});
+                    }else{
+                        this.$router.push({path:"/classfyBookList",query:{word: this.searchMsg}});
+                    }
                 }else{
                     this.$router.push({path:"/searchShopList",query:{word: this.searchMsg}});
                 }

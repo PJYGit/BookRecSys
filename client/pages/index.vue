@@ -1,6 +1,5 @@
 <template>
-    <FlowBoard>
-
+    <FlowBoard v-loading="loading">
         <template v-slot:header>
             <MyTitle></MyTitle>
         </template>
@@ -48,6 +47,7 @@
                 topNBooks: [],
                 recommendBook:[],
                 newBookList:[],
+                loading:false,
             }
         },
 
@@ -61,17 +61,22 @@
         methods: {
 
             getTopNBook: function () {
+                this.loading=true;
                 API.getTopBook().then(res => {
                     if (res.state === 0) {
                         if(res.list.length>6){
                             this.topNBooks = res.list.slice(0,6);
                         }
-                    } else this.$message.error('获取TOP图书榜失败')
+                        this.loading=false;
+                    } else{
+                        this.$message.error('获取TOP图书榜失败')
+                        this.loading=false;
+                    }
                 }).catch(_ => {})
             },
 
             getRecommendBook: function () {
-                console.log(this.$cookie.get('uid'));
+                this.loading=true;
                 if(this.$cookie.get('uid')!==null){
                     let data = new FormData();
                     data.append('uid', this.$cookie.get('uid'));
@@ -81,18 +86,27 @@
                             if(res.list.length>6){
                                 this.recommendBook = res.list.slice(0,6);
                             }
-                        } else this.$message.error('获取推荐图书榜失败')
+                            this.loading=false;
+                        } else{
+                            this.$message.error('获取推荐图书榜失败')
+                            this.loading=false;
+                        }
                     }).catch(_ => {})
                 }
             },
 
             getNewBook(){
+                this.loading=true
                 API.getNew().then(res => {
                     if (res.state === 0) {
                         if(res.list.length>6){
                             this.newBookList = res.list.slice(0,6);
                         }
-                    } else this.$message.error('获取新书榜图书失败')
+                        this.loading=false;
+                    } else{
+                        this.$message.error('获取新书榜图书失败')
+                        this.loading=false;
+                    }
                 }).catch(_ => {})
             }
         },

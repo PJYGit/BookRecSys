@@ -5,7 +5,7 @@
             售价
         </div>
         <el-row style="width: 80%;line-height: 45px;margin-left: 6%">
-            <el-col :span="3" class="hrefClass">0-20元</el-col>
+            <el-col :span="3" class="hrefClass"><div @click="filBook(0,20)">0-20元</div></el-col>
             <el-col :span="3" class="hrefClass">20-50元</el-col>
             <el-col :span="3" class="hrefClass">50-70元</el-col>
             <el-col :span="3" class="hrefClass">70-100元</el-col>
@@ -31,6 +31,13 @@
             return{
                 rangemin:'',
                 rangemax:'',
+            }
+        },
+
+        methods:{
+            filBook(min,max){
+                console.log("here");
+                this.$emit('selecBook',min,max);
             }
         }
     }

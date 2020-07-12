@@ -53,9 +53,9 @@
             toClassfyList(item){
                 this.$router.push({path: `/classfyBookList`,query: { tid: item.tid }});
                 if(this.isMain!==0){
+                    console.log(item);
                     this.$emit('MenuMethod',item);
                 }
-
             },
 
             getClassfyMenu(){

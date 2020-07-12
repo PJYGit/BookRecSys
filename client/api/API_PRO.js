@@ -15,6 +15,9 @@ export default {
     SShop:{url:'shop/search'},//搜索店铺
     SBook:{url:'home/search'},//图书搜索
 
+    //图书分类
+    getBookByTag:{url:'home/books'},
+
 
     //登录模块接口
     userLogin: {url: 'user/login'},
