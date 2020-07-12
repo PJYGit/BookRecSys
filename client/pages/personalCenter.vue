@@ -56,14 +56,11 @@
         },
         methods:{
             getMsg(){
-
                 let data = new FormData();
                 data.append('uid',this.uid);
                 data.append('token',this.token);
 
                 API.userGetInfo(data).then(res=>{
-
-                    console.log(res);
                     if (res.state) {
                         alert("获取个人信息失败");
                         return;

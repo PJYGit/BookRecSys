@@ -58,5 +58,6 @@ export default {
 
     //图书模块
     getBookDetail:{url:'shop/getbookinfo'},
+    buyOnlyBook:{url:'order/create'},
 
 }

@@ -93,6 +93,7 @@
         },
 
         methods: {
+
             getTopNBook: function () {
                 API.getTopBook().then(res => {
                     if (res.state === 0) {
