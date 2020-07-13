@@ -325,7 +325,7 @@ public class OrderService {
         }
 
         if (orderInfo.getType() == 1 && opcode == 2) {
-            orderMapper.updateOrderInfoType(cid, 1);
+            orderMapper.updateOrderInfoType(cid, 2);
             return new manageOperateResponse(0);
         }
 
