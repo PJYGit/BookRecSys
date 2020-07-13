@@ -55,11 +55,22 @@
                 bname:"九年级上册历史书",
                 author:"作者1 作者2等",
                 price:24,
+                notOnline:false,
+            }
+        },
+
+        mounted(){
+            if(Cookies.get('uid')===undefined || Cookies.get('uid')===null){
+                this.notOnline=true;
             }
         },
 
         methods:{
             toDetail(){
+                if(this.notOnline){
+                    alert("请登录后查看!");
+                    return;
+                }
                 let link = this.$router.resolve({ path: `/`+this.bookItem.bid+`/bookDetail`,
                     query: { bid: this.bookItem.bid }});
                 window.open(link.href, '_blank');

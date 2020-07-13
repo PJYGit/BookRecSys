@@ -52,6 +52,9 @@
         },
 
         mounted() {
+            if(Cookies.get("vipRate")===undefined || Cookies.get("vipRate")===null){
+                this.$cookie.set("vipRate",1);
+            }
             this.getTopNBook();
             this.getRecommendBook();
             this.getNewBook();
