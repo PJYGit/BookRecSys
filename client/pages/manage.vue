@@ -298,8 +298,8 @@
                         </el-table-column>
                         <el-table-column label="操作">
                             <template slot-scope="scope">
-                                <el-button @click="operateOrder(true)" size="mini" type="primary">确认发货</el-button>
-                                <el-button @click="operateOrder(false)" size="mini" type="danger">取消</el-button>
+                                <el-button @click="operateOrder(true, scope.row.cid)" size="mini" type="primary">确认发货</el-button>
+                                <el-button @click="operateOrder(false, scope.row.cid)" size="mini" type="danger">取消</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -576,7 +576,7 @@
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))
                 data.append('cid', cid)
-                data.append('op', isSend ? 'sent' : 'cancel')
+                data.append('opcode', isSend ? 2 : 1)
                 API.operateOrder(data).then(res => {
                     console.log(res);
                     if (res.state === 0) {
