@@ -565,7 +565,7 @@
                 data.append('type', 999)
                 API.getShopOrder(data).then(res => {
                     if (res.state === 0) {
-                        this.orderList = res.list
+                        this.orderList = res.items
                     } else this.$message.error('')
                 }).catch(res => {
                     this.$message.info(res)
