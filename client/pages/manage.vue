@@ -578,6 +578,7 @@
                 data.append('cid', cid)
                 data.append('op', isSend ? 'sent' : 'cancel')
                 API.operateOrder(data).then(res => {
+                    console.log(res);
                     if (res.state === 0) {
                         this.$message.success(isSend ? '发送成功' : '取消成功')
                     } else this.$message.error('未能完成操作')

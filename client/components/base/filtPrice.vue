@@ -34,6 +34,7 @@
             return{
                 rangemin:'',
                 rangemax:'',
+
             }
         },
 

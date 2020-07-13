@@ -14,12 +14,16 @@
         <div v-for="(item, index) in carList" :key="item.bid">
             <div class="car-item">
                 <el-card shadow="hover">
-                    <el-checkbox @change="addToSubmitList(index)" style="margin: auto">
+                    <el-checkbox @change="addToSubmitList(index)" style="margin: auto;">
                     </el-checkbox>
                     <div style="">
-                        <img :src="item.pic" alt="bookImage" style="display: inline-block"/>
-                        <span style="margin-left: 10%;color: #eb7a67;font-size: 1.2rem">
-                            {{item.bname}}
+                        <el-image
+                                style="width: 150px; height: 150px;margin-left: 20px"
+                                :src="item.pic"
+                                :fit="'contain'"></el-image>
+                        <!--<img :src="item.pic" alt="bookImage" style="display: inline-block"/>-->
+                        <span style="margin-left: 8%;color: #eb7a67;font-size: 1.2rem;width: 400px">
+                            {{item.bname | nameFilter}}
                         </span>
                         <span style="margin-left: 10%;color: #eb7a67; font-size: 1.1rem">
                             {{item.sname}}
@@ -67,6 +71,15 @@
     export default {
         name: "car",
         components: {AddressList, MyTitle, FlowBoard},
+        filters: {
+            nameFilter (value) {
+                if (!value) return '';
+                if (value.length > 20) {
+                    return value.slice(0,20) + '...'
+                }
+                return value;
+            }
+        },
         data() {
             return {
                 carList: [
