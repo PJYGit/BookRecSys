@@ -4,14 +4,14 @@
             <my-title></my-title>
         </template>
         <template slot="default">
-            <el-tabs type="border-card" style="margin: 30px;">
+            <el-tabs type="border-card" style="width: 80%;margin-left: 10%;margin-top: 30px;margin-bottom: 30px">
                 <el-tab-pane label="店铺信息管理">
                     <div style="text-align: center">
                         <div>
-                            <span style="font-size: 34px;color: #EB7A67;">
+                            <p style="font-size: 34px;color: #EB7A67;">
                                 店铺信息
-                            </span>
-                            <div style="float: right">
+                            </p>
+                            <div style="margin-top: 10px">
                                 <p style="font-size: 1.1rem; cursor: pointer;" @click="isEditShopInfo=!isEditShopInfo">
                                     <u>
                                         修改
@@ -44,10 +44,13 @@
                                 </el-dialog>
                             </div>
                             <br/>
-                            <img :src="shopInfo.head" alt="店铺图片">
+                            <el-image
+                                    style="width: 250px; height: 250px;margin-top: 10px"
+                                    :src="shopInfo.head"
+                                    :fit="'contain'"></el-image>
                         </div>
                         <div>
-                            <table style="width: 100%">
+                            <table style="width: 30%;margin-left: 35%;margin-top: 20px;line-height: 40px">
                                 <tr>
                                     <td>店铺名</td>
                                     <td>
@@ -91,7 +94,7 @@
                         <el-button @click="isAddNewBook = !isAddNewBook" size="mini" type="primary">添加新图书</el-button>
                         <el-dialog title="添加图书" center :visible.sync="isAddNewBook">
                             <div>
-                                <el-form label-width="80px">
+                                <el-form label-width="120px">
                                     <el-form-item label="书名">
                                         <el-input v-model="newBookInfo.bname" size="mini"
                                                   style="width: 300px;"/>
@@ -135,46 +138,35 @@
                             <div slot="header">
                                 {{item.bname}}
                                 <br/>
-                                <img :src="item.pic" alt="bookImage">
+                                <el-image
+                                        style="width: 250px; height: 250px"
+                                        :src="item.pic"
+                                        :fit="'contain'"></el-image>
                             </div>
                             <div slot="default">
-                                <table style="width: 100%">
-                                    <tr>
-                                        <td>作者</td>
-                                        <td>
-                                            {{item.author}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>标签</td>
-                                        <td>
-                                            <span v-for="each in item.tid" :key="each">
+                                <el-form label-width="100px" style="text-align: left;width: 90%;margin-left: 5%">
+                                    <el-form-item label="作者">
+                                        {{item.author}}
+                                    </el-form-item>
+                                    <el-form-item label="标签">
+                                        <span v-for="each in item.tid" :key="each">
                                                 {{tagList.filter(i => i.tid===each)[0] == null ?
                                                 "加载中" : tagList.filter(i => i.tid===each)[0].name}}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>简介</td>
-                                        <td>
-                                            {{item.content}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>销量</td>
-                                        <td>
-                                            {{item.sales}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>库存</td>
-                                        <td>
-                                            {{item.remain}}
-                                        </td>
-                                    </tr>
-                                </table>
-                                <p>
-                                    ￥{{item.price}}
+                                        </span>
+                                    </el-form-item>
+                                    <el-form-item label="简介">
+                                        {{item.content | contentFilter}}
+                                    </el-form-item>
+                                    <el-form-item label="销量">
+                                        {{item.sales}}
+                                    </el-form-item>
+                                    <el-form-item label="库存">
+                                        {{item.remain}}
+                                    </el-form-item>
+                                </el-form>
+
+                                <p style="font-size: 20px;margin-top: 20px">
+                                    ￥{{item.price.toFixed(2)}}
                                 </p>
                                 <el-rate
                                         v-model="item.mark"
@@ -182,7 +174,7 @@
                                         show-score
                                         text-color="#eb7a67"
                                         :colors="['#eb7a67','#eb7a67','#eb7a67']"
-                                        style="margin: 25px auto;">
+                                        style="margin: 20px auto;">
                                 </el-rate>
                                 <span
                                         style="font-size: 1.1rem; cursor: pointer; color: #EB7A67">
@@ -225,7 +217,7 @@
                                             </el-form>
                                         </div>
                                         <span slot="footer">
-                                            <el-button @click="modifyBookInfo(item.bid)" type="primary"
+                                            <el-button @click="modifyBookInfo()" type="primary"
                                                        size="mini">确认修改</el-button>
                                             <el-button @click="cancelEditBookInfo" size="mini">取消</el-button>
                                         </span>
@@ -273,17 +265,26 @@
                 </el-tab-pane>
                 <el-tab-pane label="店铺订单管理">
                     <el-table :data="orderList">
-                        <el-table-column label="订单号" prop="cid"></el-table-column>
-                        <el-table-column label="订单内容">
+                        <el-table-column label="订单号" prop="cid" width="200px"></el-table-column>
+                        <el-table-column label="订单内容" width="600px">
                             <template slot-scope="scope">
                                 <div v-for="(item, index) in scope.row.items" :key="index">
-                                    <img :src="item.pic" alt="图书图片" style="width: 40%"/>
-                                    <div style="display: inline-block;">
-                                        <p style="font-size: 1.2rem;color: #EB7A67;margin: 10px;">书名：{{item.name}}</p>
-                                        <p style="font-size: 1rem;color: #EB7A67;margin: 10px;">数量：{{item.cnt}}</p>
-                                        <p style="font-size: 1.2rem;color: #EB7A67;margin: 10px;">￥{{item.money}}</p>
-                                    </div>
+                                    <el-container>
+                                        <el-image
+                                                style="width: 150px; height: 150px"
+                                                :src="item.pic"
+                                                :fit="'contain'"></el-image>
+                                        <div style="margin-left: 20px;padding-top: 40px;padding-right: 20px">
+                                            <p style="font-size: 1.2rem;color: #EB7A67;margin: 10px;">书名：{{item.name}}</p>
+                                            <p style="font-size: 1rem;color: #EB7A67;margin: 10px;">数量：{{item.cnt}}</p>
+                                        </div>
+                                    </el-container>
                                 </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="订单总价">
+                            <template slot-scope="scope">
+                                <p style="font-size: 1.2rem;color: #EB7A67;margin: 10px;">￥{{scope.row.money}}</p>
                             </template>
                         </el-table-column>
                         <el-table-column label="状态">
@@ -317,6 +318,15 @@
     export default {
         name: "manage",
         components: {MyTitle, FlowBoard},
+        filters: {
+            contentFilter (value) {
+                if (!value) return '';
+                if (value.length > 15) {
+                    return value.slice(0,15) + '...'
+                }
+                return value;
+            }
+        },
         data() {
             return {
                 sid: 0,
@@ -420,6 +430,7 @@
                 newManagerUrn: '',
                 uploadImage: {},
                 uploadImageURL: '',
+                changedBid:0,
             }
         },
         mounted() {
@@ -515,23 +526,27 @@
                     price: 1
                 }
             },
-            modifyBookInfo: function (bid) {
-                let data = new FormData()
-                data.append('uid', this.$cookie.get('uid'))
-                data.append('token', this.$cookie.get('token'))
-                data.append('sid', this.sid)
-                data.append('bid', bid)
+            modifyBookInfo: function () {
+                let data = new FormData();
+                data.append('uid', this.$cookie.get('uid'));
+                data.append('token', this.$cookie.get('token'));
+                data.append('sid', this.sid);
+                data.append('bid', this.changedBid);
+
                 for (let i = 0; i < this.editBookInfo.tid.length; i++)
-                    data.append('tid', JSON.stringify(this.editBookInfo.tid[i]))
-                data.append('bname', this.editBookInfo.bname)
-                data.append('author', this.editBookInfo.author)
-                data.append('content', this.editBookInfo.content)
+                    data.append('tid', JSON.stringify(this.editBookInfo.tid[i]));
+
+                data.append('bname', this.editBookInfo.bname);
+                data.append('author', this.editBookInfo.author);
+                data.append('content', this.editBookInfo.content);
+
                 if (this.uploadImageURL === '')
-                    data.append('pic', this.editBookInfo.pic)
+                    data.append('pic', this.editBookInfo.pic);
                 else
-                    data.append('pic', this.uploadImageURL)
-                data.append('remain', this.editBookInfo.remain)
-                data.append('price', this.editBookInfo.price)
+                    data.append('pic', this.uploadImageURL);
+
+                data.append('remain', this.editBookInfo.remain);
+                data.append('price', this.editBookInfo.price);
                 API.setBookInfo(data).then(res => {
                     if (res.state === 0) {
                         this.$message.success('修改成功')
@@ -564,6 +579,7 @@
                 data.append('sid', this.sid)
                 data.append('type', 999)
                 API.getShopOrder(data).then(res => {
+                    console.log(res);
                     if (res.state === 0) {
                         this.orderList = res.items
                     } else this.$message.error('')
@@ -578,7 +594,6 @@
                 data.append('cid', cid)
                 data.append('opcode', isSend ? 2 : 1)
                 API.operateOrder(data).then(res => {
-                    console.log(res);
                     if (res.state === 0) {
                         this.$message.success(isSend ? '发送成功' : '取消成功')
                     } else this.$message.error('未能完成操作')
@@ -613,9 +628,10 @@
                 this.editShopInfo = this.shopInfo
             },
             beforeEditBookInfo: function (item) {
-                this.isEditBookInfo = !this.isEditBookInfo
+                this.isEditBookInfo = !this.isEditBookInfo;
+                this.changedBid=item.bid;
                 // TODO 双向绑定fix
-                this.editBookInfo = item
+                this.editBookInfo = item;
             },
             cancelEditBookInfo: function () {
                 this.isEditBookInfo = !this.isEditBookInfo
@@ -719,5 +735,13 @@
 </script>
 
 <style scoped>
-
+    >>> .el-form-item__label{
+        line-height: 18px;
+        font-size: 16px;
+        padding-right: 30px;
+    }
+    >>> .el-form-item__content{
+        line-height: 18px;
+        font-size: 16px;
+    }
 </style>
