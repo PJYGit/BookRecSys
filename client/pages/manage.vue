@@ -310,9 +310,9 @@
 </template>
 
 <script>
-    import FlowBoard from "../../components/board/FlowBoard";
-    import MyTitle from "../../components/base/myTitle";
-    import API from "../../api";
+    import FlowBoard from "../components/board/FlowBoard";
+    import MyTitle from "../components/base/myTitle";
+    import API from "../api";
 
     export default {
         name: "manage",

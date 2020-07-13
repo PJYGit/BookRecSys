@@ -52,7 +52,7 @@
 
         methods:{
             toShopManage: function (sid) {
-                let link = this.$router.resolve({ path: '/' + sid + '/manage',
+                let link = this.$router.resolve({ path: '/manage',
                     query: { sid: sid }});
                 window.open(link.href, '_blank');
             }
