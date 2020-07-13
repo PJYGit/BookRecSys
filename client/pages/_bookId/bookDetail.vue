@@ -116,7 +116,7 @@
 
             </el-col>
             <el-col :span="6">
-                <AlsoLike :book-list="thisBookList" style="width: 50%;margin-top: 40px;margin-left: 40px;margin-bottom: 20px"></AlsoLike>
+                <!--<AlsoLike :book-list="thisBookList" style="width: 50%;margin-top: 40px;margin-left: 40px;margin-bottom: 20px"></AlsoLike>-->
             </el-col>
         </el-row>
 
@@ -179,7 +179,7 @@
         mounted(){
             this.bookId = this.$route.query.bid;
             this.setBookMsg();
-            this.getRecoBook();
+            //this.getRecoBook();
         },
 
         methods:{
@@ -251,12 +251,12 @@
                 })
             },
 
-            getRecoBook(){
+            /*getRecoBook(){
                 this.loading=true;
                 API.getTopBook().then(res => {
                     if (res.state === 0) {
                         if(res.list.length>3){
-                            this.thisBookList = res.list.slice(0,3);
+                            this.thisBookList = res.list.slice(7,10);
                         }
                         this.loading=false;
                     } else{
@@ -264,7 +264,7 @@
                         this.loading=false;
                     }
                 }).catch(_ => {})
-                /*let data = new FormData();
+                /!*let data = new FormData();
                 data.append('uid',this.uid);
                 data.append('token',this.token);
                 data.append('bid',this.bookId);
@@ -280,8 +280,8 @@
 
                 }).catch(msg => {
                     alert(msg)
-                })*/
-            }
+                })*!/
+            }*/
         },
 
 

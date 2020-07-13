@@ -64,6 +64,7 @@
                 this.loading=true;
                 API.getTopBook().then(res => {
                     if (res.state === 0) {
+                        console.log(res);
                         if(res.list.length>6){
                             this.topNBooks = res.list.slice(0,6);
                         }

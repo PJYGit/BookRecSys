@@ -3,7 +3,7 @@
         <template v-slot:header>
             <my-title></my-title>
         </template>
-        <my-search style="width: 80%;margin-left: 10%;margin-top: 20px"></my-search>
+        <!--<my-search style="width: 80%;margin-left: 10%;margin-top: 20px"></my-search>-->
         <shop-list :my-shop="myShop" style="width: 80%;margin-left: 10%;margin-top: 20px"></shop-list>
 
     </flow-board>

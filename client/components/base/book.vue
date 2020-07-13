@@ -1,6 +1,8 @@
 <template>
     <div style="width: 180px;cursor: pointer;" @click="toDetail">
+        <div v-if="bookItem.bname===null" style="width: 180px;height: 180px;text-align: center;margin-top: 70px">图书已下架</div>
         <el-image
+                v-if="bookItem.bname!==null"
                 style="width: 180px; height: 180px"
                 :src="bookItem.pic"
                 fit="contain">
@@ -17,7 +19,6 @@
                 ￥{{bookItem.price.toFixed(2)}}</span>
         </div>
     </div>
-
 </template>
 
 <script>

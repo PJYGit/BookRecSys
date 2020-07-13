@@ -36,7 +36,10 @@
                 if(this.value===1){
                     this.$emit("searchMsg",this.searchMsg);
                 }else{
-                    this.$router.push({path:"/searchShopList",query:{word: this.searchMsg}});
+                    let link = this.$router.resolve({ path: `/searchShopList`,
+                        query:{word: this.searchMsg}});
+                    window.open(link.href, '_blank');
+                    /*this.$router.push({path:"/searchShopList",query:{word: this.searchMsg}});*/
                 }
             }
         }
