@@ -81,7 +81,10 @@
                         type="textarea"
                         :rows="3"
                         placeholder="请输入评价"
-                        v-model="commentList[index].comment" style="margin-top: 10px">
+                        v-model="commentList[index].comment"
+                        maxlength="200"
+                        show-word-limit
+                        style="margin-top: 10px">
                 </el-input>
             </div>
             <div slot="footer" class="dialog-footer">
