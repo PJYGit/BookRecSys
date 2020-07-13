@@ -58,7 +58,8 @@
 
                         <div style="margin-top: 20px">
                             <el-button icon="el-icon-shopping-cart-2" style="background-color: #eb7a67;color: white;border: solid 1px #ef9585;font-size: 20px" @click="addToCar">加入购物车</el-button>
-                            <el-button style="color: #eb7a67;border: solid 1px #ef9585;font-size: 18px" @click="chooseAddress=true">立即购买</el-button>
+                            <el-button v-if="bookItem.remain!==0" style="color: #eb7a67;border: solid 1px #ef9585;font-size: 18px" @click="chooseAddress=true">立即购买</el-button>
+                            <el-button v-if="bookItem.remain===0" style="color: #eb7a67;border: solid 1px #ef9585;font-size: 18px" disabled>立即购买</el-button>
                         </div>
                     </el-main>
                 </el-container>
@@ -216,6 +217,11 @@
                 data.append('bid',this.bookItem.bid);
                 data.append('cnt',this.buyNum);
                 data.append('sid',this.bookItem.sid);
+
+                if(this.bookItem.remain===0){
+                    alert("剩余库存不足！");
+                    return;
+                }
 
                 API.addToShoppingCar(data).then(res=>{
                     if (res.state) {

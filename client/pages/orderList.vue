@@ -3,7 +3,7 @@
         <template v-slot:header>
             <my-title></my-title>
         </template>
-        <el-container style="width: 80%;margin-left: 10%;margin-top: 20px">
+        <el-container style="width: 80%;margin-left: 10%;margin-top: 20px;margin-bottom: 20px">
             <el-table :data="orderList">
                 <el-table-column
                         type="index"
@@ -11,20 +11,24 @@
                 </el-table-column>
                 <el-table-column label="订单封面">
                     <template slot-scope="scope">
-                        <img :src="scope.row.items[0].pic" alt="图书图片" style="width: 40%"/>
+                        <el-image
+                                style="width: 100px; height: 100px"
+                                :src="scope.row.pic"
+                                :fit="'contain'"></el-image>
+                        <!--<img :src="scope.row.items[0].pic" alt="图书图片" style="width: 40%"/>-->
                     </template>
                 </el-table-column>
-                <el-table-column label="商家名称">
+                <el-table-column label="商家名称" width="200px">
                     <template slot-scope="scope">
                         {{scope.row.sname}}
                     </template>
                 </el-table-column>
-                <el-table-column label="订单内容">
+                <el-table-column label="订单内容" width="500px">
                     <template slot-scope="scope">
                         <div v-for="(item, index) in scope.row.items" :key="index">
                             <el-container>
                                 <p style="font-size: 1rem;color: #EB7A67;">书名：{{item.name}}</p>
-                                <p style="font-size: 1rem;color: #EB7A67;margin-left: 15px;margin-bottom: 10px">数量：{{item.cnt}}</p>
+                                <p style="font-size: 1rem;color: #EB7A67;margin-left: 15px;margin-bottom: 10px;width: 100px">数量：{{item.cnt}}</p>
                             </el-container>
                         </div>
                     </template>
@@ -114,7 +118,7 @@
                         return;
                     }
                     this.orderList = res.items;
-
+                    console.log(this.orderList);
                 }).catch(msg => {
                     alert(msg)
                 })

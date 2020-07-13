@@ -14,27 +14,29 @@
         <div v-for="(item, index) in carList" :key="item.bid">
             <div class="car-item">
                 <el-card shadow="hover">
-                    <el-checkbox @change="addToSubmitList(index)" style="margin: auto;">
-                    </el-checkbox>
-                    <div style="">
+                    <el-container style="padding-right: 50px">
+                        <el-checkbox @change="addToSubmitList(index)" style="margin: auto;">
+                        </el-checkbox>
                         <el-image
-                                style="width: 150px; height: 150px;margin-left: 20px"
+                                style="width: 120px; height: 120px;margin-left: 40px"
                                 :src="item.pic"
                                 :fit="'contain'"></el-image>
-                        <!--<img :src="item.pic" alt="bookImage" style="display: inline-block"/>-->
-                        <span style="margin-left: 8%;color: #eb7a67;font-size: 1.2rem;width: 400px">
-                            {{item.bname | nameFilter}}
-                        </span>
-                        <span style="margin-left: 10%;color: #eb7a67; font-size: 1.1rem">
-                            {{item.sname}}
-                        </span>
-                        <span style="margin-left: 10%;color: #eb7a67; font-size: 1.1rem">
-                            {{item.cnt}}
-                        </span>
-                        <el-button @click="chooseAddress = true" size="mini" type="primary" style="margin-left: 20%">
+                        <el-container style="margin-top: 50px;width: 75%">
+                            <p style="margin-left: 100px;color: #eb7a67;font-size: 1.2rem;width: 350px">
+                                {{item.bname | nameFilter}}
+                            </p>
+                            <p style="margin-left: 10%;color: #eb7a67; font-size: 1.1rem">
+                                {{item.sname}}
+                            </p>
+                            <p style="margin-left: 10%;color: #eb7a67; font-size: 1.1rem">
+                                数量：{{item.cnt}}
+                            </p>
+                        </el-container>
+                        <el-button @click="chooseAddress = true" size="mini" style="margin-left: 30%;height: 40px;margin-top: 40px;background-color: #ef9585;color: white">
                             结算
                         </el-button>
-                    </div>
+
+                    </el-container>
                 </el-card>
 
             </div>
@@ -74,8 +76,8 @@
         filters: {
             nameFilter (value) {
                 if (!value) return '';
-                if (value.length > 20) {
-                    return value.slice(0,20) + '...'
+                if (value.length > 40) {
+                    return value.slice(0,40) + '...'
                 }
                 return value;
             }
