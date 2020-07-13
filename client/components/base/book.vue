@@ -71,7 +71,7 @@
                     alert("请登录后查看!");
                     return;
                 }
-                let link = this.$router.resolve({ path: `/`+this.bookItem.bid+`/bookDetail`,
+                let link = this.$router.resolve({ path: `/bookDetail`,
                     query: { bid: this.bookItem.bid }});
                 window.open(link.href, '_blank');
                 /*this.$router.push({path: `/`+this.bookItem.bid+`/bookDetail`})*/

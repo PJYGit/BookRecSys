@@ -135,14 +135,14 @@
 </template>
 
 <script>
-    import MyTitle from "../../components/base/myTitle";
-    import MyFooter from "../../components/base/myFooter";
-    import FlowBoard from "../../components/board/FlowBoard";
-    import AlsoLike from "../../components/AlsoLike";
-    import EvaluList from "../../components/evaluList";
-    import Cookies from 'js-cookie';
-    import API from '../../api';
-    import AddressList from "../../components/addressList";
+    import MyTitle from "../components/base/myTitle";
+    import MyFooter from "../components/base/myFooter";
+    import FlowBoard from "../components/board/FlowBoard";
+    import AlsoLike from "../components/AlsoLike";
+    import EvaluList from "../components/evaluList";
+    import Cookies from '_js-cookie@2.2.1@js-cookie';
+    import API from '../api';
+    import AddressList from "../components/addressList";
     export default {
         name: "bookDetail",
         components: {AddressList, EvaluList, AlsoLike, FlowBoard, MyFooter, MyTitle},

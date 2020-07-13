@@ -97,7 +97,7 @@
             },
 
             toOrderDetail(cid){
-                let link = this.$router.resolve({ path: `/`+this.cid+`/orderDetail`,
+                let link = this.$router.resolve({ path: `/orderDetail`,
                     query: { cid: cid }});
                 window.open(link.href, '_blank');
             },

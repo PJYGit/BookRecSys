@@ -93,10 +93,10 @@
 </template>
 
 <script>
-    import FlowBoard from "../../components/board/FlowBoard";
-    import MyTitle from "../../components/base/myTitle";
-    import API from "../../api";
-    import Cookies from 'js-cookie';
+    import FlowBoard from "../components/board/FlowBoard";
+    import MyTitle from "../components/base/myTitle";
+    import API from "../api";
+    import Cookies from '_js-cookie@2.2.1@js-cookie';
     export default {
         name: "orderDetail",
         components: {MyTitle, FlowBoard},
