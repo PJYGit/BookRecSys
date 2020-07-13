@@ -1,22 +1,23 @@
 <template>
     <div style="width: 180px;cursor: pointer;" @click="toDetail">
-        <div v-if="bookItem.bname===null" style="width: 180px;height: 180px;text-align: center;margin-top: 70px">图书已下架</div>
-        <el-image
-                v-if="bookItem.bname!==null"
-                style="width: 180px; height: 180px"
-                :src="bookItem.pic"
-                fit="contain">
-        </el-image>
-        <div style="font-size: 18px;line-height: 25px;margin-left: 21px;margin-top: 2px;height: 75px;overflow: hidden">
-            {{bookItem.bname | ellipsis}}
-        </div>
-        <div style="color: #8c939d;font-size: 15px;line-height: 25px;margin-left: 22px;height: 25px;overflow: hidden">
-            {{bookItem.author}}
-        </div>
-        <div style="margin-left: 20px">
-            <span style="font-size: 18px;color: red">￥{{(bookItem.price*rate).toFixed(2)}}</span>
-            <span style="margin-left: 5px;color: gray;text-decoration:line-through;margin-top: -1px">
+        <div v-if="bookItem.bname===null" style="width: 180px;height: 180px;text-align: center;padding-top: 70px;background-color: gainsboro">图书已下架</div>
+        <div v-if="bookItem.bname!==null">
+            <el-image
+                    style="width: 180px; height: 180px"
+                    :src="bookItem.pic"
+                    fit="contain">
+            </el-image>
+            <div style="font-size: 18px;line-height: 25px;margin-left: 21px;margin-top: 2px;height: 75px;overflow: hidden">
+                {{bookItem.bname | ellipsis}}
+            </div>
+            <div style="color: #8c939d;font-size: 15px;line-height: 25px;margin-left: 22px;height: 25px;overflow: hidden">
+                {{bookItem.author}}
+            </div>
+            <div style="margin-left: 20px">
+                <span style="font-size: 18px;color: red">￥{{(bookItem.price*rate).toFixed(2)}}</span>
+                <span style="margin-left: 5px;color: gray;text-decoration:line-through;margin-top: -1px">
                 ￥{{bookItem.price.toFixed(2)}}</span>
+            </div>
         </div>
     </div>
 </template>
