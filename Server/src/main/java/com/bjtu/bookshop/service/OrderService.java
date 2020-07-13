@@ -88,7 +88,7 @@ public class OrderService {
                     -1,
                     bookItem.getBid(),
                     bookItem.getCnt(),
-                    bookItem.getBid() * bookItem.getCnt() * viprate / 100
+                    (int) (bookMapper.getBookByBid(bookItem.getBid()).getPrice() * bookItem.getCnt() * viprate / 100)
             );
             contentList.add(orderContent);
             money += orderContent.getMoney();
