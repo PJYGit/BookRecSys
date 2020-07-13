@@ -176,6 +176,8 @@
                                 this.userList.push(item);
                             }
                         })
+                        this.currentPage=1;
+                        this.pagesize=1;
                     }
                 }).catch(msg => {
                     alert(msg)

@@ -104,6 +104,10 @@
             },
 
             changeOrder(){
+                if(this.$route.query.word===undefined || this.$route.query.word===null){
+                    alert("请输入关键字搜索后排序！");
+                    return;
+                }
                 this.searchBook(this.$route.query.word);
             },
 
