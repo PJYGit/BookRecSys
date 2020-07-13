@@ -44,7 +44,7 @@
                                 </el-dialog>
                             </div>
                             <br/>
-                            <img :src="shopInfo.pic" alt="店铺图片">
+                            <img :src="shopInfo.head" alt="店铺图片">
                         </div>
                         <div>
                             <table style="width: 100%">
@@ -695,7 +695,9 @@
             },
             imageUpload: function (id) {
                 let files = document.getElementById(id).files
-                this.uploadImage = files[files.length - 1]
+                console.log(files)
+                console.log(id)
+                this.uploadImage = files[0]
                 let data = new FormData()
                 data.append('uid', this.$cookie.get('uid'))
                 data.append('token', this.$cookie.get('token'))

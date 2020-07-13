@@ -19,8 +19,27 @@
             }
         },
 
-        methods:{
+        mounted(){
+            this.totalTrans();
+        },
 
+        methods:{
+            totalTrans(){
+                let data = new FormData();
+                data.append('uid',this.uid);
+                data.append('token',this.token);
+
+                API.getTrans(data).then(res=>{
+                    if (res.state) {
+                        alert("获取个人信息失败");
+                        return;
+                    }
+                    this.prec = res.val*100;
+                }).catch(msg => {
+                    alert(msg)
+                })
+
+            },
         }
 
     }
