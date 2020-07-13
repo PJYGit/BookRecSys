@@ -2,7 +2,7 @@
     <div style="border: solid 1px #ef9585;">
         <div style="background-color: #ef9585;color: white;font-weight: 500;font-size: 22px;
         padding: 10px;text-align: center;margin-bottom: 10px;line-height: 30px">
-            浏览本书的人还喜欢
+            猜你喜欢
         </div>
         <div v-for="item in bookList" :key="item.bid">
             <book :book-item="item" style="margin: auto"></book>
