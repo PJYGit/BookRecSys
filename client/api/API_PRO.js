@@ -71,4 +71,7 @@ export default {
     getBookDetail:{url:'shop/getbookinfo'},
     buyOnlyBook:{url:'order/create'},
 
+    //数据统计
+    getTrans:{url:'home/cvt'}
+
 }
