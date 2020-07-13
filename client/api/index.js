@@ -25,7 +25,7 @@ for (var api in APICONFIG) {
           },
         }
 
-        console.log(config)
+        // console.log(config)
 
         axios(config).then((res) => {
           try {
