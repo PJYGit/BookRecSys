@@ -134,9 +134,6 @@
 </style>
 
 <style>
-    .el-scrollbar{
-        padding-bottom: 21px;
-    }
 
     .el-select .el-input.is-focus .el-input__inner{
         border-color: #ef9585;
